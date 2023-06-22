@@ -1,24 +1,21 @@
 Rails.application.routes.draw do
 
-
-  
   # Authenticates user before being able to use API
 
   # comments
   # get all comments, delete comment
-  resources :comments, only: [:index, :destroy]
+  resources :comments, only: [:index, :show, :destroy]
+
 
   # projects
   # get all projects, delete project
   resources :projects, only: [:index, :show, :destroy]
-  # get all projects for a user
-  get '/user/:id', to: 'projects#get_user_projects'
   # get all projects for a team user is on
   get '/user/:id', to: 'projects#get_team_projects'
   # get all users in a project
-  get '/:id/users', to: 'projects#get_users'
+  get '/:id/users', to: 'projects#get_users_in_project'
   # get all tasklists for a project
-  get '/:id/tasklists', to: 'projects#get_tasklists'
+  get '/:id/tasklists', to: 'projects#get_tasklists_for_project'
   # get team project is on
   get '/:id/team', to: 'projects#get_team'
   # create tasklist for a project
@@ -32,7 +29,7 @@ Rails.application.routes.draw do
   # create task for a tasklist
   post '/:id/task', to: 'task_lists#create_task'
   # edit column index
-  put '/:id/columnindex', to: 'task_lists#edit_columnIndex'
+  put '/:id/column_index', to: 'task_lists#edit_columnIndex'
   # update tasklist name
   put '/:id/title', to: 'task_lists#update_tasklist_name'
 
