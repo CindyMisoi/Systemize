@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController
     skip_before_action :verify_authenticity_token
+      # error handling
+    rescue_from ActiveRecord::RecordNotFound, with: :response_not_found
     # get all projects
     def index
         projects = Project.all
@@ -8,7 +10,7 @@ class ProjectsController < ApplicationController
     # get one project
     def show
         project = Project.find(params[:id])
-        render json: project, status: :ok
+        render json: project, include: :task_lists
     end
     
     # get all projects for teams that a user is on
@@ -35,11 +37,11 @@ class ProjectsController < ApplicationController
         project_id = params[:id]
         tasklists = TaskList.where(project_id: project_id)
         .order(column_index: :asc)
-        .includes(:tasks)  
-     if tasklists.empty?
-        render json: { message:'error'}
+        .includes(tasks: :user)  
+     if tasklists.present?
+        render json: tasklists, include: {tasks:{include:{user:{only: [:id,:name,:email]}}}}
      else
-        render json: tasklists
+        render json: { message:'error'}
      end
     end
     # get team project is on
@@ -61,5 +63,8 @@ class ProjectsController < ApplicationController
     private
     def tasklist_params
         params.permit(:name, :user_id)
+    end
+    def response_not_found
+        render json: {error: "Project not found"}, status: :not_found
     end
 end
