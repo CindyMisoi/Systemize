@@ -1,5 +1,12 @@
 class User < ApplicationRecord
     has_secure_password
+    # validations
+    validates :name, presence: true
+    validates :email, presence: true
+    validates :email, format: { with: URI::MailTo::EMAIL_REGEXP}
+    # validates :password, length: {minimum: 8}
+    # validates :password_confirmation, length: {minimum: 8}
+
     
     has_many :tasks
     has_many :task_lists

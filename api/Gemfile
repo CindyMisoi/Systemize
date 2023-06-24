@@ -24,6 +24,15 @@ gem "turbo-rails"
 # populate with
 gem "faker"
 
+# authentification
+gem 'devise'
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
+
+
+# cors
+gem 'rack-cors'
+
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 

@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
     # error handling
-rescue_from ActiveRecord::RecordNotFound, with: :response_not_found
+    rescue_from ActiveRecord::RecordNotFound, with: :response_not_found
+    before_action :set_comments, only: %i[show destroy]
     # get all comments
     def index
         comments = Comment.all
@@ -21,6 +22,9 @@ rescue_from ActiveRecord::RecordNotFound, with: :response_not_found
 
     # private methods
     private
+    def set_comments
+        @comments = Comment.find(params[:id])
+    end
     def response_not_found
         render json: {error: "Comment not found"}, status: :not_found
     end
