@@ -15257,3 +15257,1274 @@ Can't verify CSRF token authenticity.
 Completed 401 Unauthorized in 6ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 700)
 
 
+Started GET "/check-session" for ::1 at 2023-06-25 17:45:54 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 17:45:55 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started POST "/login" for ::1 at 2023-06-25 17:45:57 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 44ms (ActiveRecord: 3.3ms | Allocations: 33765)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started GET "/check-session" for ::1 at 2023-06-25 18:09:00 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:09:00 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:09:05 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:09:05 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started POST "/login" for ::1 at 2023-06-25 18:09:39 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 14ms (ActiveRecord: 5.3ms | Allocations: 3930)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started GET "/check-session" for ::1 at 2023-06-25 18:13:40 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:13:40 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:13:44 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:13:44 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:14 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:15 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:34 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:34 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:56 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:16:56 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:17:12 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:17:12 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:17:40 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:17:40 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started POST "/login" for ::1 at 2023-06-25 18:22:50 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 4.6ms | Allocations: 3916)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 18:23:22 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.3ms | Allocations: 1091)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 18:23:27 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.3ms | Allocations: 1103)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 18:23:28 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.3ms | Allocations: 1091)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started GET "/check-session" for ::1 at 2023-06-25 18:24:23 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:24:24 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:24:29 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:24:29 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started POST "/login" for ::1 at 2023-06-25 18:29:35 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 401 Unauthorized in 12ms (Views: 1.5ms | ActiveRecord: 4.2ms | Allocations: 3802)
+
+
+Started POST "/login" for ::1 at 2023-06-25 18:29:45 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.3ms | Allocations: 1096)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 18:29:48 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.2ms | Allocations: 1091)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 18:30:08 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 841)
+
+
+Started GET "/check-session" for ::1 at 2023-06-25 18:40:56 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:40:56 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:40:59 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started GET "/check-session" for ::1 at 2023-06-25 18:40:59 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/check-session"):
+  
+Started POST "/register" for ::1 at 2023-06-25 18:41:37 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d5da3e0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d5da3e0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d5da3e0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 9ms (Views: 0.3ms | ActiveRecord: 3.0ms | Allocations: 4418)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:43:00 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 11ms (Views: 4.3ms | ActiveRecord: 0.6ms | Allocations: 1665)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:43:00 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.8ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started POST "/register" for ::1 at 2023-06-25 18:43:46 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d709928>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d709928>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f118d709928>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms | Allocations: 1288)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:48:36 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 32ms (Views: 15.8ms | ActiveRecord: 3.1ms | Allocations: 32869)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:48:36 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.5ms | ActiveRecord: 1.1ms | Allocations: 1501)
+
+
+Started POST "/register" for ::1 at 2023-06-25 18:49:08 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f006008d5b0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f006008d5b0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f006008d5b0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms | Allocations: 1721)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:50:15 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.3ms | Allocations: 1516)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:50:16 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.3ms | Allocations: 1514)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:50:16 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 3.9ms | ActiveRecord: 0.4ms | Allocations: 1500)
+
+
+Started POST "/register" for ::1 at 2023-06-25 18:50:46 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00600dc548>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00600dc548>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00600dc548>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms | Allocations: 1285)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:51:48 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.4ms | Allocations: 1516)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:51:48 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.5ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:52:00 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.7ms | ActiveRecord: 0.5ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:52:01 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.4ms | Allocations: 1508)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:52:01 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started POST "/register" for ::1 at 2023-06-25 18:52:26 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00540be590>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00540be590>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00540be590>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 3ms (Views: 0.6ms | ActiveRecord: 0.0ms | Allocations: 1289)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:28 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.8ms | ActiveRecord: 0.3ms | Allocations: 1502)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:28 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:47 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:47 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.4ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:50 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:50 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 3ms (Views: 2.0ms | ActiveRecord: 0.2ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:57 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.6ms | ActiveRecord: 0.8ms | Allocations: 1500)
+
+
+Started GET "/users" for ::1 at 2023-06-25 18:56:57 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.3ms | Allocations: 1500)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:03:58 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f005410f3a0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f005410f3a0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f005410f3a0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 11ms (Views: 0.4ms | ActiveRecord: 4.4ms | Allocations: 4010)
+
+
+Started GET "/users/" for ::1 at 2023-06-25 19:06:52 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 4ms (Views: 2.5ms | ActiveRecord: 0.7ms | Allocations: 1574)
+
+
+Started GET "/users/" for ::1 at 2023-06-25 19:06:52 +0300
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:8:in `index'
+Completed 200 OK in 7ms (Views: 5.3ms | ActiveRecord: 0.5ms | Allocations: 1500)
+
+
+Started GET "/users/:" for ::1 at 2023-06-25 19:06:53 +0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>":"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 15ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 3871)
+
+
+Started GET "/users/:" for ::1 at 2023-06-25 19:06:53 +0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>":"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 2ms (Views: 0.2ms | ActiveRecord: 0.4ms | Allocations: 841)
+
+
+Started GET "/users/:id" for ::1 at 2023-06-25 19:06:54 +0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>":id"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.4ms | Allocations: 841)
+
+
+Started GET "/users/:id" for ::1 at 2023-06-25 19:06:54 +0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>":id"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 841)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:07:23 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f0060266328>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f0060266328>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f0060266328>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.4ms | ActiveRecord: 0.0ms | Allocations: 1285)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:10:59 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 13ms (Views: 0.3ms | ActiveRecord: 3.8ms | Allocations: 10122)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:10:59 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.3ms | Allocations: 841)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:12:51 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00602a9a60>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00602a9a60>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00602a9a60>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 19ms (Views: 0.3ms | ActiveRecord: 2.3ms | Allocations: 4083)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:14:11 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.2ms | Allocations: 843)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:14:11 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 4ms (Views: 0.5ms | ActiveRecord: 0.2ms | Allocations: 841)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:14:32 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00704d5a90>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00704d5a90>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f00704d5a90>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms | Allocations: 1288)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:15:29 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 4ms (Views: 0.3ms | ActiveRecord: 1.2ms | Allocations: 843)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:15:29 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 4ms (Views: 0.3ms | ActiveRecord: 0.2ms | Allocations: 841)
+
+
+Started POST "/login" for ::1 at 2023-06-25 19:16:53 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.5ms | Allocations: 1644)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/login" for ::1 at 2023-06-25 19:17:26 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.2ms | Allocations: 1091)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (18.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "systemize_development"[0m
+  [1m[35m (12.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "systemize_test"[0m
+  [1m[35m (90.0ms)[0m  [1m[35mCREATE DATABASE "systemize_development" ENCODING = 'unicode'[0m
+  [1m[35m (36.7ms)[0m  [1m[35mCREATE DATABASE "systemize_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "text" character varying, "task_id" integer, "user_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "projects" CASCADE[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE TABLE "projects" ("id" bigserial primary key, "name" character varying, "team_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "task_lists" CASCADE[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "task_lists" ("id" bigserial primary key, "name" character varying, "project_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "column_index" integer, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tasks" CASCADE[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "tasks" ("id" bigserial primary key, "name" character varying, "task_list_id" integer, "user_id" integer, "project_id" integer, "description" character varying, "due_date" date, "completed" boolean, "completed_at" date, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "task_index" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "teams" CASCADE[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "teams" ("id" bigserial primary key, "name" character varying, "description" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_projects" CASCADE[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "user_projects" ("id" bigserial primary key, "project_id" integer, "user_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_teams" CASCADE[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "user_teams" ("id" bigserial primary key, "user_id" integer, "team_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying, "name" character varying, "image" character varying, "password_digest" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "password_confirmation" character varying, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6))[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20230624183630)[0m
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20230622094431),
+(20230622094548),
+(20230622094702),
+(20230622094808),
+(20230622095212),
+(20230622095518),
+(20230622095619),
+(20230622101520),
+(20230622101902),
+(20230622151759),
+(20230622154356),
+(20230622154426),
+(20230622155948),
+(20230624171905);
+
+[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2023-06-25 16:20:23.518131"], ["updated_at", "2023-06-25 16:20:23.518131"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "1152401ba7dbce1926ea3537ba25df7b0aefb720"], ["created_at", "2023-06-25 16:20:23.524282"], ["updated_at", "2023-06-25 16:20:23.524282"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (5.4ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "text" character varying, "task_id" integer, "user_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "projects" CASCADE[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "projects" ("id" bigserial primary key, "name" character varying, "team_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "task_lists" CASCADE[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "task_lists" ("id" bigserial primary key, "name" character varying, "project_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "column_index" integer, "user_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tasks" CASCADE[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "tasks" ("id" bigserial primary key, "name" character varying, "task_list_id" integer, "user_id" integer, "project_id" integer, "description" character varying, "due_date" date, "completed" boolean, "completed_at" date, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "task_index" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "teams" CASCADE[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "teams" ("id" bigserial primary key, "name" character varying, "description" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_projects" CASCADE[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "user_projects" ("id" bigserial primary key, "project_id" integer, "user_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_teams" CASCADE[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "user_teams" ("id" bigserial primary key, "user_id" integer, "team_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying, "name" character varying, "image" character varying, "password_digest" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "password_confirmation" character varying, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6))[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20230624183630)[0m
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20230622094431),
+(20230622094548),
+(20230622094702),
+(20230622094808),
+(20230622095212),
+(20230622095518),
+(20230622095619),
+(20230622101520),
+(20230622101902),
+(20230622151759),
+(20230622154356),
+(20230622154426),
+(20230622155948),
+(20230624171905);
+
+[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2023-06-25 16:20:23.592900"], ["updated_at", "2023-06-25 16:20:23.592900"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Update (0.2ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2023-06-25 16:20:23.597282"], ["key", "environment"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "1152401ba7dbce1926ea3537ba25df7b0aefb720"], ["created_at", "2023-06-25 16:20:23.601286"], ["updated_at", "2023-06-25 16:20:23.601286"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "image", "password_digest", "created_at", "updated_at", "password_confirmation", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["email", "demo@email.com"], ["name", "Demo User"], ["image", "https://loremflickr.com/300/300"], ["password_digest", "[FILTERED]"], ["created_at", "2023-06-25 16:20:23.640896"], ["updated_at", "2023-06-25 16:20:23.640896"], ["password_confirmation", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["reset_password_sent_at", "[FILTERED]"], ["remember_created_at", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "image", "password_digest", "created_at", "updated_at", "password_confirmation", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["email", "test@email.com"], ["name", "Test User"], ["image", "https://loremflickr.com/300/300"], ["password_digest", "[FILTERED]"], ["created_at", "2023-06-25 16:20:23.645219"], ["updated_at", "2023-06-25 16:20:23.645219"], ["password_confirmation", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["reset_password_sent_at", "[FILTERED]"], ["remember_created_at", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "image", "password_digest", "created_at", "updated_at", "password_confirmation", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["email", "engineering@email.com"], ["name", "Engineering User"], ["image", "https://loremflickr.com/300/300"], ["password_digest", "[FILTERED]"], ["created_at", "2023-06-25 16:20:23.648443"], ["updated_at", "2023-06-25 16:20:23.648443"], ["password_confirmation", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["reset_password_sent_at", "[FILTERED]"], ["remember_created_at", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "image", "password_digest", "created_at", "updated_at", "password_confirmation", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["email", "marketing@email.com"], ["name", "Marketing User"], ["image", "https://loremflickr.com/300/300"], ["password_digest", "[FILTERED]"], ["created_at", "2023-06-25 16:20:23.651644"], ["updated_at", "2023-06-25 16:20:23.651644"], ["password_confirmation", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["reset_password_sent_at", "[FILTERED]"], ["remember_created_at", nil]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "name", "image", "password_digest", "created_at", "updated_at", "password_confirmation", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["email", "sales@email.com"], ["name", "Sales User"], ["image", "https://loremflickr.com/300/300"], ["password_digest", "[FILTERED]"], ["created_at", "2023-06-25 16:20:23.655276"], ["updated_at", "2023-06-25 16:20:23.655276"], ["password_confirmation", "[FILTERED]"], ["encrypted_password", "[FILTERED]"], ["reset_password_token", "[FILTERED]"], ["reset_password_sent_at", "[FILTERED]"], ["remember_created_at", nil]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Create (0.3ms)[0m  [1m[32mINSERT INTO "teams" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Engineering"], ["description", "This is the engineering team"], ["created_at", "2023-06-25 16:20:23.665799"], ["updated_at", "2023-06-25 16:20:23.665799"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "teams" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Marketing"], ["description", "This is the marketing team"], ["created_at", "2023-06-25 16:20:23.669136"], ["updated_at", "2023-06-25 16:20:23.669136"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "teams" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Sales"], ["description", "This is the marketing team"], ["created_at", "2023-06-25 16:20:23.672429"], ["updated_at", "2023-06-25 16:20:23.672429"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.2ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.3ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.692287"], ["updated_at", "2023-06-25 16:20:23.692287"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 2], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.697771"], ["updated_at", "2023-06-25 16:20:23.697771"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.1ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 3], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.703109"], ["updated_at", "2023-06-25 16:20:23.703109"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["team_id", 2], ["created_at", "2023-06-25 16:20:23.708181"], ["updated_at", "2023-06-25 16:20:23.708181"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["team_id", 3], ["created_at", "2023-06-25 16:20:23.713348"], ["updated_at", "2023-06-25 16:20:23.713348"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 4], ["team_id", 2], ["created_at", "2023-06-25 16:20:23.718389"], ["updated_at", "2023-06-25 16:20:23.718389"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUserTeam Create (0.2ms)[0m  [1m[32mINSERT INTO "user_teams" ("user_id", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 5], ["team_id", 3], ["created_at", "2023-06-25 16:20:23.723465"], ["updated_at", "2023-06-25 16:20:23.723465"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Create (0.3ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Database Project"], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.741327"], ["updated_at", "2023-06-25 16:20:23.741327"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Create (0.3ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Mobile Application"], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.746139"], ["updated_at", "2023-06-25 16:20:23.746139"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Create (0.2ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Web Application"], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.750667"], ["updated_at", "2023-06-25 16:20:23.750667"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Create (0.2ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "UI/UX Project"], ["team_id", 1], ["created_at", "2023-06-25 16:20:23.754848"], ["updated_at", "2023-06-25 16:20:23.754848"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mProject Create (0.1ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "SEO Campaign"], ["team_id", 2], ["created_at", "2023-06-25 16:20:23.759633"], ["updated_at", "2023-06-25 16:20:23.759633"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mProject Create (0.1ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Online Marketing"], ["team_id", 2], ["created_at", "2023-06-25 16:20:23.764961"], ["updated_at", "2023-06-25 16:20:23.764961"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mProject Create (0.1ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Catalina Wine Mixer"], ["team_id", 3], ["created_at", "2023-06-25 16:20:23.770222"], ["updated_at", "2023-06-25 16:20:23.770222"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTeam Load (0.1ms)[0m  [1m[34mSELECT "teams".* FROM "teams" WHERE "teams"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mProject Create (0.2ms)[0m  [1m[32mINSERT INTO "projects" ("name", "team_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "International Sales"], ["team_id", 3], ["created_at", "2023-06-25 16:20:23.775688"], ["updated_at", "2023-06-25 16:20:23.775688"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.2ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.3ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 1], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.791292"], ["updated_at", "2023-06-25 16:20:23.791292"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.3ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 2], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.796704"], ["updated_at", "2023-06-25 16:20:23.796704"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.2ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 3], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.803574"], ["updated_at", "2023-06-25 16:20:23.803574"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.2ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 4], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.810326"], ["updated_at", "2023-06-25 16:20:23.810326"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.2ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.3ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 5], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.817826"], ["updated_at", "2023-06-25 16:20:23.817826"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 6], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.824818"], ["updated_at", "2023-06-25 16:20:23.824818"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 7], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.831450"], ["updated_at", "2023-06-25 16:20:23.831450"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 8], ["user_id", 1], ["created_at", "2023-06-25 16:20:23.838078"], ["updated_at", "2023-06-25 16:20:23.838078"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 1], ["user_id", 2], ["created_at", "2023-06-25 16:20:23.843747"], ["updated_at", "2023-06-25 16:20:23.843747"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 1], ["user_id", 3], ["created_at", "2023-06-25 16:20:23.848876"], ["updated_at", "2023-06-25 16:20:23.848876"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 2], ["user_id", 3], ["created_at", "2023-06-25 16:20:23.854050"], ["updated_at", "2023-06-25 16:20:23.854050"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 3], ["user_id", 3], ["created_at", "2023-06-25 16:20:23.859109"], ["updated_at", "2023-06-25 16:20:23.859109"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 4], ["user_id", 3], ["created_at", "2023-06-25 16:20:23.865852"], ["updated_at", "2023-06-25 16:20:23.865852"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 5], ["user_id", 4], ["created_at", "2023-06-25 16:20:23.872640"], ["updated_at", "2023-06-25 16:20:23.872640"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 6], ["user_id", 4], ["created_at", "2023-06-25 16:20:23.879192"], ["updated_at", "2023-06-25 16:20:23.879192"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.1ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 7], ["user_id", 5], ["created_at", "2023-06-25 16:20:23.885606"], ["updated_at", "2023-06-25 16:20:23.885606"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUserProject Create (0.2ms)[0m  [1m[32mINSERT INTO "user_projects" ("project_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["project_id", 8], ["user_id", 5], ["created_at", "2023-06-25 16:20:23.891064"], ["updated_at", "2023-06-25 16:20:23.891064"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.4ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "To Do"], ["project_id", 1], ["created_at", "2023-06-25 16:20:23.906884"], ["updated_at", "2023-06-25 16:20:23.906884"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "In Progress"], ["project_id", 1], ["created_at", "2023-06-25 16:20:23.912653"], ["updated_at", "2023-06-25 16:20:23.912653"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Completed"], ["project_id", 1], ["created_at", "2023-06-25 16:20:23.918467"], ["updated_at", "2023-06-25 16:20:23.918467"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "To Do"], ["project_id", 6], ["created_at", "2023-06-25 16:20:23.923642"], ["updated_at", "2023-06-25 16:20:23.923642"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "In Progress"], ["project_id", 6], ["created_at", "2023-06-25 16:20:23.929910"], ["updated_at", "2023-06-25 16:20:23.929910"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Completed"], ["project_id", 6], ["created_at", "2023-06-25 16:20:23.937028"], ["updated_at", "2023-06-25 16:20:23.937028"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "To Do"], ["project_id", 8], ["created_at", "2023-06-25 16:20:23.943756"], ["updated_at", "2023-06-25 16:20:23.943756"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (4.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "In Progress"], ["project_id", 8], ["created_at", "2023-06-25 16:20:23.955197"], ["updated_at", "2023-06-25 16:20:23.955197"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Completed"], ["project_id", 8], ["created_at", "2023-06-25 16:20:23.962168"], ["updated_at", "2023-06-25 16:20:23.962168"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "To Do"], ["project_id", 7], ["created_at", "2023-06-25 16:20:23.968787"], ["updated_at", "2023-06-25 16:20:23.968787"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "In Progress"], ["project_id", 7], ["created_at", "2023-06-25 16:20:23.975615"], ["updated_at", "2023-06-25 16:20:23.975615"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTaskList Create (0.2ms)[0m  [1m[32mINSERT INTO "task_lists" ("name", "project_id", "created_at", "updated_at", "column_index", "user_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Completed"], ["project_id", 7], ["created_at", "2023-06-25 16:20:23.982343"], ["updated_at", "2023-06-25 16:20:23.982343"], ["column_index", nil], ["user_id", 1]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.2ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.3ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Create schema"], ["task_list_id", 1], ["user_id", 1], ["project_id", 1], ["description", "create initial database schema"], ["due_date", "2021-08-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.010205"], ["updated_at", "2023-06-25 16:20:24.010205"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Create Models"], ["task_list_id", 1], ["user_id", 1], ["project_id", 1], ["description", "create models"], ["due_date", "2021-08-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.017125"], ["updated_at", "2023-06-25 16:20:24.017125"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Update new product feature"], ["task_list_id", 1], ["user_id", 3], ["project_id", 1], ["description", "Update client's request"], ["due_date", "2021-08-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.023581"], ["updated_at", "2023-06-25 16:20:24.023581"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Test Functionality"], ["task_list_id", 2], ["user_id", 1], ["project_id", 1], ["description", "Test functionality of feature"], ["due_date", "2021-08-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.030319"], ["updated_at", "2023-06-25 16:20:24.030319"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.2ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Product Feature XY"], ["task_list_id", 3], ["user_id", 1], ["project_id", 1], ["description", "Test functionality of feature"], ["due_date", "2021-08-13"], ["completed", true], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.038029"], ["updated_at", "2023-06-25 16:20:24.038029"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."], ["task_list_id", 3], ["user_id", 1], ["project_id", 1], ["description", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."], ["due_date", "2021-08-13"], ["completed", true], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.046491"], ["updated_at", "2023-06-25 16:20:24.046491"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Create Pamphlet"], ["task_list_id", 4], ["user_id", 1], ["project_id", 6], ["description", "create marketing pamphlets"], ["due_date", "2020-12-30"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.054844"], ["updated_at", "2023-06-25 16:20:24.054844"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Discuss marketing strategy"], ["task_list_id", 4], ["user_id", 1], ["project_id", 6], ["description", "discuss marketing strategy"], ["due_date", "2021-08-13"], ["completed", true], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.063066"], ["updated_at", "2023-06-25 16:20:24.063066"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Meet with client"], ["task_list_id", 10], ["user_id", 1], ["project_id", 7], ["description", "Meet with client"], ["due_date", "2020-12-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.071718"], ["updated_at", "2023-06-25 16:20:24.071718"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Discuss business requirements with client"], ["task_list_id", 11], ["user_id", 1], ["project_id", 7], ["description", "Business requirements"], ["due_date", "2021-12-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.078577"], ["updated_at", "2023-06-25 16:20:24.078577"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTaskList Load (0.1ms)[0m  [1m[34mSELECT "task_lists".* FROM "task_lists" WHERE "task_lists"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProject Load (0.1ms)[0m  [1m[34mSELECT "projects".* FROM "projects" WHERE "projects"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mTask Create (0.2ms)[0m  [1m[32mINSERT INTO "tasks" ("name", "task_list_id", "user_id", "project_id", "description", "due_date", "completed", "completed_at", "created_at", "updated_at", "task_index") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "id"[0m  [["name", "Meet with stakeholders"], ["task_list_id", 11], ["user_id", 1], ["project_id", 7], ["description", "Stakeholder meeting at location Y"], ["due_date", "2021-12-13"], ["completed", false], ["completed_at", nil], ["created_at", "2023-06-25 16:20:24.085287"], ["updated_at", "2023-06-25 16:20:24.085287"], ["task_index", nil]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mComment Create (0.3ms)[0m  [1m[32mINSERT INTO "comments" ("text", "task_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["text", "I'll work on this soon"], ["task_id", 1], ["user_id", 1], ["created_at", "2023-06-25 16:20:24.102888"], ["updated_at", "2023-06-25 16:20:24.102888"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mComment Create (0.2ms)[0m  [1m[32mINSERT INTO "comments" ("text", "task_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["text", "I've heard that before"], ["task_id", 1], ["user_id", 2], ["created_at", "2023-06-25 16:20:24.110155"], ["updated_at", "2023-06-25 16:20:24.110155"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/me" for ::1 at 2023-06-25 19:20:55 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 19ms (Views: 0.5ms | ActiveRecord: 1.7ms | Allocations: 15309)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:20:55 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 858)
+
+
+Started POST "/login" for ::1 at 2023-06-25 19:21:09 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 401 Unauthorized in 4ms (Views: 0.6ms | ActiveRecord: 0.3ms | Allocations: 994)
+
+
+Started POST "/login" for ::1 at 2023-06-25 19:21:12 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 3.1ms | Allocations: 19705)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started GET "/me" for ::1 at 2023-06-25 19:21:22 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 2ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 855)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:21:22 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 4ms (Views: 0.4ms | ActiveRecord: 0.4ms | Allocations: 841)
+
+
+Started POST "/login" for ::1 at 2023-06-25 19:21:32 +0300
+Processing by SessionsController#create as HTML
+  Parameters: {"email"=>"demo@email.com", "password"=>"[FILTERED]", "session"=>{"email"=>"demo@email.com", "password"=>"[FILTERED]"}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "demo@email.com"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:4:in `create'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.2ms | Allocations: 1092)
+
+
+  
+BCrypt::Errors::InvalidHash (invalid hash):
+  
+app/controllers/sessions_controller.rb:5:in `create'
+Started POST "/register" for ::1 at 2023-06-25 19:22:32 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa418375a50>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa418375a50>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa418375a50>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 4ms (Views: 0.4ms | ActiveRecord: 0.0ms | Allocations: 1692)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:32:01 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8a2b8f0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8a2b8f0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8a2b8f0>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 13ms (Views: 0.3ms | ActiveRecord: 3.5ms | Allocations: 22528)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:32:06 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa00898e388>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa00898e388>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa00898e388>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms | Allocations: 1302)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:32:07 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008a0f280>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008a0f280>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008a0f280>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 5ms (Views: 0.3ms | ActiveRecord: 0.0ms | Allocations: 1300)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:32:08 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8ba20f8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8ba20f8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8ba20f8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.4ms | ActiveRecord: 0.0ms | Allocations: 1300)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:34:26 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008aca1e8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008aca1e8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008aca1e8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms | Allocations: 1300)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:34:27 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008b50fb8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008b50fb8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa008b50fb8>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms | Allocations: 1290)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:34:27 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8c65d00>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8c65d00>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f9ff8c65d00>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 2ms (Views: 0.2ms | ActiveRecord: 0.0ms | Allocations: 1290)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:34:30 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 8ms (Views: 0.3ms | ActiveRecord: 0.7ms | Allocations: 2246)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:34:30 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 5ms (Views: 0.3ms | ActiveRecord: 1.7ms | Allocations: 850)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:34:57 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 5ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 850)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:34:57 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:14 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.4ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:14 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:15 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 4ms (Views: 0.3ms | ActiveRecord: 0.4ms | Allocations: 850)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:15 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:19 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:19 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 2ms (Views: 0.2ms | ActiveRecord: 0.1ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:32 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.4ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:32 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.3ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:35 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:35:35 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:36:33 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 12ms (Views: 0.3ms | ActiveRecord: 0.3ms | Allocations: 842)
+
+
+Started GET "/me" for ::1 at 2023-06-25 19:36:33 +0300
+Processing by UsersController#show as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:13:in `show'
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 842)
+
+
+Started POST "/register" for ::1 at 2023-06-25 19:39:17 +0300
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{}}
+HTTP Origin header (http://localhost:5173) didn't match request.base_url (http://localhost:3000)
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa0091ae568>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa0091ae568>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007fa0091ae568>, params: {"controller"=>"users", "action"=>"create", "user"=>{}} }[0m
+Completed 201 Created in 3ms (Views: 0.5ms | ActiveRecord: 0.0ms | Allocations: 1290)
+
+
