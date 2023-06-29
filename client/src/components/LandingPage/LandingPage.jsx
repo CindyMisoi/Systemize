@@ -20,7 +20,7 @@ const LandingPage = () => {
             bottom: "0px",
             backgroundImage: `linear-gradient(to top right, #2D3947, #151B26)`,
             backgroundRepeat: "no-repeat",
-            // backgroundSize: "cover",
+            backgroundSize: "cover",
             display: "flex",
             height: "100%",
             zIndex: "-2",
@@ -34,7 +34,6 @@ const LandingPage = () => {
                 bottom: "0px",
                 backgroundImage: `url(${circles})`,
                 backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
                 zIndex: "-1",
             }}></div>
         </div>
@@ -83,7 +82,7 @@ const LandingPage = () => {
                 </div>
                 <div className="landing-main-bottom">
                     <div className="landing-main-bottom-icons-container">
-                        <div className="icon-container" style={{paddingRight: "20px"}}>
+                        <div className="icon-container">
                             <AiOutlineTeam style={{
                                 fontSize: "75px",
                                 color: "rgb(59, 182, 170)"
@@ -91,7 +90,7 @@ const LandingPage = () => {
                             <p>Establish Teams with other colleagues and work together to
                             accomplish tasks.</p>
                         </div>
-                        <div className="icon-container" style={{paddingRight: "20px"}}>
+                        <div className="icon-container" >
                             <MdAssignment style={{
                                 fontSize: "75px",
                                 color: "rgb(59, 182, 170)"
@@ -99,7 +98,7 @@ const LandingPage = () => {
                             <p>Create multiple projects within a team categorize tasks based
                             on different types of projects.</p>
                         </div>
-                        <div className="icon-container" style={{paddingRight: "20px"}}>
+                        <div className="icon-container">
                             <BsCardChecklist style={{
                                 fontSize: "75px",
                                 color: "rgb(59, 182, 170)"

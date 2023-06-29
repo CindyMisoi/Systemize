@@ -31,8 +31,7 @@ gem 'jsonapi-serializer'
 
 
 # cors
-gem 'rack-cors', :require => 'rack/cors'
-
+gem 'rack-cors'
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 

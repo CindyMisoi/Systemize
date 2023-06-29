@@ -1,31 +1,51 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect} from "react";
 import { useForm } from "react-hook-form";
 import AuthContext from "../../context/AuthContext";
 import "../../css/LoginPage.css";
 import apiServer from "../../config/apiServer";
-
 const LoginForm = () => {
-  const { register, handleSubmit} = useForm();
+  const { handleSubmit, errors } = useForm();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { setAuth, setEmail, setUserId, setUser, email } = useContext(AuthContext);
+  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [formEmail, setFormEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
+  // auto login
+  useEffect(() => {
+    // auto-login
+    fetch(`http://localhost:3000/me`)
+    .then((res) => {
+      if (res.ok) {
+        res.json().then((user) => {
+          localStorage.setItem("user", user);
+          setUser(user);
+        });
+      }
+  });
+}, []);
+
+
   const onSubmit = async ({ email, password }) => {
+    // if (!email && !password) {
+    //   email = "demo@email.com";
+    //   password = "password123";
+    //   setFormEmail(email);
+    //   setPassword(password);
+    // }
     setLoading(true);
     try {
       const res = await apiServer.post("/login", { email, password });
-
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
+      localStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      setAuth(true);
-      setUserId(res.data.id);
-      setEmail(res.data.email);
       setUser(res.data);
+      setAuth(res.data.token);
+      setEmail(res.data.email);
+      setUserId(res.data.id);
     } catch (err) {
       setLoading(false);
       setErrorMessage("The provided credentials were invalid");
@@ -35,26 +55,23 @@ const LoginForm = () => {
   const handleEmailChange = (e) => {
     setFormEmail(e.target.value);
   };
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const demoLogin = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setDemoLoading(true);
-
     const email = "demo@email.com";
     const password = "password123";
-
     try {
       const res = await apiServer.post("/login", { email, password });
 
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
+      localStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      setAuth(true);
+      setAuth(res.data.token);
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
@@ -69,20 +86,18 @@ const LoginForm = () => {
     <form className="login-page--form" onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <label htmlFor="email">Email Address</label>
-          <input
+        <input
           name="email"
           type="email"
           value={formEmail}
-          onChange={handleEmailChange}  
-          // {...register("test", { required: true })}
+          onChange={handleEmailChange}
         ></input>
-        {!email?.type === "required" && (
+        {/* {!email?.type === "required" && (
           <p style={{ color: "red", margin: "1px" }}>
             Please enter an email address
           </p>
-        )}
+        )} */}
       </div>
-      
       <div>
         <label htmlFor="password">Password</label>
         <input
@@ -90,13 +105,11 @@ const LoginForm = () => {
           type="password"
           value={password}
           onChange={handlePasswordChange}
-        //  {...register("test", { required: true })}
         ></input>
-        {!password?.type === "required" && (
+        {/* {!password?.type === "required" && (
           <p style={{ color: "red", margin: "1px" }}>Please enter a password</p>
-        )}
+        )} */}
       </div>
-      
       <button type="submit">{loading ? "Logging in.." : "Login"}</button>
       {errorMessage ? (
         <p style={{ color: "red", margin: "1px" }}>{errorMessage}</p>
