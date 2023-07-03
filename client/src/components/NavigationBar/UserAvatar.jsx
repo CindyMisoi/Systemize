@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../../css/Navbar.css";
 import apiServer from "../../config/apiServer";
 
-const UserAvatar = ({ id }) => {
+const UserAvatar = () => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
   const getUser = async (id) => {
-    const res = await apiServer.get(`/users/${user.id}`);
+    const res = await apiServer.get(`/users/${id}`);
     setUser(res.data);
     setLoading(false);
   };

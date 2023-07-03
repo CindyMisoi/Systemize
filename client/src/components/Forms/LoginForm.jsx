@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect} from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../css/LoginPage.css";
+import { useNavigate } from "react-router";
 import apiServer from "../../config/apiServer";
-const LoginForm = () => {
-  const { handleSubmit, errors } = useForm();
 
+const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [formEmail, setFormEmail] = useState("");
@@ -13,39 +12,31 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
-  // auto login
-  useEffect(() => {
-    // auto-login
-    fetch(`http://localhost:3000/me`)
-    .then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          localStorage.setItem("user", user);
-          setUser(user);
-        });
-      }
-  });
-}, []);
+  const navigate = useNavigate();
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  const onSubmit = async ({ email, password }) => {
-    // if (!email && !password) {
-    //   email = "demo@email.com";
-    //   password = "password123";
-    //   setFormEmail(email);
-    //   setPassword(password);
-    // }
+    // Validate form data, check if email and password are not empty
+    if (!formEmail || !password) {
+      setErrorMessage("Please enter your email and password");
+      return;
+    }
+
     setLoading(true);
+
     try {
-      const res = await apiServer.post("/login", { email, password });
+      const res = await apiServer.post("/login", { email: formEmail, password });
+
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      setUser(res.data);
       setAuth(res.data.token);
-      setEmail(res.data.email);
-      setUserId(res.data.id);
+      // setUserId(res.data.id);
+      // setEmail(res.data.email);
+      // setUser(res.data);
+      navigate("/homepage")
     } catch (err) {
       setLoading(false);
       setErrorMessage("The provided credentials were invalid");
@@ -55,15 +46,19 @@ const LoginForm = () => {
   const handleEmailChange = (e) => {
     setFormEmail(e.target.value);
   };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   const demoLogin = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setDemoLoading(true);
+
     const email = "demo@email.com";
     const password = "password123";
+
     try {
       const res = await apiServer.post("/login", { email, password });
 
@@ -75,6 +70,7 @@ const LoginForm = () => {
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
+      navigate("/homepage")
     } catch (err) {
       setLoading(false);
       console.log(err.status);
@@ -83,7 +79,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="login-page--form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="login-page--form" onSubmit={onSubmit}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <label htmlFor="email">Email Address</label>
         <input
@@ -91,12 +87,12 @@ const LoginForm = () => {
           type="email"
           value={formEmail}
           onChange={handleEmailChange}
-        ></input>
-        {/* {!email?.type === "required" && (
+        />
+        {!formEmail && (
           <p style={{ color: "red", margin: "1px" }}>
             Please enter an email address
           </p>
-        )} */}
+        )}
       </div>
       <div>
         <label htmlFor="password">Password</label>
@@ -105,20 +101,19 @@ const LoginForm = () => {
           type="password"
           value={password}
           onChange={handlePasswordChange}
-        ></input>
-        {/* {!password?.type === "required" && (
+        />
+        {!password && (
           <p style={{ color: "red", margin: "1px" }}>Please enter a password</p>
-        )} */}
+        )}
       </div>
       <button type="submit">{loading ? "Logging in.." : "Login"}</button>
       {errorMessage ? (
         <p style={{ color: "red", margin: "1px" }}>{errorMessage}</p>
       ) : null}
-      <button onClick={demoLogin}>
+       <button onClick={demoLogin}>
         {demoLoading ? "Logging in as demo user" : "Demo User"}
       </button>
     </form>
   );
 };
-
 export default LoginForm;

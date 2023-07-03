@@ -7,7 +7,7 @@ import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 
 const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
-  const { register, handleSubmit, errors } = useForm();
+  const {handleSubmit} = useForm();
   const [users, setUsers] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,6 @@ const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
         <div className="tasklist-modal-container" style={{ minWidth: "auto" }}>
           <form
             className="task-form"
-            style={{}}
             onSubmit={handleSubmit(onSubmit)}
           >
             <h2 className="form-header">Add a member to the team!</h2>
@@ -64,13 +63,13 @@ const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
                     name="userId"
                     className="form-input"
                     onChange={() => setError("")}
-                    {...register("userId", { required: true })}
+                    // {...register("userId", { required: true })}
                   >
                     <option value={0}>{"<---Choose user--->"}</option>
                     {renderedUsers}
                   </select>
                   <div className="error-message">{error}</div>
-                  {errors.projectId?.type === "required" && (
+                  {!projectId?.type === "required" && (
                     <p className="error-message">Please choose a user to add</p>
                   )}
                 </label>

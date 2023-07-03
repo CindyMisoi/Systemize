@@ -97,7 +97,6 @@ const Onboard = (props) => {
                 width: "150px",
               }}
               type="submit"
-              
             >
               Continue
             </button>

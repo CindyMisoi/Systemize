@@ -28,7 +28,7 @@ const AuthRoutes = () => {
   //Maybe grab all information here and state goes down to child components?
   const getUserInfo = async () => {
     const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/users/${id}`);
+    const res = await apiServer.get(`/me`);
     await userdispatch({ type: "get_user_info", payload: res.data });
   };
 
@@ -73,7 +73,7 @@ const AuthRoutes = () => {
           }
         >
           <Routes>
-            <Route exact path="/" element={<HomePage/>} />
+            <Route exact path="/homepage" element={<HomePage/>} />
             <Route exact path="/tasks" element={<NewTasksPage/>} />
             <Route exact path="/projects" element={<ProjectsPage/>} />
             {/* <Route

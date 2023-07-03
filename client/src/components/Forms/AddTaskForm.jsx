@@ -16,7 +16,7 @@ const TaskForm = ({
   setTasklists,
   showSideTaskForm,
 }) => {
-  const { register, handleSubmit, errors, clearErrors } = useForm();
+  const {handleSubmit, clearErrors } = useForm();
   const [projectError, setProjectError] = useState();
   const [assigneeError, setAssigneeError] = useState();
   const [taskName, setTaskName] = useState();
@@ -150,10 +150,10 @@ const TaskForm = ({
                 type="text"
                 placeholder={"Task Name"}
                 className="form-input"
-                ref={register({ required: true })}
+                // ref={register({ required: true })}
                 onChange={handleNameChange}
               ></input>
-              {errors.name?.type === "required" && (
+              {!name?.type === "required" && (
                 <p className="error-message">Please enter a task name</p>
               )}
             </div>
@@ -167,13 +167,13 @@ const TaskForm = ({
                 name="projectId"
                 className="form-input"
                 onChange={getProjectUsers}
-                {...register("projectId", { required: true })}
+                // {...register("projectId", { required: true })}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
                 {renderedProjects}
               </select>
               <p className="error-message">{projectError}</p>
-              {errors.projectId?.type === "required" && (
+              {!projectId?.type === "required" && (
                 <p className="error-message">Please choose a project</p>
               )}
             </div>
@@ -187,10 +187,10 @@ const TaskForm = ({
                 className="form-input"
                 type="date"
                 name="due_date"
-                {...register("due_date", { required: true })}
+                // {...register("due_date", { required: true })}
                 onChange={handleDateChange}
               ></input>
-              {errors.due_date?.type === "required" && (
+              {!dueDate?.type === "required" && (
                 <p className="error-message">Please choose a Due Date</p>
               )}
             </div>
@@ -202,12 +202,12 @@ const TaskForm = ({
                 id="assignee-select"
                 name="userId"
                 className="form-input"
-                {...register("userId", { required: true })}
+                // {...register("userId", { required: true })}
               >
                 {renderedUsers}
               </select>
               <p className="error-message">{assigneeError}</p>
-              {errors.userId?.type === "required" && (
+              {!userId?.type === "required" && (
                 <p className="error-message">Please choose an assignee</p>
               )}
             </div>
@@ -226,7 +226,7 @@ const TaskForm = ({
                 type="checkbox"
                 name="completed"
                 defaultChecked={false}
-                ref={register}
+                // ref={register}
               ></input>
             </div>
 
@@ -238,7 +238,7 @@ const TaskForm = ({
                 id="tasklist-select"
                 name="tasklistId"
                 className="form-input"
-                {...register("tasklistId", { required: true })}
+                // {...register("tasklistId", { required: true })}
               >
                 {/* <option value={0}>Choose a project first</option> */}
                 {projectTaskLists.length === 0 ? (
@@ -251,7 +251,7 @@ const TaskForm = ({
                 {/* {renderedTasklists} */}
               </select>
               {/* <p className="error-message">{taskListError}</p> */}
-              {errors.tasklistId?.type === "required" && (
+              {!tasklistId?.type === "required" && (
                 <p className="error-message">
                   Please choose a column. You may need to make a column in your
                   project first before adding a task.
@@ -266,7 +266,7 @@ const TaskForm = ({
             type="text"
             placeholder={"Task Description"}
             className="edit-task-description textarea"
-            ref={register}
+            // ref={register}
           ></textarea>
         </div>
 

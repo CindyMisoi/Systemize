@@ -17,7 +17,7 @@ class UsersController < ApplicationController
         end
     end
 
-    #POST /users
+    #POST /user
     def create
         user = User.create(user_params)
         if user.valid?
@@ -44,6 +44,12 @@ class UsersController < ApplicationController
         else
           render json: { errors: team.errors.full_messages }, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+      user = User.find(params[:id])
+      user.destroy
+      head :no_content
     end
       
 
