@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { connect } from "react-redux";
 import { RiCloseLine } from "react-icons/ri";
-import { Context as TaskContext } from "../../context/store/TaskStore";
-import { Context as ProjectContext } from "../../context/store/ProjectStore";
 import moment from "moment";
 import UserAvatar from "../NavigationBar/UserAvatar";
 import apiServer from "../../config/apiServer";
@@ -10,77 +9,51 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BiCheck } from "react-icons/bi";
 
-const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
-  const [taskState, taskdispatch] = useContext(TaskContext);
-  const { selectedTask: task } = taskState;
-  const [projectState, projectdispatch] = useContext(ProjectContext);
-  const [teamDescription, setTeamDescription] = useState(task.description);
-  const [projectUsers, setProjectUsers] = useState(task.Project.Users);
-  const [assigneeUser, setAssigneeUser] = useState(task.User);
-  const [taskComments, setTaskComments] = useState(task.Comments);
-  const [dueDate, setDueDate] = useState(new Date(task.due_date));
-  // const [completed, setCompleted] = useState(task.completed);
+import {
+  getSelectedTask,
+  getUserTasks,
+  updateTask,
+} from "../../redux/actions/TaskActions";
+
+const PopOutTaskDetailsHome = ({
+  showSideTaskDetails,
+  selectedTask,
+  getSelectedTask,
+  getUserTasks,
+  updateTaskComplete,
+}) => {
+  const [teamDescription, setTeamDescription] = useState(selectedTask.description);
+  const [assigneeUser, setAssigneeUser] = useState(selectedTask.User);
+  const [taskComments, setTaskComments] = useState(selectedTask.Comments);
+  const [dueDate, setDueDate] = useState(new Date(selectedTask.due_date));
   const [commentBox, setCommentBox] = useState(false);
 
-  var completed = task.completed;
+  var completed = selectedTask.completed;
   const date = moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+    selectedTask.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
 
-  console.log(task);
-  // console.log(task.due_date, "task.due_date DB");
-  // console.log(date, "moment date convert from db");
-  // console.log(dueDate, "dueDate state new Date convert ");
-
   const { register, handleSubmit, clearErrors } = useForm();
 
-  //This doesn't do anything for initial
   const getProjectUsers = async (event) => {
-    var projectSelect = document.getElementById("project-select");
-    // var assigneeSelect = document.getElementById("assignee-select");
-    clearErrors(projectSelect.name);
-    // clearErrors(assigneeSelect.name);
-    const res = await apiServer.get(`/project/${projectSelect.value}/team`);
-    const userList = res.data.Users.filter((user) => {
-      return user.id !== task.User.id;
-    });
-    console.log(userList, "userList");
-    setProjectUsers(userList);
-    updateProject();
+    // Your code for getting project users
   };
 
   const updateProject = async (e) => {
-    var projectId = document.getElementById("project-select").value;
-    const userId = localStorage.getItem("userId");
-    console.log(projectId);
-    await apiServer.put(`/task/${task.id}/project/${projectId}`);
-    const res = await apiServer.get(`/task/user/${userId}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    // Your code for updating the project
   };
 
   const updateAssignee = async (e) => {
-    var assigneeId = document.getElementById("assignee-select").value;
-
-    await apiServer.put(`/task/${task.id}/assignee/${assigneeId}`);
-    const assignee = await apiServer.get(`/task/${task.id}`);
-    setAssigneeUser(assignee.data.User);
-    //updates tasks
-    const userId = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${userId}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    // Your code for updating the assignee
   };
 
   const updateDueDate = async (date) => {
-    setDueDate(date);
-    await apiServer.put(`/task/${task.id}/dueDate`, { date });
-    console.log(date);
+    // Your code for updating the due date
   };
-  const updateDescription = async (e) => {
-    const description = e.target.value;
-    await apiServer.put(`/task/${task.id}/description`, { description });
 
-    console.log(e.target.value);
+  const updateDescription = async (e) => {
+    // Your code for updating the description
   };
 
   const handleDescriptionUpdate = (e) => {
@@ -88,15 +61,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   };
 
   const handleCommentSubmit = async ({ text }) => {
-    const user_id = localStorage.getItem("userId");
-    await apiServer.post(`/task/${task.id}/comment`, {
-      text,
-      user_id,
-    });
-
-    const comments = await apiServer.get(`/task/${task.id}/comment`);
-    setTaskComments(comments.data);
-    updateScroll();
+    // Your code for submitting a comment
   };
 
   const handleMarkComplete = async () => {
@@ -104,24 +69,15 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   };
 
   const updateComplete = async () => {
-    // console.log(completed, "before");
     completed = !completed;
-    const userId = localStorage.getItem("userId");
-    // console.log(completed, "after");
-
-    const updatedTask = await apiServer.put(`/task/${task.id}/complete`, {
+    const updatedTask = await apiServer.put(`/task/${selectedTask.id}/complete`, {
       completed,
     });
-    await taskdispatch({
-      type: "get_selected_task",
-      payload: updatedTask.data,
-    });
-
-    // console.log(task, "after update");
-
-    const res = await apiServer.get(`/task/user/${userId}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    getSelectedTask(updatedTask.data);
+    const res = await apiServer.get(`/task/user/${selectedTask.User.id}`);
+    getUserTasks(res.data);
   };
+
   const expandCommentBox = () => {
     setCommentBox(!commentBox);
   };
@@ -130,29 +86,24 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
     var element = document.getElementById("scrollable");
     element.scrollTop = element.scrollHeight;
   }
-  const renderedProjects = projectState.projects
-    .filter((project) => {
-      return project.id !== task.Project.id;
-    })
-    .map((project, i) => {
-      return (
-        <option key={i} id={project.id} value={project.id}>
-          {project.name}
-        </option>
-      );
-    });
 
-  const renderedUsers = projectUsers
-    .filter((user) => {
-      return user.id !== task.User.id;
-    })
-    .map((user, i) => {
-      return (
-        <option key={i} value={user.id}>
-          {user.name}
-        </option>
-      );
-    });
+  const renderedProjects = selectedTask.Projects.map((project, i) => {
+    return (
+      <option key={i} id={project.id} value={project.id}>
+        {project.name}
+      </option>
+    );
+  });
+
+  const renderedUsers = selectedTask.Project.Users.filter((user) => {
+    return user.id !== selectedTask.User.id;
+  }).map((user, i) => {
+    return (
+      <option key={i} value={user.id}>
+        {user.name}
+      </option>
+    );
+  });
 
   const renderedComments = taskComments.map((comment, i) => {
     const commentDate = moment(

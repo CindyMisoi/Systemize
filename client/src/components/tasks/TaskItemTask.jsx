@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Modal } from "@material-ui/core";
 import "../../css/Modal.css";
@@ -7,24 +7,24 @@ import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleLine,
 } from "react-icons/ri";
-import { Context as TaskContext } from "../../context/store/TaskStore";
+import { connect } from "react-redux";
+import { getSelectedTask } from "../../redux/actions/TaskActions";
 import apiServer from "../../config/apiServer";
-
-//Task item list for home and task page
 
 const TaskItemTask = ({
   task,
+  setSelectedTask,
   showSideTaskDetails,
   sideTaskDetails,
   setInitialLoad,
 }) => {
-  const [taskState, taskdispatch] = useContext(TaskContext);
   const [open, setOpen] = useState(false);
 
   const date = moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
+
   const openModal = () => {
     setOpen(true);
   };
@@ -36,31 +36,26 @@ const TaskItemTask = ({
   const setTaskPopOut = async () => {
     if (sideTaskDetails === false) {
       showSideTaskDetails();
-      //---
-      taskdispatch({ type: "get_selected_task", payload: null });
+      setSelectedTask(null);
       const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
+      setSelectedTask(res.data);
       setInitialLoad(false);
       console.log("if popout");
     } else {
       console.log("else popout");
-      taskdispatch({ type: "get_selected_task", payload: null });
+      setSelectedTask(null);
       const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
+      setSelectedTask(res.data);
       setInitialLoad(false);
     }
   };
 
-  //import component as body such as forms, details, etc
   const body = (
     <div className="modal-container">
-      {/* <h2 id="modal-title">Task Detail</h2>
-      <p id="modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p> */}
       <TaskDetailsForm task={task} closeModal={closeModal} />
     </div>
   );
+
   return (
     <>
       <li className="task-task-item" onClick={setTaskPopOut}>
@@ -129,4 +124,4 @@ const TaskItemTask = ({
   );
 };
 
-export default TaskItemTask;
+export default connect(null, { setSelectedTask })(TaskItemTask);

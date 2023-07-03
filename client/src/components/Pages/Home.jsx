@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-
-import { Context as UserContext } from "../../context/store/UserStore";
-import { Context as TaskContext } from "../../context/store/TaskStore";
-import { Context as ProjectContext } from "../../context/store/ProjectStore";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserInfo } from "../../redux/actions/UserActions";
+import { getTasks } from "../../redux/actions/TaskActions";
+import { getProjects } from "../../redux/actions/ProjectActions";
 import TaskItemHome from "../tasks/TaskItemHome";
 import TopNavBarHome from "../NavigationBar/TopNavBarHome";
 import ProjectTile from "../projects/ProjectTile";
@@ -16,13 +16,24 @@ import PopOutTaskDetailsHome from "../PopOutMenu/PopOutTaskDetailsHome";
 
 const HomePage = () => {
   // debugger;
-  const [userState] = useContext(UserContext);
-  const [taskState] = useContext(TaskContext);
-  const [projectState] = useContext(ProjectContext);
+  const dispatch = useDispatch();
+  const userState = useSelector(state => state.user);
+  const taskState = useSelector(state => state.allTasks.tasks);
+  const projectState = useSelector(state => allProjects.projects);
+  
   // const [teamProjects,setTeamProjects] = useState();
   const [sideTaskForm, setSideTaskForm] = useState(false);
   const [sideProjectForm, setSideProjectForm] = useState(false);
   const [sideTaskDetails, setSideTaskDetails] = useState(false);
+
+  // useEffect
+  useEffect(() => {
+    dispatch(getUser());
+    dispatch(getTasks());
+    dispatch(getProjects());
+  }, [dispatch]);
+  
+
   const showSideTaskForm = () => {
     setSideTaskDetails(false);
     setSideProjectForm(false);

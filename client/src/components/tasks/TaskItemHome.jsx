@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Modal } from "@material-ui/core";
 import "../../css/Modal.css";
@@ -9,18 +9,22 @@ import {
 } from "react-icons/ri";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { Menu, MenuItem } from "@material-ui/core";
-import { Context as TaskContext } from "../../context/store/TaskStore";
+import { connect } from "react-redux";
+import { deleteTask, getSelectedTask } from "../../redux/actions/TaskActions";
 import apiServer from "../../config/apiServer";
 
-//Task item list for home and task page
-
-const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
+const TaskItemHome = ({
+  task,
+  deleteTask,
+  setSelectedTask,
+  showSideTaskDetails,
+  sideTaskDetails,
+}) => {
   const date = moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
 
-  const [taskState, taskdispatch] = useContext(TaskContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const openModal = () => {
@@ -34,6 +38,7 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -41,52 +46,36 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
   const setTaskPopOut = async () => {
     if (sideTaskDetails === false) {
       showSideTaskDetails();
-      //---
-      taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
-      // setInitialLoad(false);
-      console.log("if popout");
+      setSelectedTask(null);
+      const res = await apiServer.get(`/tasks/${task.id}`);
+      setSelectedTask(res.data);
     } else {
-      console.log("else popout");
-      taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
-      // setInitialLoad(false);
+      setSelectedTask(null);
+      const res = await apiServer.get(`/tasks/${task.id}`);
+      setSelectedTask(res.data);
     }
   };
 
-  const handleTaskDelete = async (e) => {
-    // console.log(task.id);
+  const handleTaskDelete = async () => {
     handleMenuClose();
     await apiServer.delete(`/task/${task.id}`);
     const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${id}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    const res = await apiServer.get(`/tasks/user/${id}`);
+    deleteTask(res.data);
   };
-  //import component as body such as forms, details, etc
+
   const body = (
     <div className="modal-container">
-      {/* <h2 id="modal-title">Task Detail</h2>
-      <p id="modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p> */}
       <TaskDetailsForm task={task} closeModal={closeModal} />
     </div>
   );
+
   return (
     <>
       <div className="task-home-item">
         <div className="task-home-item-inner-container">
           <div className="task-home-item-inner-left" onClick={setTaskPopOut}>
             <div className="task-home-item-icon-container">
-              {/* {task.completed ? (
-                <RiCheckboxCircleLine
-                  style={{ color: "green", fontSize: "16px" }}
-                />
-              ) : (
-                <RiCheckboxBlankCircleLine style={{ fontSize: "16px" }} />
-              )} */}
               <span className={`dot-task-${task.id}`}></span>
             </div>
             <div className="task-home-item-name-container">
@@ -122,12 +111,11 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
           </Menu>
         </div>
       </div>
-      {/* <Modal open={open} onClose={closeModal}>
+      <Modal open={open} onClose={closeModal}>
         {body}
-      </Modal> */}
-      {/* <TaskDetailsForm task={task} closeModal={closeModal} open={open} /> */}
+      </Modal>
     </>
   );
 };
 
-export default TaskItemHome;
+export default connect(null, { deleteTask, setSelectedTask })(TaskItemHome);

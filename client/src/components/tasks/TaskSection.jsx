@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux"; // Import connect from react-redux
 import { BiRightArrow } from "react-icons/bi";
-import { Context as TaskContext } from "../../context/store/TaskStore";
-import "../../css/Task.css";
 import TaskItemTask from "./TaskItemTask";
+import "../../css/Task.css";
+
 const TaskSection = ({ title, tasks }) => {
   const [open, setOpen] = useState(true);
-  const [taskState] = useContext(TaskContext);
 
   const toggle = () => {
     setOpen(!open);
@@ -13,9 +13,11 @@ const TaskSection = ({ title, tasks }) => {
     arrow.classList.toggle("open-arrow-collapse");
     arrow.classList.toggle("open-arrow");
   };
+
   const taskList = tasks.map((task, i) => {
     return <TaskItemTask task={task} key={i} />;
   });
+
   return (
     <div className="task-section">
       <div className="task-section-header" onClick={toggle}>

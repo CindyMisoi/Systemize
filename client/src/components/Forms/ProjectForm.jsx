@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import apiServer from "../../config/apiServer";
-import { Context as TeamContext } from "../../context/store/TeamStore";
-import { Context as ProjectContext } from "../../context/store/ProjectStore";
+import { getTeamProjects } from "../../redux/actions/TeamActions";
+import { getUserProjects } from "../../redux/actions/ProjectActions";
 import "../../css/Forms.css";
+
 const ProjectForm = ({
   handleNewClose,
   clickClose,
@@ -13,46 +15,38 @@ const ProjectForm = ({
   setTeamProjects,
   showSideProjectForm,
 }) => {
-  const { register, handleSubmit, errors, clearErrors } = useForm();
-  const [projectName, setProjectName] = useState();
-  const [teamState, teamdispatch] = useContext(TeamContext);
-  const [projectState, projectdispatch] = useContext(ProjectContext);
-
+  const {handleSubmit, clearErrors } = useForm();
+  const [projectName, setProjectName] = useState("");
+  const dispatch = useDispatch();
+  const teamState = useSelector(state => state.team);
   const userId = localStorage.getItem("userId");
 
   const handleNameChange = (e) => {
     setProjectName(e.target.value);
   };
+
   const handleUserKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      // e.preventDefault();
       handleSubmit(onSubmit)();
     }
   };
+
   const onSubmit = async ({ name, teamId }) => {
-    await apiServer.post(`/teams/${teamId}/project/`, {
+    await apiServer.post(`/teams/${teamId}/projects`, {
       name,
       userId,
     });
 
-    //REFER TO THIS WHEN CHECKING FOR RERENDERING
-    const res = await apiServer.get(`/projects/user/${userId}`);
-    await projectdispatch({ type: "get_user_projects", payload: res.data });
-    const projectResponse = await apiServer.get(`/teams/${teamId}`);
-    // NOTE: One way this could work is if we recreate form for just team page add project form button
-    // Will not work with top nav bar form
-    // setTeamProjects(projectResponse.data.Projects);
-    await teamdispatch({
-      type: `get_team_projects${teamId}`,
-      payload: projectResponse.data,
-    });
-    if (setTeamProjects) {
-      const teamResponse = await apiServer.get(`/teams/${teamId}`);
-      setTeamProjects(teamResponse.data.Projects);
-    }
-    // window.location.reload();
+    dispatch(getUserProjects(userId));
 
-    // clickClose();
+    const teamResponse = await apiServer.get(`/teams/${teamId}`);
+    dispatch(getTeamProjects(teamResponse.data));
+
+    if (setTeamProjects) {
+      const teamProjects = teamResponse.data.Projects;
+      setTeamProjects(teamProjects);
+    }
+
     showSideProjectForm();
   };
 
@@ -60,13 +54,12 @@ const ProjectForm = ({
     var teamSelect = document.getElementById("team-select");
     clearErrors(teamSelect.name);
   };
-  const renderedTeams = teamState.teams.map((team, i) => {
-    return (
-      <option key={i} id={team.id} value={team.id}>
-        {team.name}
-      </option>
-    );
-  });
+
+  const renderedTeams = teamState.teams.map((team) => (
+    <option key={team.id} id={team.id} value={team.id}>
+      {team.name}
+    </option>
+  ));
 
   return (
     <>
@@ -88,9 +81,8 @@ const ProjectForm = ({
                 // onChange={clearError}
                 onChange={handleNameChange}
                 onKeyPress={handleUserKeyPress}
-                {...register('name',{ required: true })}
               ></input>
-              {errors.name?.type === "required" && (
+              {!name && (
                 <p className="error-message">Please fill out project name</p>
               )}
             </div>
@@ -102,11 +94,10 @@ const ProjectForm = ({
                 id="team-select"
                 name="teamId"
                 className="form-input"
-                {...register('teamId',{ required: true })}
               >
                 {renderedTeams}
               </select>
-              {errors.teamId?.type === "required" && (
+              {!teamId && (
                 <p className="error-message">Please choose a team</p>
               )}
             </div>

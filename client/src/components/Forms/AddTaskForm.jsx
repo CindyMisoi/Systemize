@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import "../../css/Task.css";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
-import { Context as ProjectContext } from "../../context/store/ProjectStore";
-import { Context as TasklistContext } from "../../context/store/TasklistStore";
-import { Context as TaskContext } from "../../context/store/TaskStore";
+import { getUserTasks } from "../../redux/actions/TaskActions";
 
 //Form to add task from anywhere
 const TaskForm = ({
@@ -15,124 +14,54 @@ const TaskForm = ({
   open,
   setTasklists,
   showSideTaskForm,
+  projects,
+  dispatchGetUserTasks,
 }) => {
-  const {handleSubmit, clearErrors } = useForm();
-  const [projectError, setProjectError] = useState();
-  const [assigneeError, setAssigneeError] = useState();
-  const [taskName, setTaskName] = useState();
-  const [dueDate, setDueDate] = useState();
-
-  const [projectState, projectdispatch] = useContext(ProjectContext);
-  const [taskState, taskdispatch] = useContext(TaskContext);
-  const [projectUsers, setProjectUsers] = useState([
-    {
-      id: "0",
-      name: "Choose a Project First",
-    },
-  ]);
-  const [projectTaskLists, setProjectTaskLists] = useState([
-    {
-      id: "0",
-      name: "Choose a Project First",
-    },
-  ]);
-
-  // const getUserProjects = async () => {
-  //   const userId = localStorage.getItem("userId");
-  //   const res = await apiServer.get(`/project/user/${userId}`);
-  //   setProjects(res.data);
-  //   setLoading(false);
-  // };
+  const { handleSubmit } = useForm();
+  const [taskName, setTaskName] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const handleNameChange = (e) => {
     setTaskName(e.target.value);
   };
+
   const handleDateChange = (e) => {
     setDueDate(e.target.value);
   };
-  const getProjectUsers = async (event) => {
-    var projectSelect = document.getElementById("project-select");
-    var assigneeSelect = document.getElementById("assignee-select");
-    var tasklistSelect = document.getElementById("tasklist-select");
-    clearErrors(projectSelect.name);
-    clearErrors(assigneeSelect.name);
-    clearErrors(tasklistSelect.name);
-    const res = await apiServer.get(`/project/${projectSelect.value}/team`);
-    setProjectUsers(res.data.Users);
-    getProjectTasklists();
+
+  const getProjectTasklists = async (projectId) => {
+    const res = await apiServer.get(`/project/${projectId}/tasklists`);
+    setTasklists(res.data);
   };
 
-  const getProjectTasklists = async (event) => {
-    const select = document.getElementById("project-select");
-    const res = await apiServer.get(`/project/${select.value}/tasklists`);
-    setProjectTaskLists(res.data);
-  };
+  const onSubmit = async (data) => {
+    const { name, projectId, userId, due_date, tasklistId, completed, description } = data;
 
-  // useEffect(() => {
-  //   getUserProjects();
-  // }, []);
-  //Probably need dispatch here to update the task page when task is created.
-  const onSubmit = async ({
-    name,
-    projectId,
-    assigneeId,
-    due_date,
-    tasklistId,
-    completed,
-    description,
-  }) => {
     await apiServer.post(`/tasklist/${tasklistId}/task`, {
       name,
       projectId,
-      assigneeId,
+      userId,
       due_date,
       completed,
       description,
     });
 
-    // const res = await apiServer.get(
-    //   `/project/user/${localStorage.getItem("userId")}`
-    // );
-
-    const userId = localStorage.getItem("userId");
-    const res = await apiServer.get(`/tasks/user/${userId}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    dispatchGetUserTasks();
 
     if (setTasklists) {
-      const taskResponse = await apiServer.get(
-        `/projects/${projectId}/tasklists`
-      );
-
-      setTasklists(taskResponse.data);
+      getProjectTasklists(projectId);
     }
 
     showSideTaskForm();
   };
 
-  const renderedProjects = projectState.projects.map((project, i) => {
+  const renderedProjects = projects.map((project, i) => {
     return (
       <option key={i} id={project.id} value={project.id}>
         {project.name}
       </option>
     );
   });
-
-  const renderedUsers = projectUsers.map((user, i) => {
-    return (
-      <option key={i} value={user.id}>
-        {user.name}
-      </option>
-    );
-  });
-
-  const renderedTasklists = projectTaskLists.map((tasklist, i) => {
-    return (
-      <option key={i} value={tasklist.id}>
-        {tasklist.name}
-      </option>
-    );
-  });
-
   return (
     <>
       {/* <Modal open={open} onClose={clickClose}>
@@ -153,7 +82,7 @@ const TaskForm = ({
                 // ref={register({ required: true })}
                 onChange={handleNameChange}
               ></input>
-              {!name?.type === "required" && (
+              {!name && (
                 <p className="error-message">Please enter a task name</p>
               )}
             </div>
@@ -167,13 +96,12 @@ const TaskForm = ({
                 name="projectId"
                 className="form-input"
                 onChange={getProjectUsers}
-                // {...register("projectId", { required: true })}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
                 {renderedProjects}
               </select>
               <p className="error-message">{projectError}</p>
-              {!projectId?.type === "required" && (
+              {!projects && (
                 <p className="error-message">Please choose a project</p>
               )}
             </div>
@@ -187,10 +115,9 @@ const TaskForm = ({
                 className="form-input"
                 type="date"
                 name="due_date"
-                // {...register("due_date", { required: true })}
                 onChange={handleDateChange}
               ></input>
-              {!dueDate?.type === "required" && (
+              {!dueDate && (
                 <p className="error-message">Please choose a Due Date</p>
               )}
             </div>
@@ -202,12 +129,11 @@ const TaskForm = ({
                 id="assignee-select"
                 name="userId"
                 className="form-input"
-                // {...register("userId", { required: true })}
               >
                 {renderedUsers}
               </select>
               <p className="error-message">{assigneeError}</p>
-              {!userId?.type === "required" && (
+              {!userId && (
                 <p className="error-message">Please choose an assignee</p>
               )}
             </div>
@@ -226,7 +152,6 @@ const TaskForm = ({
                 type="checkbox"
                 name="completed"
                 defaultChecked={false}
-                // ref={register}
               ></input>
             </div>
 
@@ -241,7 +166,7 @@ const TaskForm = ({
                 // {...register("tasklistId", { required: true })}
               >
                 {/* <option value={0}>Choose a project first</option> */}
-                {projectTaskLists.length === 0 ? (
+                {getProjectTasklists.length === 0 ? (
                   <option>
                     You need to make a column in your project first.
                   </option>
@@ -251,7 +176,7 @@ const TaskForm = ({
                 {/* {renderedTasklists} */}
               </select>
               {/* <p className="error-message">{taskListError}</p> */}
-              {!tasklistId?.type === "required" && (
+              {!tasklistId && (
                 <p className="error-message">
                   Please choose a column. You may need to make a column in your
                   project first before adding a task.

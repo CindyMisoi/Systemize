@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthContext";
-import { Context as UserContext } from "../../context/store/UserStore";
-import { Context as TaskContext } from "../../context/store/TaskStore";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/authActions";
+import { getTasks } from "../../redux/actions/TaskActions";
+import { getUserInfo } from "../../redux/actions/UserActions";
 import "../../css/Navbar.css";
 import { GrAddCircle } from "react-icons/gr";
 import UserAvatar from "./UserAvatar";
@@ -12,12 +13,13 @@ import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
 
+
 const TopNavBarTask = () => {
-  const { logout } = useContext(AuthContext);
-  const [userState, userdispatch] = useContext(UserContext);
-  const { name } = userState.user;
-  const [taskState, taskdispatch] = useContext(TaskContext);
-  const numTask = taskState.tasks.filter((task) => task.completed === true);
+  const dispatch = useDispatch();
+  const userState = useSelector(state => state.user);
+  const taskState = useSelector(state => state.allTasks.tasks);
+  const { name } = userState;
+  const numTask = taskState.items.filter((task) => task.completed === true);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEle, setAnchorEle] = useState(null);
@@ -55,6 +57,10 @@ const TopNavBarTask = () => {
     setAnchorEle(null);
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  
   return (
     <div className="top-nav-bar-container" style={{}}>
       <div
@@ -134,7 +140,7 @@ const TopNavBarTask = () => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={logout}>Logout</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

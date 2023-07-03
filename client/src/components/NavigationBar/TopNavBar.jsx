@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthContext";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "../../css/Navbar.css";
 import { GrAddCircle } from "react-icons/gr";
 import UserAvatar from "./UserAvatar";
@@ -9,16 +9,15 @@ import TaskForm from "../Forms/AddTaskForm";
 import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
-import { Context as UserContext } from "../../context/store/UserStore";
+import { logout } from "../../redux/actions/authActions";
 
 const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
-  const { logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorEle, setAnchorEle] = useState(null);
   const [openProject, setOpenProject] = useState(false);
   const [openTask, setOpenTask] = useState(false);
-  const [userState, userdispatch] = useContext(UserContext);
 
   const clickOpenTask = () => {
     setOpenTask(true);
@@ -44,29 +43,26 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
     setAnchorEl(null);
   };
 
-  const handleProfClick = (event) => {
-    setAnchorEle(event.currentTarget);
-  };
-  const handleProfClose = () => {
-    setAnchorEle(null);
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
-    <div
-      className={
-        sidebar ? "top-nav-bar-container__short" : "top-nav-bar-container"
-      }
-    >
+    // <div
+    //   className={
+    //     sidebar ? "top-nav-bar-container__short" : "top-nav-bar-container"
+    //   }
+    // >
     <div className="top-nav-bar-container">
       <div className="top-nav-bar-left">
         <h2>{name}</h2>
       </div>
       <div className="top-nav-bar-middle"></div>
       <div className="top-nav-bar-right" style={{}}>
-        <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
           <input className="searchbar" placeholder={"Search"}></input>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <GrAddCircle onClick={handleNewClick} className="top-nav-bar--icon" />
           <Menu
             style={{ marginTop: "40px" }}
@@ -90,7 +86,7 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
               setTeamProjects={setTeamProjects}
             />
           </Menu>
-        </div>
+        </div> */}
         <div
           className="top-nav-icons"
           style={{ display: "flex", alignItems: "center" }}
@@ -135,7 +131,6 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
           <MenuItem onClick={logout}>Logout</MenuItem>
         </Menu>
       </div>
-    </div>
     </div>
   );
 };

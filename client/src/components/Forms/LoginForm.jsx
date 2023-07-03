@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../redux/AuthContext";
 import "../../css/LoginPage.css";
 import { useNavigate } from "react-router";
 import apiServer from "../../config/apiServer";

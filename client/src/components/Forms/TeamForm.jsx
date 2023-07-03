@@ -1,23 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
-import { Context as TeamContext } from "../../context/store/TeamStore";
+import { createTeam } from "../../redux/actions/TeamActions";
 import "../../css/Forms.css";
+
 const TeamForm = ({ handleNewClose, clickClose, open }) => {
-  const { register, handleSubmit, errors } = useForm();
-  const [teamState, teamdispatch] = useContext(TeamContext);
+  const {handleSubmit} = useForm();
+  const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
 
-  const onSubmit = async ({ name, description }) => {
-    await apiServer.post(`/teams/user/${userId}`, {
-      name,
-      description,
-    });
-
-    const res = await apiServer.get(`/teams/user/${userId}`);
-    await teamdispatch({ type: "update_user_teams", payload: res.data });
+  const onSubmit = ({ name, description }) => {
+    dispatch(createTeam(userId, name, description));
     clickClose();
   };
 
@@ -36,9 +32,8 @@ const TeamForm = ({ handleNewClose, clickClose, open }) => {
                     type="text"
                     placeholder={"Team Name"}
                     className="form-input"
-                    {...register('name',{ required: true })}
                   ></input>
-                  {errors.name?.type === "required" && (
+                  {!name && (
                     <p className="error-message">Please enter a team name</p>
                   )}
                 </label>
@@ -55,7 +50,6 @@ const TeamForm = ({ handleNewClose, clickClose, open }) => {
                 type="text"
                 placeholder={"Team Description"}
                 className="edit-task-description textarea"
-                ref={register}
               ></textarea>
             </div>
             <div style={{ display: "flex", marginLeft: "400px" }}>

@@ -1,12 +1,23 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, responsiveFontSizes } from "@material-ui/core";
-import apiServer from "../../config/apiServer";
+import { Modal } from "@material-ui/core";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProject,
+  updateTasklistColumnIndex,
+  updateTaskTasklist,
+  updateTaskIndex,
+} from "../../redux/actions/ProjectActions";
+import {
+  addTaskProject,
+  addTasklist,
+  getTasklistTasks,
+} from "../../redux/actions/TaskActions";
 import Loader from "../Loader";
 import TopNavBar from "../NavigationBar/TopNavBar";
 import TaskListItem from "../tasks/TaskListItem";
 import TaskListForm from "../Forms/TaskListForm";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AddTaskProjectForm from "../Forms/AddTaskProjectForm";
 import TaskDetailsForm from "../tasks/TaskDetailsForm";
 
@@ -14,19 +25,18 @@ import "../../css/Project.css";
 import "../../css/TaskList.css";
 
 const ProjectPage = () => {
-  const { projectId, projectName, teamId } = useParams();
+  const { projectId } = useParams();
+  const dispatch = useDispatch();
+  const project = useSelector((state) => state.project);
+  const tasklists = useSelector((state) => state.project.tasklists);
+  const loading = useSelector((state) => state.project.loading);
   const [openTasklistForm, setOpenTasklistForm] = useState(false);
-  const [tasks, setTasks] = useState();
-  const [project, setProject] = useState();
-  const [tasklists, setTasklists] = useState();
-  const [taskArray, setTaskArray] = useState();
-
   const [openTaskProjectForm, setOpenTaskProjectForm] = useState(false);
-  const [tasklistTasks, setTasklistTasks] = useState();
   const [openTaskDetailForm, setOpenTaskDetailForm] = useState(false);
 
-  //Task through get /project/id/taskslists. Set here so we can refer to it in the ondragend funnction
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    dispatch(getProject(projectId));
+  }, [dispatch, projectId]);
 
   const openTasklistFormModal = () => {
     setOpenTasklistForm(true);
@@ -45,7 +55,6 @@ const ProjectPage = () => {
   };
 
   const onDragEnd = async (result) => {
-    console.log(result, "result");
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -60,76 +69,16 @@ const ProjectPage = () => {
     }
 
     if (type === "column") {
-      const redorderedLists = reorderTasklists(
+      const reorderedLists = reorderTasklists(
         tasklists,
         source.index,
         destination.index
       );
-
-      setTasklists(redorderedLists);
-      console.log(redorderedLists, "reordedLists");
-      redorderedLists.map((list, index) => {
-        return updateTasklist(index, list.id, list.column_index);
-      });
+      dispatch(updateTasklistColumnIndex(reorderedLists));
     }
 
     if (type === "task") {
-      updateTasks(source, destination, draggableId);
-      const destinationTasklistId = destination.droppableId.split("-")[0];
-      const destinationIndexId = destination.droppableId.split("-")[1];
-      const sourceTasklistId = source.droppableId.split("-")[0];
-      const sourceIndexId = source.droppableId.split("-")[1];
-      const destinationTaskIndex = destination.index;
-      const sourceTaskIndex = source.index;
-      //DroppableID of column ${tasklist.id.toString()}-${index.toString()}
-
-      // console.log(
-      //   tasklists[sourceIndexId].Tasks,
-      //   "tasklists[sourceIndexId] before"
-      // );
-
-      // tasklists[sourceIndexId].Tasks = [];
-
-      // console.log(
-      //   tasklists[sourceIndexId].Tasks,
-      //   "tasklists[sourceIndexId] after"
-      // );
-
-      //sets source tasklist
-      let sourceTasklist = tasklists[sourceIndexId].Tasks;
-      //sets destination tasklist
-      let destinationTasklist = tasklists[destinationIndexId].Tasks;
-
-      reorderTasks(sourceTasklist, destinationTasklist, source, destination);
-      // //returns [new source tasklist, new destination tasklist]
-      // let newSourceTasklist = newTasklists[0];
-      // let newDestinationTasklist = newTasklists[1];
-      // tasklists[sourceIndexId].Tasks = newSourceTasklist;
-      // tasklists[destinationIndexId].Tasks = newDestinationTasklist;
-      // console.log(tasklists, "tasklists after reorder");
-      // console.log("source: ", source);
-      // console.log("destination: ", destination);
-      // console.log("draggableId: ", draggableId);
-      // console.log("type: ", type);
-
-      // console.log(tasklists, "tasklists after updating");
-      // tasklists.map((task, index) => {
-      //   return updateTasks(
-      //     index,
-      //     task.id,
-      //     task.task_index,
-      //     sourceTasklistId,
-      //     destinationTasklistId
-      //   );
-      // });
-
-      //tasklists.map((tasklist,index)=>{
-      //   tasklist.task.map((task,index)=>{
-      // return updateTasks(
-
-      // )
-      //   })
-      // })
+      dispatch(updateTasks(source, destination, draggableId));
     }
   };
 
@@ -147,111 +96,56 @@ const ProjectPage = () => {
     source,
     destination
   ) => {
-    let sourceTask = sourceTasklist.splice(source.index, 1);
+    const sourceTask = sourceTasklist.splice(source.index, 1);
     destinationTasklist.splice(destination.index, 0, sourceTask[0]);
-    // return [sourceTasklist, destinationTasklist];
-    // console.log(sourceTasklist);
-    // console.log(destinationTasklist, "destinationTasklist");
-    //splice source task and insert into destination tasklist
-    //return new sourcetasklist and new desinationtasklist
-  };
-
-  const updateTasklist = async (newIndex, tasklistId, columnIndex) => {
-    await apiServer.put(`/tasklist/${tasklistId}/columnindex/`, { newIndex });
   };
 
   const updateTasks = async (source, destination, draggableId) => {
-    const sourceColumnId = source.droppableId;
-    const destinationTasklistId = destination.droppableId.split("-")[0];
-    const destinationIndexId = destination.droppableId.split("-")[1];
-    const sourceTasklistId = source.droppableId.split("-")[0];
-    const sourceIndexId = source.droppableId.split("-")[1];
     const taskId = draggableId;
-    const updatedTasklist = await apiServer.put(`/task/${taskId}/tasklist`, {
-      destinationTasklistId,
-    }); // this will update the inital task with the new tasklist id
+    const sourceTasklistId = source.droppableId.split("-")[0];
+    const destinationTasklistId = destination.droppableId.split("-")[0];
+    const destinationIndex = destination.index;
 
-    //Draggable Id === Task.id
-    //source.droppableId[0] === initial tasklist.id
-    //destination.droppableId[0] === destination tasklist.id
+    dispatch(updateTaskTasklist(taskId, destinationTasklistId));
+    dispatch(updateTaskIndex(taskId, destinationIndex));
 
-    // once that comes back, we want to update the task_index of that task to destination.index
-    const destinationIndex = destination.index; //index of task in tasklist
-    const updatedTaskIndex = await apiServer.put(`/task/${taskId}/taskindex`, {
-      destinationIndex,
-    });
+    if (source.droppableId === destination.droppableId) {
+      const tasklist = tasklists.find(
+        (tasklist) => tasklist._id === sourceTasklistId
+      );
+      const updatedTasklist = Array.from(tasklist.tasks);
+      const [removed] = updatedTasklist.splice(source.index, 1);
+      updatedTasklist.splice(destination.index, 0, removed);
 
-    // once that comes back, we will  update task_indexes for tasklists then re render
-  };
+      dispatch(getTasklistTasks(tasklist._id, updatedTasklist));
+    } else {
+      const sourceTasklist = tasklists.find(
+        (tasklist) => tasklist._id === sourceTasklistId
+      );
+      const destinationTasklist = tasklists.find(
+        (tasklist) => tasklist._id === destinationTasklistId
+      );
 
-  const getProject = async () => {
-    try {
-      const res = await apiServer.get(`/project/${projectId}`);
-      // await getTasklists();
-      const resp = await apiServer.get(`/project/${projectId}/tasklists`);
-      setProject(res.data);
-      setTasklists(resp.data);
-      // console.log(tasklists);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
+      reorderTasks(sourceTasklist.tasks, destinationTasklist.tasks, source, destination);
+
+      dispatch(getTasklistTasks(sourceTasklist._id, sourceTasklist.tasks));
+      dispatch(getTasklistTasks(destinationTasklist._id, destinationTasklist.tasks));
     }
   };
 
-  //NOTE: MAYBE TRY GRABBING TASKS IN ONE GET API CALL AND PUSHING IT DOWN?
-  const getTasklists = async () => {
-    try {
-      const res = await apiServer.get(`/project/${projectId}/tasklists`);
-      setTasklists(res.data);
-
-      // setTasks(res.data.Tasks);
-      // const taskResponse = await apiServer.get(`/project/${projectId}/tasks`);
-      // setTaskArray(taskResponse.data); //Array of all tasks
-    } catch (err) {
-      console.log(err);
-    }
+  const handleAddTasklist = (tasklistData) => {
+    dispatch(addTasklist(projectId, tasklistData));
+    closeTasklistFormModal();
   };
 
-  //----------------------------------------------------------------------------
-  const openTaskProjectFormModal = () => {
-    setOpenTaskProjectForm(true);
-  };
-
-  const closeTaskProjectFormModal = () => {
+  const handleAddTaskProject = (taskData) => {
+    dispatch(addTaskProject(taskData));
     setOpenTaskProjectForm(false);
   };
-
-  // const updateTasks = async () => {
-  //   //returns individual tasklist tasks
-  //   const res = await apiServer.get(`/tasklist/${tasklist.id}/tasks`);
-  //   setTasklistTasks(res.data);
-  //   setLoading(false);
-  // };
-
-  useEffect(() => {
-    getProject();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setProject, setTasklists, setTasks]);
 
   if (loading) {
     return <Loader />;
   }
-
-  //Task list creation
-  const tasklistFormModal = (
-    <div className="modal-container">
-      <TaskListForm
-        setTasklists={setTasklists}
-        projectId={projectId}
-        clickClose={closeTasklistFormModal}
-        open={openTasklistForm}
-      ></TaskListForm>
-    </div>
-  );
-
-  const renderedTasklists = tasklists.map((tasklist, index) => {
-    //returns individual tasklist tasks
-
     return (
       <div key={tasklist.id}>
         <Draggable
@@ -355,53 +249,6 @@ const ProjectPage = () => {
         </div>
       </div>
     );
-  });
+  };
 
-  return (
-    <div>
-      <div>
-        <TopNavBar name={project.name} setTasklists={setTasklists} />
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable
-            droppableId="all-columns"
-            direction="horizontal"
-            type="column"
-          >
-            {(provided) => (
-              <div
-                className="project-container"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {renderedTasklists}
-                {/* {tasklists.map((tasklist, i) => {
-                  return ( */}
-                {/* <TaskListItem
-                      index={i}
-                      teamId={teamId}
-                      tasklist={tasklist}
-                      key={tasklist.id}
-                    /> */}
-
-                {/* );
-                })} */}
-                <div
-                  className="tasklist-new-tasklist--button"
-                  onClick={openTasklistFormModal}
-                >
-                  + Add List
-                </div>
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-      <Modal open={openTasklistForm} onClose={closeTasklistFormModal}>
-        {tasklistFormModal}
-      </Modal>
-    </div>
-  );
-};
-
-export default ProjectPage;
+ export default ProjectPage;

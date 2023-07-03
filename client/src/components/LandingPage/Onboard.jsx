@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../redux/AuthContext";
 import apiServer from "../../config/apiServer";
 import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";

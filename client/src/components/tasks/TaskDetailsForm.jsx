@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "../../css/Task.css";
 import moment from "moment";
 import UserAvatar from "../NavigationBar/UserAvatar";
 import apiServer from "../../config/apiServer";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { updateTask, deleteTask } from "../../redux/actions/TaskActions";
 
-import { Context as TaskContext } from "../../context/store/TaskStore";
 const TaskDetailsForm = ({
   task,
   closeModal,
   open,
   setTasks,
   setTasklistTasks,
+  updateTask,
+  deleteTask,
 }) => {
   const { register, handleSubmit } = useForm();
-  const [taskState, taskdispatch] = useContext(TaskContext);
   const createdDate = moment(
     task.createdAt.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
@@ -33,7 +35,7 @@ const TaskDetailsForm = ({
 
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  // console.log(task.completed);
+
   const getTaskUser = async () => {
     const res = await apiServer.get(`/user/${task.assignee_id}`);
     setUser(res.data);
@@ -41,7 +43,6 @@ const TaskDetailsForm = ({
   };
 
   const onSubmit = async ({ name, due_date, description, completed }) => {
-    // put route to update task
     try {
       await apiServer.put(`/tasks/${task.id}`, {
         name,
@@ -49,11 +50,10 @@ const TaskDetailsForm = ({
         description,
         completed,
       });
-      //Updates new task list
       const res = await apiServer.get(
         `/task/user/${localStorage.getItem("userId")}`
       );
-      await taskdispatch({ type: "update_task", payload: res.data });
+      updateTask(res.data);
       if (setTasklistTasks) {
         const taskres = await apiServer.get(
           `/tasklist/${task.tasklist_id}/tasks`
@@ -69,11 +69,10 @@ const TaskDetailsForm = ({
   const handleDelete = async () => {
     try {
       await apiServer.delete(`/task/${task.id}`);
-      //Updates new task list
       const res = await apiServer.get(
         `/task/user/${localStorage.getItem("userId")}`
       );
-      await taskdispatch({ type: "update_task", payload: res.data });
+      deleteTask(res.data);
       closeModal();
     } catch (err) {
       console.log(err);
@@ -82,7 +81,6 @@ const TaskDetailsForm = ({
 
   useEffect(() => {
     getTaskUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) {
@@ -127,7 +125,6 @@ const TaskDetailsForm = ({
               >
                 <option value={user.name}>{user.name}</option>
               </select>
-              {/* <div>{user.name}</div> */}
             </div>
           </div>
           <div className="edit-task-info-mid">
@@ -216,4 +213,4 @@ const TaskDetailsForm = ({
   );
 };
 
-export default TaskDetailsForm;
+export default connect(null, { updateTask, deleteTask })(TaskDetailsForm);

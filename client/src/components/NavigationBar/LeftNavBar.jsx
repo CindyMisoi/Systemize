@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "../../css/Navbar.css";
 import { RiMenuFoldLine, RiMenuFill } from "react-icons/ri";
 import { ImLinkedin, ImGithub } from "react-icons/im";
-import { Context as TeamContext } from "../../context/store/TeamStore";
 import { Modal } from "@material-ui/core";
 import TeamForm from "../Forms/TeamForm";
 import Home from "../../assets/Home";
@@ -11,12 +11,12 @@ import Tasks from "../../assets/tasks";
 import Project from "../../assets/project";
 import Team from "../../assets/team.svg";
 import Logo from "../../assets/Logo";
-const LeftNavBar = ({ showSidebar, sidebar }) => {
-  const [teams, setTeams] = useState([]);
-  const [teamState] = useContext(TeamContext);
-  const [open, setOpen] = useState(false);
+import { createTeam } from "../../redux/actions/TeamActions";
 
-  //NOTE : Only other option that worked was setting state either in here or in App.js and call it for global state. ReducerContext does not work
+const LeftNavBar = ({ showSidebar, sidebar }) => {
+  const dispatch = useDispatch();
+  const teams = useSelector((state) => state.allTeams.teams);
+  const [open, setOpen] = useState(false);
 
   const openModal = () => {
     setOpen(true);
@@ -26,7 +26,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
     setOpen(false);
   };
 
-  const orderedList = teamState.teams.sort(function (a, b) {
+  const orderedList = teams.sort(function (a, b) {
     return new Date(a.createdAt) - new Date(b.createdAt);
   });
 
@@ -46,11 +46,17 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
     );
   });
 
+  const handleCreateTeam = (teamData) => {
+    dispatch(createTeam(teamData));
+    closeModal();
+  };
+
   const modalBody = (
     <div className="modal-container">
-      <TeamForm clickClose={closeModal} open={open}></TeamForm>
+      <TeamForm clickClose={closeModal} handleCreateTeam={handleCreateTeam} />
     </div>
   );
+
   return (
     <div>
       <div className="left-nav-bar-container">
@@ -114,7 +120,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                 </div>
               </NavLink>
 
-              <NavLink
+              {/* <NavLink
                 to="/projects"
                 className="left-nav-bar-main-link"
                 activeClassName="navlink--active"
@@ -125,7 +131,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                     <p className="left-nav-bar-link-title">Projects</p>
                   </div>
                 </div>
-              </NavLink>
+              </NavLink> */}
             </div>
             <div className="teams-items-container">
               <div className="teams-items-header" style={{ display: "flex" }}>

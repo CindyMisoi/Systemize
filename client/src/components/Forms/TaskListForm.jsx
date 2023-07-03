@@ -1,33 +1,40 @@
-import React, { useContext, useState } from "react";
-import "../../css/Task.css";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
-import { useForm } from "react-hook-form";
-import apiServer from "../../config/apiServer";
-import { Context as TasklistContext } from "../../context/store/TasklistStore";
 import { useParams } from "react-router-dom";
+import apiServer from "../../config/apiServer";
+import { updateProjectTasklists } from "../../redux/actions/TasklistActions";
 
-const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
-  const { register, handleSubmit, errors } = useForm();
-  const [tasklistName, setTasklistName] = useState();
+const TaskListForm = ({ showSideTasklistForm }) => {
+  const {handleSubmit} = useForm();
+  const [tasklistName, setTasklistName] = useState("");
   const { projectId } = useParams();
+  const dispatch = useDispatch();
+
   const handleNameChange = (e) => {
     setTasklistName(e.target.value);
   };
 
-  const onSubmit = async ({ name }) => {
+  const onSubmit = ({ name }) => {
     const userId = localStorage.getItem("userId");
-    await apiServer.post(`/projects/${projectId}/tasklist`, { name, userId });
-
-    const res = await apiServer.get(`/projects/${projectId}/tasklists`);
-    setTasklists(res.data);
-    // tasklistdispatch({ type: "update_project_tasklists", payload: res.data });
-    showSideTasklistForm();
+    apiServer
+      .post(`/projects/${projectId}/tasklist`, { name, userId })
+      .then(() => {
+        return apiServer.get(`/projects/${projectId}/tasklists`);
+      })
+      .then((res) => {
+        dispatch(updateProjectTasklists(res.data));
+        showSideTasklistForm();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleUserKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      // e.preventDefault();
       handleSubmit(onSubmit)();
     }
   };
@@ -35,10 +42,8 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
   return (
     <form
       className="form-container"
-      style={{}}
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* <h2 className="form-header">Add a Tasklist</h2> */}
       <div className="form-top-container">
         <div className="form-section">
           <div className="label-container">
@@ -50,11 +55,10 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
               type="text"
               placeholder={"Column Name"}
               className="form-input"
-              {...register('name',{ required: true })}
               onChange={handleNameChange}
               onKeyPress={handleUserKeyPress}
             ></input>
-            {errors.name?.type === "required" && (
+            {!name && (
               <p className="error-message">Please enter a column name</p>
             )}
           </div>

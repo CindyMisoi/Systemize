@@ -7,7 +7,8 @@ const UserAvatar = () => {
   const [loading, setLoading] = useState(true);
 
   const getUser = async (id) => {
-    const res = await apiServer.get(`/users/${id}`);
+    const res = await apiServer.get(`/me`);
+    localStorage.setItem("user", res.data);
     setUser(res.data);
     setLoading(false);
   };

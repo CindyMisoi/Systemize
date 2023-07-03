@@ -1,25 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Modal } from "@material-ui/core";
 import TopNavBarTask from "../NavigationBar/TopNavBarTask";
 import "../../css/Task.css";
-import { Context as TaskContext } from "../../context/store/TaskStore";
-import apiServer from "../../config/apiServer";
+import { getUserTasks } from "../../redux/actions/TaskActions";
 import TaskSection from "../tasks/TaskSection";
 import moment from "moment";
 import TaskForm from "../Forms/AddTaskForm";
+import { useSelector, useDispatch } from "react-redux";
 
 const TasksPage = () => {
-  const [taskState, taskdispatch] = useContext(TaskContext);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.allTasks.tasks);
 
-  const getUserTasks = async () => {
-    const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${id}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
-    // setTasks(res.data);
-    setLoading(false);
-  };
   const openModal = () => {
     setOpen(true);
   };
@@ -29,9 +23,14 @@ const TasksPage = () => {
   };
 
   useEffect(() => {
+    const getUserTasks = async () => {
+      const id = localStorage.getItem("userId");
+      dispatch(getUserTasks(id));
+      setLoading(false);
+    };
+
     getUserTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -42,11 +41,12 @@ const TasksPage = () => {
       <TaskForm clickClose={closeModal} open={open}></TaskForm>
     </div>
   );
-  const sortedTasks = taskState.tasks.sort(function (a, b) {
+
+  const sortedTasks = tasks.sort(function (a, b) {
     return new Date(a.due_date) - new Date(b.due_date);
   });
 
-  const recentlyAdded = taskState.tasks.filter((task) => {
+  const recentlyAdded = tasks.filter((task) => {
     const date = new Date(task.createdAt);
     const createdDate = moment(date);
     const todaysDate = moment(new Date());
@@ -75,7 +75,6 @@ const TasksPage = () => {
     const laterDate = moment(new Date()).add(1, "month");
     return dueDate.isAfter(laterDate); //due date is after 1 month
   });
-
   return (
     <>
       <TopNavBarTask />

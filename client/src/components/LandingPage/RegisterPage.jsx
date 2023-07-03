@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../redux/AuthContext";
 import logo from "../../assets/logo.png";
 import "../../css/LoginPage.css";
 import apiServer from "../../config/apiServer";

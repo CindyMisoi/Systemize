@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/AuthContext";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/authActions";
 import "../../css/Navbar.css";
 import { GrAddCircle } from "react-icons/gr";
 import UserAvatar from "./UserAvatar";
@@ -10,11 +11,10 @@ import Alert from "../../assets/alert";
 import ProjectForm from "../Forms/ProjectForm";
 import TaskForm from "../Forms/AddTaskForm";
 import apiServer from "../../config/apiServer";
-import { Context as UserContext } from "../../context/store/UserStore";
 
 const TopNavBarHome = () => {
-  const { logout } = useContext(AuthContext);
-  const [userState, userdispatch] = useContext(UserContext);
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEle, setAnchorEle] = useState(null);
@@ -22,11 +22,11 @@ const TopNavBarHome = () => {
   const [openTask, setOpenTask] = useState(false);
   const userId = localStorage.getItem("userId");
 
-  useEffect(()=>{
-    (async()=>{
-      const user = await apiServer.get("/users")
+  useEffect(() => {
+    (async () => {
+      const user = await apiServer.get("/users");
     })();
-  },[])
+  }, []);
 
   const clickOpenTask = () => {
     setOpenTask(true);
@@ -58,6 +58,11 @@ const TopNavBarHome = () => {
   const handleProfClose = () => {
     setAnchorEle(null);
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className="top-nav-bar-container" style={{}}>
       <div
@@ -69,29 +74,7 @@ const TopNavBarHome = () => {
         <div style={{ display: "flex" }}>
           <input className="searchbar" placeholder={"Search"}></input>
         </div>
-        {/* <div>
-          <GrAddCircle onClick={handleNewClick} className="top-nav-bar--icon" />
-          <Menu
-            style={{ marginTop: "40px" }}
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleNewClose}
-          >
-            <MenuItem onClick={clickOpenTask}>Add Task</MenuItem>
-            <TaskForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseTask}
-              open={openTask}
-            ></TaskForm>
-            <MenuItem onClick={clickOpenProject}>Add Project</MenuItem>
-            <ProjectForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseProject}
-              open={openProject}
-            />
-          </Menu>
-        </div> */}
+
         <div
           className="top-nav-icons"
           style={{ display: "flex", alignItems: "center" }}
@@ -141,5 +124,4 @@ const TopNavBarHome = () => {
     </div>
   );
 };
-
 export default TopNavBarHome;

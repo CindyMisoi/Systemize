@@ -1,72 +1,60 @@
-import React, { useEffect, useState, useContext } from "react";
-import {useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import TopNavBar from "../NavigationBar/TopNavBar";
 import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 import "../../css/TeamPage.css";
 import { Menu, MenuItem } from "@material-ui/core";
-import { Context as TeamContext } from "../../context/store/TeamStore";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getTeam,
+  updateTeamDescription,
+  leaveTeam,
+} from "../../redux/actions/TeamActions";
 
 import TeamMemberIcon from "../teams/TeamMemberIcon";
 import ProjectTile from "../projects/ProjectTile";
 import NewProjectTile from "../projects/NewProjectTile";
 import NewTeamMemberIcon from "../teams/NewTeamMemberIcon";
 import AddProjectPopOut from "../PopOutMenu/AddProjectPopOut";
-import { BiBorderNone } from "react-icons/bi";
 import { AiOutlineEllipsis } from "react-icons/ai";
 
 const TeamPage = () => {
   const { teamId, name } = useParams();
-  const [team, setTeam] = useState();
-  const [teamProjects, setTeamProjects] = useState();
-  const [teamUsers, setTeamUsers] = useState(null);
-  const [teamDescription, setTeamDescription] = useState();
-  const [loading, setLoading] = useState(true);
   const [anchorMenu, setAnchorMenu] = useState(null);
   const [sideProjectForm, setSideProjectForm] = useState(false);
-  const [teamState, teamdispatch] = useContext(TeamContext);
   const navigate = useNavigate();
-  navigate('/')
+  const dispatch = useDispatch();
+
+  const team = useSelector((state) => state.team.team);
+  const teamProjects = useSelector((state) => state.team.teamProjects);
+  const teamUsers = useSelector((state) => state.team.teamUsers);
+  const loading = useSelector((state) => state.team.loading);
 
   const showSideProjectForm = () => {
     setSideProjectForm(!sideProjectForm);
-  };
-  console.log(teamUsers);
-  const getTeam = async () => {
-    try {
-      const res = await apiServer.get(`/teams/${teamId}`);
-      console.log(res);
-      setTeam(res.data);
-      setTeamProjects(res.data.Projects);
-      setTeamUsers(res.data.Users);
-      setTeamDescription(res.data.description);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const handleMenuClick = (event) => {
     setAnchorMenu(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorMenu(null);
   };
 
-  const leaveTeam = async () => {
-    const userId = localStorage.getItem("userId");
-    handleMenuClose();
-    await apiServer.delete(`/user_teams/${teamId}/user/${userId}`);
-    const res = await apiServer.get(`/teams/user/${userId}`);
-    await teamdispatch({ type: "get_user_teams", payload: res.data });
-    history.push("/");
-    // const resp = await apiServer.get(`/project/${projectId}/tasklists`);
-    // setTasklists(resp.data);
+  const handleUpdate = (e) => {
+    const description = e.target.value;
+    dispatch(updateTeamDescription(teamId, description));
   };
 
-  const handleUpdate = (e) => {
-    setTeamDescription(e.target.value);
-  };
+  useEffect(() => {
+    dispatch(getTeam(teamId));
+  }, [dispatch, teamId]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const updateDescription = async (e) => {
     const description = e.target.value;
@@ -74,24 +62,10 @@ const TeamPage = () => {
     console.log(e.target.value);
   };
 
-  useEffect(() => {
-    getTeam();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamId, name, setTeam, setTeamProjects, setTeamUsers]);
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  // const membersList = teamUsers.map((user, i) => {
-  //   return <TeamMemberIcon user={user} key={i} />;
-  // });
-
-  // const projectsList = teamProjects.map((project, i) => {
-  //   return (
-  //     <ProjectTile teamId={teamId} project={project} key={i} id={project.id} />
-  //   );
-  // });
+  const handleLeaveTeam = async () => {
+    dispatch(leaveTeam(teamId));
+    navigate("/");
+  };
   return (
     <>
       <TopNavBar name={name} setTeamProjects={setTeamProjects} />

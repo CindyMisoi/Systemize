@@ -1,40 +1,51 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { get_user_tasks } from "../../redux/actions/TaskActions";
 import TopNavBarTask from "../NavigationBar/TopNavBarTask";
-import { Context as TaskContext } from "../../context/store/TaskStore";
-import apiServer from "../../config/apiServer";
-import TaskSection from "../tasks/TaskSection";
-import PopOutTaskDetails from "../PopOutMenu/PopOutTaskDetails";
 import TaskItemTask from "../tasks/TaskItemTask";
 import Add from "../../assets/Add";
 import AddTaskPopOutTaskPage from "../PopOutMenu/AddTaskPopOutTaskPage";
+import PopOutTaskDetails from "../PopOutMenu/PopOutTaskDetails";
 
 const NewTasks = () => {
-  const [taskState, taskdispatch] = useContext(TaskContext);
   const [loading, setLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
   const [open, setOpen] = useState(false);
   const [sideTaskForm, setSideTaskForm] = useState(false);
-
   const [sideTaskDetails, setSideTaskDetails] = useState(false);
+
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.allTasks.tasks);
 
   const showSideTaskForm = () => {
     setSideTaskDetails(false);
     setSideTaskForm(!sideTaskForm);
   };
+
   const showSideTaskDetails = () => {
     setSideTaskForm(false);
     setSideTaskDetails(!sideTaskDetails);
   };
 
-  const getUserTasks = async () => {
-    const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${id}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
-    // setTasks(res.data);
-    setLoading(false);
+  const openModal = () => {
+    setOpen(true);
   };
 
-  const sortedTasks = taskState.tasks.sort(function (a, b) {
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const getUserTasks = async () => {
+      const id = localStorage.getItem("userId");
+      await dispatch(get_user_tasks(id));
+      setLoading(false);
+    };
+
+    getUserTasks();
+  }, [dispatch]);
+
+  const sortedTasks = tasks.sort(function (a, b) {
     return new Date(a.due_date) - new Date(b.due_date);
   });
 
@@ -49,28 +60,15 @@ const NewTasks = () => {
       />
     );
   });
-  const openModal = () => {
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    getUserTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
       <TopNavBarTask />
       <div className="tasks-container">
-        {/* <div className="tasks-container-header"></div> */}
         <div className="tasks-main-content">
           <div
             className={
-              taskState.selectedTask || initialLoad
+              tasks.length > 0 || initialLoad
                 ? "tasks-inner-container"
                 : "tasks-inner-container hidden"
             }
@@ -89,9 +87,8 @@ const NewTasks = () => {
               </div>
             </div>
             {renderedTasks}
-            {/* <TaskSection title={"Tasks"} tasks={sortedTasks} /> */}
           </div>
-          {sideTaskDetails && taskState.selectedTask ? (
+          {sideTaskDetails ? (
             <PopOutTaskDetails
               showSideTaskDetails={showSideTaskDetails}
               sideTaskDetails={sideTaskDetails}

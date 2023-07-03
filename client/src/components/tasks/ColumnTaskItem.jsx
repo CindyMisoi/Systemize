@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TaskDetailsForm from "./TaskDetailsForm";
 import { Modal, responsiveFontSizes } from "@material-ui/core";
@@ -6,17 +7,20 @@ import Pin from "../../assets/pin";
 import Comments from "../../assets/comments";
 import UserAvatar from "../NavigationBar/UserAvatar";
 import moment from "moment";
-import { Context as TaskContext } from "../../context/store/TaskStore";
 import apiServer from "../../config/apiServer";
+import {
+  getSelectedTask,
+  toggleSideTaskDetails,
+} from "../../redux/actions/TaskActions";
 
 const ColumnTaskItem = ({
   task,
   index,
   showSideTaskDetails,
   sideTaskDetails,
+  getSelectedTask,
+  toggleSideTaskDetails,
 }) => {
-  const [taskState, taskdispatch] = useContext(TaskContext);
-
   const date = moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
@@ -24,15 +28,15 @@ const ColumnTaskItem = ({
 
   const setTaskPopOut = async () => {
     if (sideTaskDetails === false) {
-      showSideTaskDetails();
+      toggleSideTaskDetails();
       //---
-      taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
+      getSelectedTask(null);
+      const res = await apiServer.get(`/tasks/${task.id}`);
+      getSelectedTask(res.data);
     } else {
-      taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
-      await taskdispatch({ type: "get_selected_task", payload: res.data });
+      getSelectedTask(null);
+      const res = await apiServer.get(`/tasks/${task.id}`);
+      getSelectedTask(res.data);
     }
   };
 
@@ -83,4 +87,11 @@ const ColumnTaskItem = ({
   );
 };
 
-export default ColumnTaskItem;
+const mapStateToProps = (state) => ({
+  sideTaskDetails: state.task.sideTaskDetails,
+});
+
+export default connect(mapStateToProps, {
+  getSelectedTask,
+  toggleSideTaskDetails,
+})(ColumnTaskItem);
