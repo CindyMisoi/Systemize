@@ -10,7 +10,7 @@ import {
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { Menu, MenuItem } from "@material-ui/core";
 import { connect } from "react-redux";
-import { deleteTask, getSelectedTask } from "../../redux/actions/TaskActions";
+// import { deleteTask, getSelectedTask } from "../../redux/actions/TaskActions";
 import apiServer from "../../config/apiServer";
 
 const TaskItemHome = ({
@@ -118,4 +118,5 @@ const TaskItemHome = ({
   );
 };
 
-export default connect(null, { deleteTask, setSelectedTask })(TaskItemHome);
+// export default connect(null, { deleteTask, setSelectedTask })(TaskItemHome);
+export default TaskItemHome;

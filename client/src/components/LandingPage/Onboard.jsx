@@ -6,7 +6,7 @@ import "../../css/LoginPage.css";
 
 const Onboard = (props) => {
   const {handleSubmit } = useForm();
-  const { setAuth } = useContext(AuthContext);
+  // const { setAuth } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
   
@@ -23,7 +23,7 @@ const Onboard = (props) => {
         setErrorMessage("");
         // Set authentication context
         //for Refresh
-        setAuth(res.data.token);
+        // setAuth(res.data.token);
       } catch (err) {
         console.log(err.status);
         setErrorMessage("Something went wrong");
@@ -35,7 +35,7 @@ const Onboard = (props) => {
     //sets initial token
     localStorage.setItem("token", localStorage.getItem("onboard"));
     //for component to refresh to redirect webpage
-    setAuth(localStorage.getItem("onboard"));
+    // setAuth(localStorage.getItem("onboard"));
     localStorage.removeItem("onboard");
   };
 
@@ -65,7 +65,7 @@ const Onboard = (props) => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <label htmlFor="name">Team Name</label>
             <input name="name"></input>
-            {!name?.type === "minLength" && (
+            {!name && (
               <p style={{ color: "red", margin: "1px" }}>
                 Team name must be greater than 1 character
               </p>

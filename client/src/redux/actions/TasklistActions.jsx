@@ -12,7 +12,7 @@ export const updateProjectTasklists = (tasklists) => {
         payload: tasklists,
     };
 };
-export const get_selected_tasklist = (tasklist) => {
+export const getSelectedTasklist = (tasklist) => {
     return { 
         type: ActionTypes.get_selected_tasklist,
         payload: tasklist,

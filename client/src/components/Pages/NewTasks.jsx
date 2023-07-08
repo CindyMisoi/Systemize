@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { get_user_tasks } from "../../redux/actions/TaskActions";
+import { getUserTasks } from "../../redux/actions/TaskActions";
 import TopNavBarTask from "../NavigationBar/TopNavBarTask";
 import TaskItemTask from "../tasks/TaskItemTask";
 import Add from "../../assets/Add";

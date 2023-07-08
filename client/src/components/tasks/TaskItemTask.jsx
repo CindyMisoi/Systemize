@@ -124,4 +124,4 @@ const TaskItemTask = ({
   );
 };
 
-export default connect(null, { setSelectedTask })(TaskItemTask);
+export default connect(null, { getSelectedTask })(TaskItemTask);

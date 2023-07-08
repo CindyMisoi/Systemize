@@ -7,9 +7,9 @@ import "../../css/TeamPage.css";
 import { Menu, MenuItem } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getTeam,
-  updateTeamDescription,
-  leaveTeam,
+  // getTeam,
+  // updateTeamDescription,
+  // leaveTeam,
 } from "../../redux/actions/TeamActions";
 
 import TeamMemberIcon from "../teams/TeamMemberIcon";

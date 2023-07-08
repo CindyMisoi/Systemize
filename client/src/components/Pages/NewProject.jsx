@@ -5,14 +5,14 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProject,
-  updateTasklistColumnIndex,
-  updateTaskTasklist,
-  updateTaskIndex,
+  // updateTasklistColumnIndex,
+  // updateTaskTasklist,
+  // updateTaskIndex,
 } from "../../redux/actions/ProjectActions";
 import {
-  addTaskProject,
-  addTasklist,
-  getTasklistTasks,
+  // addTaskProject,
+  // addTasklist,
+  // getTasklistTasks,
 } from "../../redux/actions/TaskActions";
 import Loader from "../Loader";
 import TopNavBar from "../NavigationBar/TopNavBar";

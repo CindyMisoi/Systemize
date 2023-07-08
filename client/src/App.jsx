@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Routes from "./components/Routes";
 import "./css/Home.css";
+import RegisterPage from "./components/LandingPage/RegisterPage";
+import Onboard from "./components/LandingPage/Onboard";
+import LoginPage from "./components/LandingPage/LoginPage";
 
 
 const App = () => {
@@ -10,27 +13,27 @@ const App = () => {
   const [email, setEmail] = useState(localStorage.getItem("email") || null);
   const [user, setUser] = useState(localStorage.getItem("user") || null);
   
-  // autologin
-  useEffect(() => {
-    fetch(`http://localhost:3000/me`, {
-      credentials: "include",
-      mode: "cors",
-    }).then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          localStorage.setItem("user", user);
-          setUser(user);
-        });
-      }
-    });
+  // // autologin
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/me`, {
+  //     credentials: "include",
+  //     mode: "cors",
+  //   }).then((res) => {
+  //     if (res.ok) {
+  //       res.json().then((user) => {
+  //         localStorage.setItem("user", user);
+  //         setUser(user);
+  //       });
+  //     }
+  //   });
 
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const foundUser = JSON.parse(userData);
-      //   console.log(foundUser)
-      setUser(foundUser);
-    }
-  }, [])
+  //   const userData = localStorage.getItem("user");
+  //   if (userData) {
+  //     const foundUser = JSON.parse(userData);
+  //     //   console.log(foundUser)
+  //     setUser(foundUser);
+  //   }
+  // }, [])
 
   // State variables for sidebar and its visibility
   const [sidebar, setSidebar] = useState(true);
@@ -47,7 +50,7 @@ const App = () => {
   // JSX rendering of the application
   return (
     <div className="App">
-      <Routes/>
+    <LoginPage />
     </div>
   );
 };

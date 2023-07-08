@@ -6,24 +6,33 @@ import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 
-const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
+const AddMemberForm = ({ teamId, clickClose, setTeamUsers }) => {
   const {handleSubmit} = useForm();
   const [users, setUsers] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   const onSubmit = async ({ userId }) => {
     try {
       await apiServer.post(`/teams/${teamId}/user/${userId}`);
       const res = await apiServer.get(`/teams/${teamId}`);
-      setTeamUsers(res.data.Users);
+      setTeamUsers(res.data.users);
 
       clickClose();
     } catch (err) {
       setError("User already on team");
     }
 
-    // const res = await apiServer.get(`/project/${projectId}/tasklists`);
+    // const res = await apiServer.get(`/projects/${projectId}/tasklists`);
   };
 
   const getAllUsers = async () => {
@@ -48,7 +57,8 @@ const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
   });
   return (
     <div>
-      <Modal open={open} onClose={clickClose}>
+      <Button onClick={openModal}>Open modal</Button>
+      <Modal open={open} onClose={closeModal}>
         <div className="tasklist-modal-container" style={{ minWidth: "auto" }}>
           <form
             className="task-form"
@@ -63,15 +73,14 @@ const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
                     name="userId"
                     className="form-input"
                     onChange={() => setError("")}
-                    // {...register("userId", { required: true })}
                   >
                     <option value={0}>{"<---Choose user--->"}</option>
                     {renderedUsers}
                   </select>
                   <div className="error-message">{error}</div>
-                  {!projectId?.type === "required" && (
+                  {/* {!projectId && (
                     <p className="error-message">Please choose a user to add</p>
-                  )}
+                  )} */}
                 </label>
               </div>
               <div className="form-top-middle"></div>
@@ -81,7 +90,7 @@ const AddMemberForm = ({ teamId, clickClose, open, setTeamUsers }) => {
             <div style={{ display: "flex", marginLeft: "160px" }}>
               <Button
                 style={{ color: "#0093ff" }}
-                onClick={clickClose}
+                onClick={closeModal}
                 color="primary"
               >
                 Cancel

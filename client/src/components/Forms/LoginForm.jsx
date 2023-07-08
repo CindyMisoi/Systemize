@@ -6,13 +6,13 @@ import apiServer from "../../config/apiServer";
 
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
+  // const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [formEmail, setFormEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const LoginForm = () => {
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      setAuth(res.data.token);
+      // setAuth(res.data.token);
       // setUserId(res.data.id);
       // setEmail(res.data.email);
       // setUser(res.data);
@@ -66,11 +66,11 @@ const LoginForm = () => {
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      setAuth(res.data.token);
-      setUserId(res.data.id);
-      setEmail(res.data.email);
-      setUser(res.data);
-      navigate("/homepage")
+      // setAuth(res.data.token);
+      // setUserId(res.data.id);
+      // setEmail(res.data.email);
+      // setUser(res.data);
+      // navigate("/homepage")
     } catch (err) {
       setLoading(false);
       console.log(err.status);

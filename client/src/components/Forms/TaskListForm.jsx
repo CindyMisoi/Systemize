@@ -11,7 +11,7 @@ const TaskListForm = ({ showSideTasklistForm }) => {
   const {handleSubmit} = useForm();
   const [tasklistName, setTasklistName] = useState("");
   const { projectId } = useParams();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleNameChange = (e) => {
     setTasklistName(e.target.value);

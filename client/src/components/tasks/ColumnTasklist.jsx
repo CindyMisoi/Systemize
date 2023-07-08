@@ -10,12 +10,12 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { Menu, MenuItem } from "@material-ui/core";
 import {
   getSelectedTasklist,
-  toggleSideTaskDetails,
+  // toggleSideTaskDetails,
 } from "../../redux/actions/TasklistActions";
 import {
-  getTasklists,
-  updateTasklistTitle,
-  deleteTasklist,
+  // getTasklists,
+  // updateTasklistTitle,
+  // deleteTasklist,
 } from "../../redux/actions/TasklistActions";
 
 const ColumnTasklist = ({
@@ -27,9 +27,9 @@ const ColumnTasklist = ({
   sideTaskDetails,
   showSideTaskForm,
   getSelectedTasklist,
-  toggleSideTaskDetails,
+  // toggleSideTaskDetails,
   updateTasklistTitle,
-  deleteTasklist,
+  // deleteTasklist,
 }) => {
   const { projectId } = useParams();
   const [openTaskProjectForm, setOpenTaskProjectForm] = useState(false);
@@ -193,7 +193,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getSelectedTasklist,
-  toggleSideTaskDetails,
-  updateTasklistTitle,
-  deleteTasklist,
+  // // toggleSideTaskDetails,
+  // updateTasklistTitle,
+  // // deleteTasklist,
 })(ColumnTasklist);

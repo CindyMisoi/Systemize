@@ -51,7 +51,7 @@ class TaskListsController < ApplicationController
     # private methods
     private
     def task_params
-        params.permit(:name, :project_id, :user_id, :due_date, :completed, :completed_at, :description).merge(task_list_id: params[:id])
+        params.permit(:name, :project_id, :user_id, :due_date, :completed, :description).merge(task_list_id: params[:id])
     end
 
 end

@@ -9,17 +9,24 @@ import { getUserProjects } from "../../redux/actions/ProjectActions";
 import "../../css/Forms.css";
 
 const ProjectForm = ({
-  handleNewClose,
-  clickClose,
-  open,
-  setTeamProjects,
+  // setTeamProjects,
   showSideProjectForm,
 }) => {
   const {handleSubmit, clearErrors } = useForm();
   const [projectName, setProjectName] = useState("");
-  const dispatch = useDispatch();
-  const teamState = useSelector(state => state.team);
+  // const dispatch = useDispatch();
+  // const teamState = useSelector(state => state.team);
+  const [teamProjects, setTeamProjects] = useState([]);
   const userId = localStorage.getItem("userId");
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   const handleNameChange = (e) => {
     setProjectName(e.target.value);
@@ -31,19 +38,21 @@ const ProjectForm = ({
     }
   };
 
+  // create project for a team
   const onSubmit = async ({ name, teamId }) => {
-    await apiServer.post(`/teams/${teamId}/projects`, {
+    await apiServer.post(`/teams/${teamId}/project`, {
       name,
       userId,
     });
 
-    dispatch(getUserProjects(userId));
+    // dispatch(getUserProjects(userId));
 
     const teamResponse = await apiServer.get(`/teams/${teamId}`);
-    dispatch(getTeamProjects(teamResponse.data));
+    // dispatch(getTeamProjects(teamResponse.data));
+    setTeamProjects(teamResponse.data);
 
     if (setTeamProjects) {
-      const teamProjects = teamResponse.data.Projects;
+      const teamProjects = teamResponse.data.projects;
       setTeamProjects(teamProjects);
     }
 
@@ -55,7 +64,7 @@ const ProjectForm = ({
     clearErrors(teamSelect.name);
   };
 
-  const renderedTeams = teamState.teams.map((team) => (
+  const renderedTeams = teamProjects.map((team) => (
     <option key={team.id} id={team.id} value={team.id}>
       {team.name}
     </option>
@@ -63,10 +72,11 @@ const ProjectForm = ({
 
   return (
     <>
-      {/* <Modal open={open} onClose={clickClose}>
-        <div className="modal-container"> */}
+      <Button onClick={openModal}>Open modal</Button>
+      <Modal open={open} onClose={closeModal}>
+        <div className="modal-container">
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
-        {/* <h2 className="form-header">Add a Project</h2> */}
+        <h2 className="form-header">Add a Project</h2>
         <div className="form-top-container">
           <div className="form-section">
             <div className="label-container">
@@ -97,7 +107,7 @@ const ProjectForm = ({
               >
                 {renderedTeams}
               </select>
-              {!teamId && (
+              {!name && (
                 <p className="error-message">Please choose a team</p>
               )}
             </div>
@@ -124,9 +134,9 @@ const ProjectForm = ({
           </button>
         </div>
       </form>
+      </div>
+      </Modal>
     </>
-    //   </Modal>
-    // </div>
   );
 };
 

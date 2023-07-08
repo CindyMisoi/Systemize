@@ -12,32 +12,22 @@ import { getProjectTasklists } from "../../redux/actions/TasklistActions";
 // form to add task from selected project
 const AddTaskProjectForm = ({
   tasklistId,
-  clickClose,
-  open,
   setTasklistTasks,
   showSideTaskForm,
 }) => {
   const {handleSubmit } = useForm();
   const { teamId, projectId } = useParams();
-  const [projectUsers, setProjectUsers] = useState();
+  const [projectUsers, setProjectUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [projectTasklists, setProjectTaskLists] = useState([]);
 
-  const dispatch = useDispatch();
-  const selectedTasklist = useSelector(state => state.tasklist.selectedTasklist);
+  // const dispatch = useDispatch();
+  // const selectedTasklist = useSelector(state => state.tasklist.selectedTasklist);
 
-  const getProjectUsers = async () => {
-    const res = await apiServer.get(`/team/${teamId}/users`);
-    setProjectUsers(res.data[0].Users);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getProjectUsers();
-  }, []);
-
+  // add task to tasklist
   const onSubmit = async (data) => {
-    const { name, userId, due_date, completed, description } = data;
-    await apiServer.post(`/task_lists/${selectedTasklist}/task`, {
+    const { name, userId, projectId,  due_date, completed, description } = data;
+    await apiServer.post(`/task_lists/${tasklistId}/task`, {
       name,
       projectId,
       userId,
@@ -46,20 +36,38 @@ const AddTaskProjectForm = ({
       description,
     });
 
-    const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
-    dispatch(getProjectTasklists(resp.data));
+    const res = await apiServer.get(`/projects/${projectId}/tasklists`);
+    // dispatch(getProjectTasklists(res.data));
+    setProjectTaskLists(res.data);
     showSideTaskForm();
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  // get project users
+  const getProjectUsers = async (projectId) => {
+    const res = await apiServer.get(`/projects/${projectId}/users`);
+    setProjectUsers(res.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getProjectUsers();
+  }, []);
 
   const renderedUsers = projectUsers.map((user, i) => (
     <option key={i} value={user.id}>
       {user.name}
     </option>
   ));
+
+  const renderedProjectTasklists = projectTasklists.map((projectTasklist, i) => (
+    <option key={i} value={projectTasklist.id}>
+      {projectTasklist.name}
+    </option>
+  ));
+  // loading
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -95,7 +103,7 @@ const AddTaskProjectForm = ({
                 >
                   {renderedUsers}
                 </select>
-                {!userId && (
+                {!name && (
                   <p className="error-message">Please choose an assignee</p>
                 )}
               </div>
@@ -112,7 +120,7 @@ const AddTaskProjectForm = ({
                   type="date"
                   name="due_date"
                 ></input>
-                {!due_date && (
+                {!name && (
                   <p className="error-message">Please choose a due_date</p>
                 )}
               </div>
@@ -165,8 +173,7 @@ const AddTaskProjectForm = ({
           </Button>
         </div>
       </form>
-      {/* </div> */}
-      {/* </Modal> */}
-    </div>
+      </div> 
   );
 };
+export default AddTaskProjectForm;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
-import { toggleTaskStatus, deleteTask, updateTask } from "../../redux/actions/TaskActions";
+import {  deleteTask, updateTask } from "../../redux/actions/TaskActions";
 import {addComment} from "../../redux/actions/CommentActions";
 import moment from "moment";
 import UserAvatar from "../NavigationBar/UserAvatar";
@@ -64,7 +64,7 @@ const PopOutTaskDetails = ({
 };
 
 const mapDispatchToProps = {
-  toggleTaskStatus,
+  // toggleTaskStatus,
   deleteTask,
   addComment,
   updateTask

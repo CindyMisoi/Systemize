@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useDispatch } from "react-redux";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -7,10 +7,20 @@ import apiServer from "../../config/apiServer";
 import { createTeam } from "../../redux/actions/TeamActions";
 import "../../css/Forms.css";
 
-const TeamForm = ({ handleNewClose, clickClose, open }) => {
+const TeamForm = () => {
   const {handleSubmit} = useForm();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
+  const [open, setOpen] = useState(false);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
 
   const onSubmit = ({ name, description }) => {
     dispatch(createTeam(userId, name, description));
@@ -19,7 +29,8 @@ const TeamForm = ({ handleNewClose, clickClose, open }) => {
 
   return (
     <div>
-      <Modal open={open} onClose={clickClose}>
+      <Button onClick={openModal}>Open modal</Button>
+      <Modal open={open} onClose={closeModal}>
         <div className="modal-container">
           <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="form-header">Create a Team</h2>
@@ -55,7 +66,7 @@ const TeamForm = ({ handleNewClose, clickClose, open }) => {
             <div style={{ display: "flex", marginLeft: "400px" }}>
               <Button
                 style={{ color: "#0093ff" }}
-                onClick={clickClose}
+                onClick={closeModal}
                 color="primary"
               >
                 Cancel

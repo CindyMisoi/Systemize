@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "../../css/Task.css";
 import Button from "@material-ui/core/Button";
@@ -6,20 +6,32 @@ import { Modal } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
 import { getUserTasks } from "../../redux/actions/TaskActions";
+import Loader from "../Loader";
 
 //Form to add task from anywhere
-const TaskForm = ({
-  handleNewClose,
-  clickClose,
-  open,
+const AddTaskForm = ({
   setTasklists,
   showSideTaskForm,
-  projects,
+  // projects,
   dispatchGetUserTasks,
 }) => {
   const { handleSubmit } = useForm();
+  const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [taskLists, setTaskLists] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
 
   const handleNameChange = (e) => {
     setTaskName(e.target.value);
@@ -30,14 +42,14 @@ const TaskForm = ({
   };
 
   const getProjectTasklists = async (projectId) => {
-    const res = await apiServer.get(`/project/${projectId}/tasklists`);
+    const res = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(res.data);
   };
 
   const onSubmit = async (data) => {
     const { name, projectId, userId, due_date, tasklistId, completed, description } = data;
 
-    await apiServer.post(`/tasklist/${tasklistId}/task`, {
+    await apiServer.post(`/task_lists/${tasklistId}/task`, {
       name,
       projectId,
       userId,
@@ -55,6 +67,16 @@ const TaskForm = ({
     showSideTaskForm();
   };
 
+  // projects
+  const getAllProjects = async () => {
+    const res = await apiServer.get("/projects");
+    setProjects(res.data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getAllProjects();
+  }, []);
+
   const renderedProjects = projects.map((project, i) => {
     return (
       <option key={i} id={project.id} value={project.id}>
@@ -62,10 +84,54 @@ const TaskForm = ({
       </option>
     );
   });
+
+  // users
+  const getAllUsers = async () => {
+    const res = await apiServer.get("/users");
+    setUsers(res.data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  const renderedUsers = users.map((user, i) => {
+    return (
+      <option key={i} id={user.id} value={user.id}>
+        {user.name} - {user.email}
+      </option>
+    );
+  });
+
+  // tasklists
+  const getAllTasklists = async () => {
+    const res = await apiServer.get("/task_lists");
+    setTaskLists(res.data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getAllTasklists();
+  }, []);
+
+  const renderedTasklists = taskLists.map((tasklist, i) => {
+    return (
+      <option key={i} id={tasklist.id} value={tasklist.id}>
+        {tasklist.name}
+      </option>
+    );
+  });
+
+  if (loading) {
+    return (
+    <Loader />
+    );
+  }
+
   return (
     <>
-      {/* <Modal open={open} onClose={clickClose}>
-        <div className="modal-container"> */}
+      <Button onClick={openModal}>Open modal</Button>
+      <Modal open={open} onClose={closeModal}>
+        <div className="modal-container">
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         {/* <h2 className="form-header">Add a Task</h2> */}
         <div className="form-top-container">
@@ -79,7 +145,6 @@ const TaskForm = ({
                 type="text"
                 placeholder={"Task Name"}
                 className="form-input"
-                // ref={register({ required: true })}
                 onChange={handleNameChange}
               ></input>
               {!name && (
@@ -95,13 +160,12 @@ const TaskForm = ({
                 id="project-select"
                 name="projectId"
                 className="form-input"
-                onChange={getProjectUsers}
+                // onChange={getProjectUsers}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
                 {renderedProjects}
               </select>
-              <p className="error-message">{projectError}</p>
-              {!projects && (
+              {!name && (
                 <p className="error-message">Please choose a project</p>
               )}
             </div>
@@ -132,8 +196,7 @@ const TaskForm = ({
               >
                 {renderedUsers}
               </select>
-              <p className="error-message">{assigneeError}</p>
-              {!userId && (
+              {!name && (
                 <p className="error-message">Please choose an assignee</p>
               )}
             </div>
@@ -163,7 +226,6 @@ const TaskForm = ({
                 id="tasklist-select"
                 name="tasklistId"
                 className="form-input"
-                // {...register("tasklistId", { required: true })}
               >
                 {/* <option value={0}>Choose a project first</option> */}
                 {getProjectTasklists.length === 0 ? (
@@ -176,7 +238,7 @@ const TaskForm = ({
                 {/* {renderedTasklists} */}
               </select>
               {/* <p className="error-message">{taskListError}</p> */}
-              {!tasklistId && (
+              {!name && (
                 <p className="error-message">
                   Please choose a column. You may need to make a column in your
                   project first before adding a task.
@@ -191,7 +253,6 @@ const TaskForm = ({
             type="text"
             placeholder={"Task Description"}
             className="edit-task-description textarea"
-            // ref={register}
           ></textarea>
         </div>
 
@@ -216,10 +277,10 @@ const TaskForm = ({
           </button>
         </div>
       </form>
-    </>
-    //   </Modal>
-    // </div>
+      </div>
+      </Modal>
+      </>
   );
 };
 
-export default TaskForm;
+export default AddTaskForm;

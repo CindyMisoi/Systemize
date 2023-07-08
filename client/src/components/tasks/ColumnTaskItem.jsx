@@ -10,7 +10,7 @@ import moment from "moment";
 import apiServer from "../../config/apiServer";
 import {
   getSelectedTask,
-  toggleSideTaskDetails,
+  // toggleSideTaskDetails,
 } from "../../redux/actions/TaskActions";
 
 const ColumnTaskItem = ({
@@ -93,5 +93,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getSelectedTask,
-  toggleSideTaskDetails,
+  // toggleSideTaskDetails,
 })(ColumnTaskItem);

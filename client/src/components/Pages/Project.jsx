@@ -12,9 +12,9 @@ import AddTasklistPopOut from "../PopOutMenu/AddTasklistPopOut";
 import AddTaskPopOutProjectPage from "../PopOutMenu/AddTaskPopOutProjectPage";
 import {
   getSelectedTask, // Import the getSelectedTask action creator
-  updateTasklistColumnIndex, // Import the updateTasklistColumnIndex action creator
-  updateTaskIndex, // Import the updateTaskIndex action creator
-  updateTaskTasklist, // Import the updateTaskTasklist action creator
+  // updateTasklistColumnIndex, // Import the updateTasklistColumnIndex action creator
+  // updateTaskIndex, // Import the updateTaskIndex action creator
+  // updateTaskTasklist, // Import the updateTaskTasklist action creator
 } from "../../redux/actions/TaskActions"; // Import your task action creators
 
 import "../../css/Project.css";
@@ -209,9 +209,9 @@ const ProjectPage = ({
 
   const getProject = async () => {
     try {
-      const res = await apiServer.get(`/project/${projectId}`);
+      const res = await apiServer.get(`/projects/${projectId}`);
       // await getTasklists();
-      const resp = await apiServer.get(`/project/${projectId}/tasklists`);
+      const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
       setProject(res.data);
       setTasklists(resp.data);
       // console.log(tasklists);
@@ -224,7 +224,7 @@ const ProjectPage = ({
   //NOTE: MAYBE TRY GRABBING TASKS IN ONE GET API CALL AND PUSHING IT DOWN?
   const getTasklists = async () => {
     try {
-      const res = await apiServer.get(`/project/${projectId}/tasklists`);
+      const res = await apiServer.get(`/projects/${projectId}/tasklists`);
       setTasklists(res.data);
 
       // setTasks(res.data.Tasks);

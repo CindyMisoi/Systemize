@@ -6,8 +6,8 @@ import "../../css/LoginPage.css";
 import apiServer from "../../config/apiServer";
 import { MdKeyboardBackspace } from "react-icons/md";
 const RegisterPage = () => {
-  const { register, handleSubmit, errors } = useForm();
-  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
+  const {  handleSubmit } = useForm();
+  // const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const onSubmit = async ({ name, email, password }) => {
@@ -19,10 +19,10 @@ const RegisterPage = () => {
       localStorage.setItem("userId", res.data.id);
       window.location.href = "/register/onboard";
       setErrorMessage("");
-      setUser(res.data);
-      setAuth(res.data.token);
-      setEmail(res.data.email);
-      setUserId(res.data.id);
+      // setUser(res.data);
+      // setAuth(res.data.token);
+      // setEmail(res.data.email);
+      // setUserId(res.data.id);
     } catch (err) {
       setLoading(false);
       console.log(err.status);
@@ -75,26 +75,24 @@ const RegisterPage = () => {
           <input
             name="name"
             placeholder="John Doe"
-            {...register('name',{ required: true })}
           ></input>
-          {/* {errors.name?.type === "required" && (
+          {!name && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter your full name
             </p>
-          )} */}
+          )}
         </div>
         <div>
           <label htmlFor="email">Email Address</label>
           <input
             name="email"
             type="email"
-            {...register('email', { required: true })}
           ></input>
-          {/* {errors.email?.type === "required" && (
+          {!name && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter an email address
             </p>
-          )} */}
+          )}
         </div>
 
         <div>
@@ -102,13 +100,12 @@ const RegisterPage = () => {
           <input
             name="password"
             type="password"
-            {...register('password',{ required: true })}
           ></input>
-          {/* {errors.password?.type === "required" && (
+          {!name && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter a password
             </p>
-          )} */}
+          )}
         </div>
         <button type="submit">{loading ? "Registering.." : "Register"}</button>
         {errorMessage ? (
