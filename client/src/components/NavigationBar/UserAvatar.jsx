@@ -3,27 +3,39 @@ import "../../css/Navbar.css";
 import apiServer from "../../config/apiServer";
 
 const UserAvatar = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const getUser = async (id) => {
-    const res = await apiServer.get(`/me`);
-    localStorage.setItem("user", res.data);
-    setUser(res.data);
-    setLoading(false);
+  const getUser = async () => {
+    try {
+      const response = await apiServer.get("/me");
+      setUser(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const userData = sessionStorage.getItem("user");
+    if (userData) {
+      const foundUser = JSON.parse(userData);
+        // console.log(foundUser)
+      setUser(foundUser);
+    };
   }, []);
 
   if (loading) {
     return <div>Loading..</div>;
   }
+
   return (
     <div className="user-avatar">
-      {(user.name[0] + user.name[1]).toUpperCase()}
+      {user && user.name && user.name.length > 1
+        ? `${user.name[0]}${user.name[1]}`.toUpperCase()
+        : "NA"}
     </div>
   );
 };

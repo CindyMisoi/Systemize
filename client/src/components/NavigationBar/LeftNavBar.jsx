@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../../css/Navbar.css";
 import { RiMenuFoldLine, RiMenuFill } from "react-icons/ri";
 import { ImLinkedin, ImGithub } from "react-icons/im";
+import { Context as TeamContext } from "../../context/store/TeamStore";
 import { Modal } from "@material-ui/core";
 import TeamForm from "../Forms/TeamForm";
 import Home from "../../assets/Home";
@@ -11,12 +11,12 @@ import Tasks from "../../assets/tasks";
 import Project from "../../assets/project";
 import Team from "../../assets/team.svg";
 import Logo from "../../assets/Logo";
-import { createTeam } from "../../redux/actions/TeamActions";
-
 const LeftNavBar = ({ showSidebar, sidebar }) => {
-  const dispatch = useDispatch();
-  const teams = useSelector((state) => state.allTeams.teams);
+  // const [teams, setTeams] = useState([]);
+  const [teamState] = useContext(TeamContext);
   const [open, setOpen] = useState(false);
+
+  //NOTE : Only other option that worked was setting state either in here or in App.js and call it for global state. ReducerContext does not work
 
   const openModal = () => {
     setOpen(true);
@@ -26,7 +26,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
     setOpen(false);
   };
 
-  const orderedList = teams.sort(function (a, b) {
+  const orderedList = teamState.teams.sort(function (a, b) {
     return new Date(a.createdAt) - new Date(b.createdAt);
   });
 
@@ -36,7 +36,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
         className="left-nav-bar-team-link"
         style={{ textDecoration: "none", color: "white" }}
         to={`/teams/${team.id}/${team.name}`}
-        activeClassName="navlink--active"
+        // activeClassName="navlink--active"
         key={i}
       >
         <div>
@@ -46,17 +46,11 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
     );
   });
 
-  const handleCreateTeam = (teamData) => {
-    dispatch(createTeam(teamData));
-    closeModal();
-  };
-
   const modalBody = (
     <div className="modal-container">
-      <TeamForm clickClose={closeModal} handleCreateTeam={handleCreateTeam} />
+      <TeamForm clickClose={closeModal} open={open}></TeamForm>
     </div>
   );
-
   return (
     <div>
       <div className="left-nav-bar-container">
@@ -90,10 +84,10 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
               style={{ marginTop: "10px" }}
             >
               <NavLink
-                exact
+                exact = "true"
                 to="/"
                 className="left-nav-bar-main-link"
-                activeClassName="navlink--active"
+                // activeClassName="navlink--active"
               >
                 <div className="left-nav-bar-link">
                   <Home />
@@ -105,7 +99,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
               <NavLink
                 to="/tasks"
                 className="left-nav-bar-main-link"
-                activeClassName="navlink--active"
+                // activeClassName="navlink--active"
               >
                 <div className="left-nav-bar-link">
                   <Tasks />
@@ -120,10 +114,10 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                 </div>
               </NavLink>
 
-              {/* <NavLink
+              <NavLink
                 to="/projects"
                 className="left-nav-bar-main-link"
-                activeClassName="navlink--active"
+                // activeClassName="navlink--active"
               >
                 <div className="left-nav-bar-link">
                   <Project />
@@ -131,7 +125,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                     <p className="left-nav-bar-link-title">Projects</p>
                   </div>
                 </div>
-              </NavLink> */}
+              </NavLink>
             </div>
             <div className="teams-items-container">
               <div className="teams-items-header" style={{ display: "flex" }}>

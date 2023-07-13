@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../../redux/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import apiServer from "../../config/apiServer";
 import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";
@@ -11,7 +11,7 @@ const Onboard = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   
   const onboard = async ({ name }) => {
-    const email = localStorage.getItem("email");
+    const email = sessionStorage.getItem("email");
     if (name) {
       try {
         const res = await apiServer.put("/register/onboard", {
@@ -19,7 +19,7 @@ const Onboard = (props) => {
           name,
         });
         //sets initial token
-        localStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("token", res.data.token);
         setErrorMessage("");
         // Set authentication context
         //for Refresh
@@ -33,10 +33,10 @@ const Onboard = (props) => {
 
   const onSkip = () => {
     //sets initial token
-    localStorage.setItem("token", localStorage.getItem("onboard"));
+    sessionStorage.setItem("token", sessionStorage.getItem("onboard"));
     //for component to refresh to redirect webpage
-    // setAuth(localStorage.getItem("onboard"));
-    localStorage.removeItem("onboard");
+    // setAuth(sessionStorage.getItem("onboard"));
+    sessionStorage.removeItem("onboard");
   };
 
   return (

@@ -4,37 +4,32 @@ import { useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { Context as TasklistContext } from "../../context/store/TasklistStore";
 import apiServer from "../../config/apiServer";
-import { updateProjectTasklists } from "../../redux/actions/TasklistActions";
 
-const TaskListForm = ({ showSideTasklistForm }) => {
+
+const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
   const {handleSubmit} = useForm();
-  const [tasklistName, setTasklistName] = useState("");
+  const [tasklistName, setTasklistName] = useState();
   const { projectId } = useParams();
-  // const dispatch = useDispatch();
 
   const handleNameChange = (e) => {
     setTasklistName(e.target.value);
   };
 
-  const onSubmit = ({ name }) => {
-    const userId = localStorage.getItem("userId");
-    apiServer
-      .post(`/projects/${projectId}/tasklist`, { name, userId })
-      .then(() => {
-        return apiServer.get(`/projects/${projectId}/tasklists`);
-      })
-      .then((res) => {
-        dispatch(updateProjectTasklists(res.data));
-        showSideTasklistForm();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const onSubmit = async ({ name }) => {
+    const userId = sessionStorage.getItem("userId");
+    await apiServer.post(`/projects/${projectId}/tasklist`, { name, userId });
+
+    const res = await apiServer.get(`/projects/${projectId}/tasklists`);
+    setTasklists(res.data);
+    // tasklistdispatch({ type: "update_project_tasklists", payload: res.data });
+    showSideTasklistForm();
   };
 
   const handleUserKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
+      // e.preventDefault();
       handleSubmit(onSubmit)();
     }
   };

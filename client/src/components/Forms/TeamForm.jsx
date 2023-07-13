@@ -1,16 +1,16 @@
 import React, {useState} from "react";
-import { useDispatch } from "react-redux";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
-import { createTeam } from "../../redux/actions/TeamActions";
+import { Context as TeamContext } from "../../context/store/TeamStore";
 import "../../css/Forms.css";
 
 const TeamForm = () => {
   const {handleSubmit} = useForm();
   // const dispatch = useDispatch();
-  const userId = localStorage.getItem("userId");
+  const [teamState, teamdispatch] = useContext(TeamContext);
+  const userId = sessionStorage.getItem("userId");
   const [open, setOpen] = useState(false);
 
   const openModal = () => {
@@ -22,11 +22,16 @@ const TeamForm = () => {
   };
 
 
-  const onSubmit = ({ name, description }) => {
-    dispatch(createTeam(userId, name, description));
-    clickClose();
-  };
+  const onSubmit = async ({ name, description }) => {
+    await apiServer.post(`/teams/user/${userId}`, {
+      name,
+      description,
+    });
 
+    const res = await apiServer.get(`/teams/user/${userId}`);
+    await teamdispatch({ type: "update_user_teams", payload: res.data });
+    closeModal();
+  };
   return (
     <div>
       <Button onClick={openModal}>Open modal</Button>

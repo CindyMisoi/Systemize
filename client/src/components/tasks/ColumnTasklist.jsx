@@ -1,41 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState, useContext } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Modal, responsiveFontSizes } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import AddTaskProjectForm from "../Forms/AddTaskProjectForm";
 import ColumnTaskItem from "./ColumnTaskItem";
 import apiServer from "../../config/apiServer";
+import { Context as TasklistContext } from "../../context/store/TasklistStore";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { Menu, MenuItem } from "@material-ui/core";
-import {
-  getSelectedTasklist,
-  // toggleSideTaskDetails,
-} from "../../redux/actions/TasklistActions";
-import {
-  // getTasklists,
-  // updateTasklistTitle,
-  // deleteTasklist,
-} from "../../redux/actions/TasklistActions";
 
 const ColumnTasklist = ({
   tasklist,
   index,
-  tasklists,
   setTasklists,
   showSideTaskDetails,
   sideTaskDetails,
   showSideTaskForm,
-  getSelectedTasklist,
-  // toggleSideTaskDetails,
-  updateTasklistTitle,
-  // deleteTasklist,
 }) => {
   const { projectId } = useParams();
   const [openTaskProjectForm, setOpenTaskProjectForm] = useState(false);
+  // const [tasklistTasks, setTasklistTasks] = useState();
   const [columnTitle, setColumnTitle] = useState(tasklist.name);
   const [titleSelect, setTitleSelect] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [tasklistState, tasklistdispatch] = useContext(TasklistContext);
 
   const openTaskProjectFormModal = () => {
     setOpenTaskProjectForm(true);
@@ -46,14 +34,15 @@ const ColumnTasklist = ({
   };
 
   const handleAddTaskClick = async () => {
-    await getSelectedTasklist(tasklist.id);
+    await tasklistdispatch({
+      type: "get_selected_tasklist",
+      payload: tasklist.id,
+    });
     showSideTaskForm();
   };
-
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -67,15 +56,16 @@ const ColumnTasklist = ({
   };
 
   const handleTasklistDelete = async (e) => {
+    // console.log(tasklist.id);
     handleMenuClose();
-    await deleteTasklist(tasklist.id);
-    const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+    await apiServer.delete(`/tasklist/${tasklist.id}`);
+    const resp = await apiServer.get(`/project/${projectId}/tasklists`);
     setTasklists(resp.data);
   };
 
   const updateAndCloseTitle = async (e) => {
-    await updateTasklistTitle(tasklist.id, columnTitle);
-    const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+    await apiServer.put(`/tasklist/${tasklist.id}/title`, { columnTitle });
+    const resp = await apiServer.get(`/project/${projectId}/tasklists`);
     setTasklists(resp.data);
     setTitleSelect(false);
   };
@@ -157,6 +147,7 @@ const ColumnTasklist = ({
 
             <div
               className="tasklist-new-task--button"
+              // onClick={openTaskProjectFormModal}
               onClick={handleAddTaskClick}
             >
               + Add task
@@ -187,13 +178,4 @@ const ColumnTasklist = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  sideTaskDetails: state.tasklist.sideTaskDetails,
-});
-
-export default connect(mapStateToProps, {
-  getSelectedTasklist,
-  // // toggleSideTaskDetails,
-  // updateTasklistTitle,
-  // // deleteTasklist,
-})(ColumnTasklist);
+export default ColumnTasklist;

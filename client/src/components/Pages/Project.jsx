@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Modal } from "@material-ui/core";
-import { connect } from "react-redux"; // Import connect from react-redux
+import { Modal, responsiveFontSizes } from "@material-ui/core";
 import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 import TopNavBar from "../NavigationBar/TopNavBar";
@@ -10,31 +9,20 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PopOutTaskDetails from "../PopOutMenu/PopOutTaskDetails";
 import AddTasklistPopOut from "../PopOutMenu/AddTasklistPopOut";
 import AddTaskPopOutProjectPage from "../PopOutMenu/AddTaskPopOutProjectPage";
-import {
-  getSelectedTask, // Import the getSelectedTask action creator
-  // updateTasklistColumnIndex, // Import the updateTasklistColumnIndex action creator
-  // updateTaskIndex, // Import the updateTaskIndex action creator
-  // updateTaskTasklist, // Import the updateTaskTasklist action creator
-} from "../../redux/actions/TaskActions"; // Import your task action creators
+import { Context as TaskContext } from "../../context/store/TaskStore";
 
 import "../../css/Project.css";
 import "../../css/TaskList.css";
 import ColumnTasklist from "../tasks/ColumnTasklist";
 import Add from "../../assets/Add";
 
-const ProjectPage = ({
-  sidebar,
-  getSelectedTask, // Add getSelectedTask as a prop
-  updateTasklistColumnIndex, // Add updateTasklistColumnIndex as a prop
-  updateTaskIndex, // Add updateTaskIndex as a prop
-  updateTaskTasklist, // Add updateTaskTasklist as a prop
-}) => {
+const ProjectPage = ({ sidebar }) => {
   const { projectId, projectName, teamId } = useParams();
+  const [taskState, taskdispatch] = useContext(TaskContext);
   const [openTasklistForm, setOpenTasklistForm] = useState(false);
   const [tasks, setTasks] = useState();
   const [project, setProject] = useState();
   const [tasklists, setTasklists] = useState();
-  const [loading, setLoading] = useState(true);
 
   //Side Menus
   const [sideTaskForm, setSideTaskForm] = useState(false);
@@ -58,6 +46,9 @@ const ProjectPage = ({
     setSideTaskForm(false);
     setSideTaskDetails(!sideTaskDetails);
   };
+
+  //Task through get /project/id/taskslists. Set here so we can refer to it in the ondragend funnction
+  const [loading, setLoading] = useState(true);
 
   const openTasklistFormModal = () => {
     setOpenTasklistForm(true);
@@ -209,9 +200,9 @@ const ProjectPage = ({
 
   const getProject = async () => {
     try {
-      const res = await apiServer.get(`/projects/${projectId}`);
+      const res = await apiServer.get(`/project/${projectId}`);
       // await getTasklists();
-      const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+      const resp = await apiServer.get(`/project/${projectId}/tasklists`);
       setProject(res.data);
       setTasklists(resp.data);
       // console.log(tasklists);
@@ -224,7 +215,7 @@ const ProjectPage = ({
   //NOTE: MAYBE TRY GRABBING TASKS IN ONE GET API CALL AND PUSHING IT DOWN?
   const getTasklists = async () => {
     try {
-      const res = await apiServer.get(`/projects/${projectId}/tasklists`);
+      const res = await apiServer.get(`/project/${projectId}/tasklists`);
       setTasklists(res.data);
 
       // setTasks(res.data.Tasks);

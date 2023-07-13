@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import "../../css/Navbar.css";
 import { GrAddCircle } from "react-icons/gr";
 import UserAvatar from "./UserAvatar";
@@ -9,15 +9,16 @@ import TaskForm from "../Forms/AddTaskForm";
 import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
-import { logout } from "../../redux/actions/authActions";
+import { Context as UserContext } from "../../context/store/UserStore";
 
 const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const { logout } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEle, setAnchorEle] = useState(null);
   const [openProject, setOpenProject] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const [userState, userdispatch] = useContext(UserContext);
 
   const clickOpenTask = () => {
     setOpenTask(true);
@@ -43,8 +44,11 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleProfClick = (event) => {
+    setAnchorEle(event.currentTarget);
+  };
+  const handleProfClose = () => {
+    setAnchorEle(null);
   };
 
   return (
@@ -110,7 +114,7 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
           }}
         >
           <div style={{ padding: "0" }}>
-            <UserAvatar id={localStorage.getItem("userId")} />
+            <UserAvatar id={sessionStorage.getItem("userId")} />
           </div>
           <div>{userState.user.name}</div>
           <div

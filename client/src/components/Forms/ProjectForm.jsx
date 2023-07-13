@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { Context as TeamContext } from "../../context/store/TeamStore";
+import { Context as ProjectContext } from "../../context/store/ProjectStore";
 import apiServer from "../../config/apiServer";
-import { getTeamProjects } from "../../redux/actions/TeamActions";
-import { getUserProjects } from "../../redux/actions/ProjectActions";
 import "../../css/Forms.css";
 
 const ProjectForm = ({
   // setTeamProjects,
-  showSideProjectForm,
-}) => {
+  showSideProjectForm}) => {
   const {handleSubmit, clearErrors } = useForm();
   const [projectName, setProjectName] = useState("");
-  // const dispatch = useDispatch();
-  // const teamState = useSelector(state => state.team);
+  // state
+  const [teamState, teamdispatch] = useContext(TeamContext);
+  const [projectState, projectdispatch] = useContext(ProjectContext);
   const [teamProjects, setTeamProjects] = useState([]);
-  const userId = localStorage.getItem("userId");
+
+  const userId = sessionStorage.getItem("userId");
   const [open, setOpen] = useState(false);
 
   const openModal = () => {
@@ -45,27 +45,32 @@ const ProjectForm = ({
       userId,
     });
 
-    // dispatch(getUserProjects(userId));
-
+  //REFER TO THIS WHEN CHECKING FOR RERENDERING
+  const res = await apiServer.get(`/projects/user/${userId}`);
+  await projectdispatch({ type: "get_user_projects", payload: res.data });
+  const projectResponse = await apiServer.get(`/teams/${teamId}`);
+  // NOTE: One way this could work is if we recreate form for just team page add project form button
+  // Will not work with top nav bar form
+  // setTeamProjects(projectResponse.data.Projects);
+  await teamdispatch({
+    type: `get_team_projects${teamId}`,
+    payload: projectResponse.data,
+  });
+  if (setTeamProjects) {
     const teamResponse = await apiServer.get(`/teams/${teamId}`);
-    // dispatch(getTeamProjects(teamResponse.data));
-    setTeamProjects(teamResponse.data);
+    setTeamProjects(teamResponse.data.Projects);
+  }
+  window.location.reload();
 
-    if (setTeamProjects) {
-      const teamProjects = teamResponse.data.projects;
-      setTeamProjects(teamProjects);
-    }
-
-    showSideProjectForm();
-  };
-
+  showSideProjectForm();
+};
   const clearError = () => {
     var teamSelect = document.getElementById("team-select");
     clearErrors(teamSelect.name);
   };
 
-  const renderedTeams = teamProjects.map((team) => (
-    <option key={team.id} id={team.id} value={team.id}>
+  const renderedTeams = teamState.teams.map((team, i) => (
+    <option key={i} id={team.id} value={team.id}>
       {team.name}
     </option>
   ));

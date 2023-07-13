@@ -5,29 +5,49 @@ import { Modal } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProjectTasklists } from "../../redux/actions/TasklistActions";
+import { Context as TasklistContext } from "../../context/store/TasklistStore";
 
 // form to add task from selected project
 const AddTaskProjectForm = ({
   tasklistId,
   setTasklistTasks,
+  setTasklists,
   showSideTaskForm,
 }) => {
   const {handleSubmit } = useForm();
   const { teamId, projectId } = useParams();
-  const [projectUsers, setProjectUsers] = useState([]);
+  const [projectUsers, setProjectUsers] = useState();
   const [loading, setLoading] = useState(true);
-  const [projectTasklists, setProjectTaskLists] = useState([]);
+  // state
+  const [tasklistState, tasklistdispatch] = useContext(TasklistContext);
 
-  // const dispatch = useDispatch();
-  // const selectedTasklist = useSelector(state => state.tasklist.selectedTasklist);
+  const { selectedTasklist } = tasklistState;
+  const getProjectUsers = async (event) => {
+    const res = await apiServer.get(`/team/${teamId}/users`);
+    setProjectUsers(res.data[0].Users);
+    setLoading(false);
+  };
 
-  // add task to tasklist
-  const onSubmit = async (data) => {
-    const { name, userId, projectId,  due_date, completed, description } = data;
-    await apiServer.post(`/task_lists/${tasklistId}/task`, {
+  useEffect(() => {
+    getProjectUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
+  //Probably need dispatch here to update the task page when task is created.
+  const onSubmit = async ({
+    name,
+    userId,
+    due_date,
+    completed,
+    description,
+  }) => {
+    console.log(userId);
+    console.log(projectId);
+    console.log(due_date);
+    console.log(completed);
+    await apiServer.post(`/task_lists/${selectedTasklist}/task`, {
       name,
       projectId,
       userId,
@@ -36,34 +56,23 @@ const AddTaskProjectForm = ({
       description,
     });
 
-    const res = await apiServer.get(`/projects/${projectId}/tasklists`);
-    // dispatch(getProjectTasklists(res.data));
-    setProjectTaskLists(res.data);
+ 
+    const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+    setTasklists(resp.data);
     showSideTaskForm();
   };
 
-  // get project users
-  const getProjectUsers = async (projectId) => {
-    const res = await apiServer.get(`/projects/${projectId}/users`);
-    setProjectUsers(res.data);
-    setLoading(false);
-  };
+  if (loading) {
+    return <Loader />;
+  }
 
-  useEffect(() => {
-    getProjectUsers();
-  }, []);
 
   const renderedUsers = projectUsers.map((user, i) => (
     <option key={i} value={user.id}>
       {user.name}
     </option>
   ));
-
-  const renderedProjectTasklists = projectTasklists.map((projectTasklist, i) => (
-    <option key={i} value={projectTasklist.id}>
-      {projectTasklist.name}
-    </option>
-  ));
+  
   // loading
   if (loading) {
     return <Loader />;

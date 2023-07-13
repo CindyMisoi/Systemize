@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../redux/actions/authActions";
-import { getTasks } from "../../redux/actions/TaskActions";
-import { getUserInfo } from "../../redux/actions/UserActions";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { Context as UserContext } from "../../context/store/UserStore";
+import { Context as TaskContext } from "../../context/store/TaskStore";
 import "../../css/Navbar.css";
 import { GrAddCircle } from "react-icons/gr";
 import UserAvatar from "./UserAvatar";
@@ -13,13 +12,12 @@ import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
 
-
 const TopNavBarTask = () => {
-  const dispatch = useDispatch();
-  const userState = useSelector(state => state.user);
-  const taskState = useSelector(state => state.allTasks.tasks);
-  const { name } = userState;
-  const numTask = taskState.items.filter((task) => task.completed === true);
+  const { logout } = useContext(AuthContext);
+  const [userState, userdispatch] = useContext(UserContext);
+  const { name } = userState.user;
+  const [taskState, taskdispatch] = useContext(TaskContext);
+  const numTask = taskState.tasks.filter((task) => task.completed === true);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEle, setAnchorEle] = useState(null);
@@ -57,10 +55,6 @@ const TopNavBarTask = () => {
     setAnchorEle(null);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-  
   return (
     <div className="top-nav-bar-container" style={{}}>
       <div
@@ -72,10 +66,10 @@ const TopNavBarTask = () => {
       </div>
       <div className="top-nav-bar-middle"></div>
       <div className="top-nav-bar-right" style={{}}>
-        <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
           <input className="searchbar" placeholder={"Search"}></input>
-        </div> 
-         <div>
+        </div> */}
+        {/* <div>
           <GrAddCircle onClick={handleNewClick} className="top-nav-bar--icon" />
           <Menu
             style={{ marginTop: "40px" }}
@@ -98,7 +92,7 @@ const TopNavBarTask = () => {
             />
             
           </Menu>
-        </div>
+        </div> */}
         <div
           className="top-nav-icons"
           style={{ display: "flex", alignItems: "center" }}
@@ -140,7 +134,7 @@ const TopNavBarTask = () => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem onClick={logout}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

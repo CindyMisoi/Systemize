@@ -1,28 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useContext } from "react";
 import "../../css/Task.css";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
 import { useForm } from "react-hook-form";
+import { Context as ProjectContext } from "../../context/store/ProjectStore";
+import { Context as TaskContext } from "../../context/store/TaskStore";
 import apiServer from "../../config/apiServer";
-import { getUserTasks } from "../../redux/actions/TaskActions";
+
 import Loader from "../Loader";
 
 //Form to add task from anywhere
-const AddTaskForm = ({
-  setTasklists,
-  showSideTaskForm,
-  // projects,
-  dispatchGetUserTasks,
-}) => {
+const TaskForm = ({setTasklists,showSideTaskForm}) => {
   const { handleSubmit } = useForm();
-  const [projects, setProjects] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [taskLists, setTaskLists] = useState([]);
+  const [projectError, setProjectError] = useState();
+  const [assigneeError, setAssigneeError] = useState();
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+
+  // state
+  const [projectState, projectdispatch] = useContext(ProjectContext);
+  const [taskState, taskdispatch] = useContext(TaskContext);
+  const [projectUsers, setProjectUsers] = useState([
+    {
+      id: "0",
+      name: "Choose a Project First",
+    },
+  ]);
+  const [projectTaskLists, setProjectTaskLists] = useState([
+    {
+      id: "0",
+      name: "Choose a Project First",
+    },
+  ]);
 
   const openModal = () => {
     setOpen(true);
@@ -41,14 +51,37 @@ const AddTaskForm = ({
     setDueDate(e.target.value);
   };
 
+  const getProjectUsers = async (event) => {
+    var projectSelect = document.getElementById("project-select");
+    var assigneeSelect = document.getElementById("assignee-select");
+    var tasklistSelect = document.getElementById("tasklist-select");
+    clearErrors(projectSelect.name);
+    clearErrors(assigneeSelect.name);
+    clearErrors(tasklistSelect.name);
+    const res = await apiServer.get(`/projects/${projectSelect.value}/team`);
+    setProjectUsers(res.data.Users);
+    getProjectTasklists();
+  };
+
   const getProjectTasklists = async (projectId) => {
     const res = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(res.data);
   };
 
-  const onSubmit = async (data) => {
-    const { name, projectId, userId, due_date, tasklistId, completed, description } = data;
+  //  useEffect(() => {
+  //   getUserProjects();
+  // }, []);
 
+  //Probably need dispatch here to update the task page when task is created.
+  const onSubmit = async ({
+    name,
+    projectId,
+    // userId,
+    due_date,
+    tasklistId,
+    completed,
+    description,
+  }) => {
     await apiServer.post(`/task_lists/${tasklistId}/task`, {
       name,
       projectId,
@@ -58,26 +91,22 @@ const AddTaskForm = ({
       description,
     });
 
-    dispatchGetUserTasks();
+    const userId = localStorage.getItem("userId");
+    const res = await apiServer.get(`/tasks/user/${userId}`);
+    await taskdispatch({ type: "get_user_tasks", payload: res.data });
 
     if (setTasklists) {
-      getProjectTasklists(projectId);
+      const taskResponse = await apiServer.get(
+        `/projects/${projectId}/tasklists`
+      );
+
+      setTasklists(taskResponse.data);
     }
 
     showSideTaskForm();
   };
 
-  // projects
-  const getAllProjects = async () => {
-    const res = await apiServer.get("/projects");
-    setProjects(res.data);
-    setLoading(false);
-  };
-  useEffect(() => {
-    getAllProjects();
-  }, []);
-
-  const renderedProjects = projects.map((project, i) => {
+  const renderedProjects = projectState.projects.map((project, i) => {
     return (
       <option key={i} id={project.id} value={project.id}>
         {project.name}
@@ -85,48 +114,24 @@ const AddTaskForm = ({
     );
   });
 
-  // users
-  const getAllUsers = async () => {
-    const res = await apiServer.get("/users");
-    setUsers(res.data);
-    setLoading(false);
-  };
-  useEffect(() => {
-    getAllUsers();
-  }, []);
-
-  const renderedUsers = users.map((user, i) => {
+  const renderedUsers = projectUsers.map((user, i) => {
     return (
-      <option key={i} id={user.id} value={user.id}>
-        {user.name} - {user.email}
+      <option key={i} value={user.id}>
+        {user.name}
       </option>
     );
   });
 
-  // tasklists
-  const getAllTasklists = async () => {
-    const res = await apiServer.get("/task_lists");
-    setTaskLists(res.data);
-    setLoading(false);
-  };
-  useEffect(() => {
-    getAllTasklists();
-  }, []);
-
-  const renderedTasklists = taskLists.map((tasklist, i) => {
+  const renderedTasklists = projectTaskLists.map((tasklist, i) => {
     return (
-      <option key={i} id={tasklist.id} value={tasklist.id}>
+      <option key={i} value={tasklist.id}>
         {tasklist.name}
       </option>
     );
   });
 
-  if (loading) {
-    return (
-    <Loader />
-    );
-  }
-
+   
+    
   return (
     <>
       <Button onClick={openModal}>Open modal</Button>
@@ -160,7 +165,7 @@ const AddTaskForm = ({
                 id="project-select"
                 name="projectId"
                 className="form-input"
-                // onChange={getProjectUsers}
+                onChange={getProjectUsers}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
                 {renderedProjects}
@@ -228,7 +233,7 @@ const AddTaskForm = ({
                 className="form-input"
               >
                 {/* <option value={0}>Choose a project first</option> */}
-                {getProjectTasklists.length === 0 ? (
+                {projectTaskLists.length === 0 ? (
                   <option>
                     You need to make a column in your project first.
                   </option>
@@ -283,4 +288,4 @@ const AddTaskForm = ({
   );
 };
 
-export default AddTaskForm;
+export default TaskForm;

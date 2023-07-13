@@ -1,25 +1,30 @@
 import React, { useContext, useState } from "react";
-import AuthContext from "../../redux/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import "../../css/LoginPage.css";
 import { useNavigate } from "react-router";
 import apiServer from "../../config/apiServer";
 
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  // const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
+  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [formEmail, setFormEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form data, check if email and password are not empty
-    if (!formEmail || !password) {
-      setErrorMessage("Please enter your email and password");
+    if (!formEmail) {
+      setErrorMessage("Please enter your email");
+      return;
+    }
+
+    if (!password) {
+      setErrorMessage("Please enter your password");
       return;
     }
 
@@ -28,15 +33,16 @@ const LoginForm = () => {
     try {
       const res = await apiServer.post("/login", { email: formEmail, password });
 
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("userId", res.data.id);
-      localStorage.setItem("token", res.data.token);
+      // sessionStorage.setItem("email", res.data.email);
+      // sessionStorage.setItem("userId", res.data.id);
+      // sessionStorage.setItem("token", res.data.token);
+      sessionStorage.setItem('user', JSON.stringify(res.data));
       setErrorMessage("");
       // setAuth(res.data.token);
       // setUserId(res.data.id);
       // setEmail(res.data.email);
-      // setUser(res.data);
-      navigate("/homepage")
+      setUser(res.data);
+      navigate("/homepage");
     } catch (err) {
       setLoading(false);
       setErrorMessage("The provided credentials were invalid");
@@ -62,14 +68,14 @@ const LoginForm = () => {
     try {
       const res = await apiServer.post("/login", { email, password });
 
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("userId", res.data.id);
-      localStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("userId", res.data.id);
+      sessionStorage.setItem("token", res.data.token);
       setErrorMessage("");
-      // setAuth(res.data.token);
-      // setUserId(res.data.id);
-      // setEmail(res.data.email);
-      // setUser(res.data);
+      setAuth(res.data.token);
+      setUserId(res.data.id);
+      setEmail(res.data.email);
+      setUser(res.data);
       // navigate("/homepage")
     } catch (err) {
       setLoading(false);
@@ -110,10 +116,11 @@ const LoginForm = () => {
       {errorMessage ? (
         <p style={{ color: "red", margin: "1px" }}>{errorMessage}</p>
       ) : null}
-       <button onClick={demoLogin}>
+      <button onClick={demoLogin}>
         {demoLoading ? "Logging in as demo user" : "Demo User"}
       </button>
     </form>
   );
 };
+
 export default LoginForm;

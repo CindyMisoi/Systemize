@@ -1,74 +1,99 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import TopNavBar from "../NavigationBar/TopNavBar";
 import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 import "../../css/TeamPage.css";
 import { Menu, MenuItem } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  // getTeam,
-  // updateTeamDescription,
-  // leaveTeam,
-} from "../../redux/actions/TeamActions";
+import { Context as TeamContext } from "../../context/store/TeamStore";
 
 import TeamMemberIcon from "../teams/TeamMemberIcon";
 import ProjectTile from "../projects/ProjectTile";
 import NewProjectTile from "../projects/NewProjectTile";
 import NewTeamMemberIcon from "../teams/NewTeamMemberIcon";
 import AddProjectPopOut from "../PopOutMenu/AddProjectPopOut";
+import { BiBorderNone } from "react-icons/bi";
 import { AiOutlineEllipsis } from "react-icons/ai";
 
 const TeamPage = () => {
-  const { teamId, name } = useParams();
+  const { teamId, teamName } = useParams();
+  const [team, setTeam] = useState();
+  const [teamProjects, setTeamProjects] = useState();
+  const [teamUsers, setTeamUsers] = useState(null);
+  const [teamDescription, setTeamDescription] = useState();
+  const [loading, setLoading] = useState(true);
   const [anchorMenu, setAnchorMenu] = useState(null);
   const [sideProjectForm, setSideProjectForm] = useState(false);
+  const [teamState, teamdispatch] = useContext(TeamContext);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const team = useSelector((state) => state.team.team);
-  const teamProjects = useSelector((state) => state.team.teamProjects);
-  const teamUsers = useSelector((state) => state.team.teamUsers);
-  const loading = useSelector((state) => state.team.loading);
 
   const showSideProjectForm = () => {
     setSideProjectForm(!sideProjectForm);
+  };
+  console.log(teamUsers);
+  const getTeam = async () => {
+    try {
+      const res = await apiServer.get(`/teams/${teamId}`);
+      console.log(res);
+      setTeam(res.data);
+      setTeamProjects(res.data.Projects);
+      setTeamUsers(res.data.Users);
+      setTeamDescription(res.data.description);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleMenuClick = (event) => {
     setAnchorMenu(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorMenu(null);
   };
 
+  const leaveTeam = async () => {
+    const userId = localStorage.getItem("userId");
+    handleMenuClose();
+    await apiServer.delete(`/userteam/${teamId}/user/${userId}`);
+    const res = await apiServer.get(`/team/user/${userId}`);
+    await teamdispatch({ type: "get_user_teams", payload: res.data });
+    navigate("/");
+    // const resp = await apiServer.get(`/project/${projectId}/tasklists`);
+    // setTasklists(resp.data);
+  };
+
   const handleUpdate = (e) => {
+    setTeamDescription(e.target.value);
+  };
+
+  const updateDescription = async (e) => {
     const description = e.target.value;
-    dispatch(updateTeamDescription(teamId, description));
+    await apiServer.put(`/team/${teamId}/description`, { description });
+    console.log(e.target.value);
   };
 
   useEffect(() => {
-    dispatch(getTeam(teamId));
-  }, [dispatch, teamId]);
+    getTeam();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId, teamName, setTeam, setTeamProjects, setTeamUsers]);
 
   if (loading) {
     return <Loader />;
   }
 
-  const updateDescription = async (e) => {
-    const description = e.target.value;
-    await apiServer.put(`/teams/${teamId}/description`, { description });
-    console.log(e.target.value);
-  };
+  // const membersList = teamUsers.map((user, i) => {
+  //   return <TeamMemberIcon user={user} key={i} />;
+  // });
 
-  const handleLeaveTeam = async () => {
-    dispatch(leaveTeam(teamId));
-    navigate("/");
-  };
+  // const projectsList = teamProjects.map((project, i) => {
+  //   return (
+  //     <ProjectTile teamId={teamId} project={project} key={i} id={project.id} />
+  //   );
+  // });
   return (
     <>
-      <TopNavBar name={name} setTeamProjects={setTeamProjects} />
+      <TopNavBar name={teamName} setTeamProjects={setTeamProjects} />
       <div className="team-page-container">
         <div className="team-page-content-container">
           <div className="team-page-content-left">
