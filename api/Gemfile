@@ -28,6 +28,7 @@ gem "faker"
 gem 'devise'
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
+gem 'securerandom'
 
 
 # cors

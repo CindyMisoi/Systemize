@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import "../../css/Navbar.css";
 import apiServer from "../../config/apiServer";
 
-const UserAvatar = () => {
+const UserAvatar = ({id}) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
     try {
-      const response = await apiServer.get("/me");
+      const response = await apiServer.get(`/user/${id}`);
       setUser(response.data);
       setLoading(false);
     } catch (error) {
@@ -22,7 +22,7 @@ const UserAvatar = () => {
     const userData = sessionStorage.getItem("user");
     if (userData) {
       const foundUser = JSON.parse(userData);
-        // console.log(foundUser)
+      //   console.log(foundUser)
       setUser(foundUser);
     };
   }, []);
@@ -40,4 +40,4 @@ const UserAvatar = () => {
   );
 };
 
-export default UserAvatar;
+export  default UserAvatar;

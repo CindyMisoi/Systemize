@@ -1,3 +1,4 @@
+require 'securerandom'
 class UsersController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_validation_errors
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -6,27 +7,35 @@ class UsersController < ApplicationController
         users = User.all
         render json: users, status: :ok
     end
-    # get logged in /users/:id
-    # handles auto login
-    def show
-        user = User.find_by(id: session[:user_id])
-        if user
-            render json: user, status: :ok
-        else
-            render json: {error: "Unauthorized"}, status: 401
-        end
-    end
-
+  
     #POST /user
     def create
-        user = User.create(user_params)
+        user = User.create!(user_params)
         if user.valid?
             session[:user_id] = user.id
-            render json: user, status: :created
+            session_token = SecureRandom.hex(32) 
+            user.update(session_token: session_token)
+            render json: { user: user, session_token: session_token }, status: :created    
         else
             render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
     end
+    # get logged in /users/:id
+    # handles auto login
+    def show
+      user = User.find_by(id: session[:user_id])
+      session_token = request.headers['Authorization']&.split(' ')&.last 
+      # Extract the session token from the Authorization header  
+      if session_token
+        user = User.find_by(session_token: session_token)
+            if user
+              render json: user, status: :ok
+              return
+            end
+      end
+      
+          render json: { error: 'Unauthorized'}, status: :unauthorized 
+      end
       
     def register_onboard
         user = User.find_by(email: params[:email])

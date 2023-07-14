@@ -89,39 +89,13 @@ Rails.application.routes.draw do
   # register
   post '/register', to: 'users#create'
   # check session
-  get '/me', to: 'users#show'
+  get '/user/:id', to: 'users#show'
   # onboard info after registration
   put '/register/onboard', to: 'users#register_onboard'
   # login
   post '/login', to: 'sessions#create'
   # logout
   delete '/logout', to: 'sessions#destroy'
-
-
-
-
-
-
-
-
-
-  
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 end

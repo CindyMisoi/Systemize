@@ -6,8 +6,8 @@ import apiServer from "../../config/apiServer";
 
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
-  const [formEmail, setFormEmail] = useState("");
+  const {setEmail, setUserId, setUser } = useContext(AuthContext);
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
@@ -18,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     // Validate form data, check if email and password are not empty
-    if (!formEmail) {
+    if (!email) {
       setErrorMessage("Please enter your email");
       return;
     }
@@ -31,16 +31,15 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const res = await apiServer.post("/login", { email: formEmail, password });
-
-      // sessionStorage.setItem("email", res.data.email);
-      // sessionStorage.setItem("userId", res.data.id);
-      // sessionStorage.setItem("token", res.data.token);
+      // Send the login request to the server to validate credentials and generate session session_token
+      const res = await apiServer.post("/login", { email: email, password });
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("userId", res.data.id);
+      sessionStorage.setItem("session_token", res.data.session_token);
       sessionStorage.setItem('user', JSON.stringify(res.data));
       setErrorMessage("");
-      // setAuth(res.data.token);
-      // setUserId(res.data.id);
-      // setEmail(res.data.email);
+      setUserId(res.data.id);
+      setEmail(res.data.email);
       setUser(res.data);
       navigate("/homepage");
     } catch (err) {
@@ -50,7 +49,7 @@ const LoginForm = () => {
   };
 
   const handleEmailChange = (e) => {
-    setFormEmail(e.target.value);
+    setemail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -67,16 +66,14 @@ const LoginForm = () => {
 
     try {
       const res = await apiServer.post("/login", { email, password });
-
       sessionStorage.setItem("email", res.data.email);
       sessionStorage.setItem("userId", res.data.id);
-      sessionStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("session_token", res.data.session_token);
       setErrorMessage("");
-      setAuth(res.data.token);
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
-      // navigate("/homepage")
+      navigate("/homepage")
     } catch (err) {
       setLoading(false);
       console.log(err.status);
@@ -91,10 +88,10 @@ const LoginForm = () => {
         <input
           name="email"
           type="email"
-          value={formEmail}
+          value={email}
           onChange={handleEmailChange}
         />
-        {!formEmail && (
+        {!email && (
           <p style={{ color: "red", margin: "1px" }}>
             Please enter an email address
           </p>

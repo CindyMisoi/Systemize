@@ -1,38 +1,38 @@
-# seed database
+# # seed database
 puts "start seeding..."
 # code here
 USERS = [
     {
           email: "demo@email.com",
-          password_digest: "password123",
+          password: "password123",
           password_confirmation: "password123",
           name: "Demo User",
           image: Faker::LoremFlickr.image
         },
         {
           email: "test@email.com",
-          password_digest: "password123",
+          password: "password123",
           password_confirmation: "password123",
           name: "Test User",
           image: Faker::LoremFlickr.image
         },
         {
           email: "engineering@email.com",
-          password_digest: "password123",
+          password: "password123",
           password_confirmation: "password123",
           name: "Engineering User",
           image: Faker::LoremFlickr.image
         },
         {
           email: "marketing@email.com",
-          password_digest: "password123",
+          password: "password123",
           password_confirmation: "password123",
           name: "Marketing User",
           image: Faker::LoremFlickr.image
         },
         {
           email: "sales@email.com",
-          password_digest: "password123",
+          password: "password123",
           password_confirmation: "password123",
           name: "Sales User",
           image: Faker::LoremFlickr.image

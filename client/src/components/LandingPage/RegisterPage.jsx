@@ -4,28 +4,29 @@ import { AuthContext } from "../../context/AuthContext";
 import logo from "../../assets/logo.png";
 import "../../css/LoginPage.css";
 import apiServer from "../../config/apiServer";
+import { useNavigate } from "react-router";
 import { MdKeyboardBackspace } from "react-icons/md";
 
 const RegisterPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
-  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
+  const {setEmail, setUserId, setUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
   const onSubmit = async ({ name, email, password }) => {
     setLoading(true);
     try {
       const res = await apiServer.post("/register", { name, email, password });
-      // sessionStorage.setItem("onboard", res.data.token);
-      // sessionStorage.setItem("email", res.data.email);
-      // sessionStorage.setItem("userId", res.data.id);
+      sessionStorage.setItem("onboard", JSON.stringify(res.data));
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("userId", res.data.id);
+     navigate("/register/onboard");
       sessionStorage.setItem('user', JSON.stringify(res.data));
       setErrorMessage("");
       setUser(res.data);
-      // setAuth(res.data.token);
-      // setEmail(res.data.email);
-      // setUserId(res.data.id);
-      window.location.href = "/register/onboard";
+      setEmail(res.data.email);
+      setUserId(res.data.id);
     } catch (err) {
       setLoading(false);
       console.log(err.status);

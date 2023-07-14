@@ -68,6 +68,8 @@ const HomePage = () => {
   });
 
   const projectLists = projectState.projects.slice(0, 5);
+  console.log(projectState.projects);
+  console.log(userState.user);
 
   const projectTiles = projectLists.map((project, i) => {
     // return <ProjectItemHome project={project} key={i} id={project.id} />;

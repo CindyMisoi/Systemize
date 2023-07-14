@@ -26,11 +26,11 @@ const AuthRoutes = () => {
   const [teamState, teamdispatch] = useContext(TeamContext);
 
   //Maybe grab all information here and state goes down to child components?
-  // const getUserInfo = async () => {
-  //   const id = sessionStorage.getItem("userId");
-  //   const res = await apiServer.get(`/users/${id}`);
-  //   await userdispatch({ type: "get_user_info", payload: res.data });
-  // };
+  const getUserInfo = async () => {
+    const id = sessionStorage.getItem("userId");
+    const res = await apiServer.get(`/user/${id}`);
+    await userdispatch({ type: "get_user_info", payload: res.data });
+  };
 
   const getUserTasks = async () => {
     const id = sessionStorage.getItem("userId");
@@ -54,7 +54,7 @@ const AuthRoutes = () => {
   };
 
   useEffect(() => {
-    // getUserInfo();
+    getUserInfo();
     getUserTasks();
     getUserTeams();
     getUserProjects();

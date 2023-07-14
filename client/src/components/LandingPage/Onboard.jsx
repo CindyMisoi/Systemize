@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import {AuthContext} from "../../context/AuthContext";
 import apiServer from "../../config/apiServer";
 import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";
 
 const Onboard = (props) => {
-  const {handleSubmit } = useForm();
-  // const { setAuth } = useContext(AuthContext);
+  const { register, handleSubmit } = useForm();
+  const { setUser } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
-  
+  // name for team
   const onboard = async ({ name }) => {
     const email = sessionStorage.getItem("email");
     if (name) {
@@ -18,12 +18,12 @@ const Onboard = (props) => {
           email,
           name,
         });
-        //sets initial token
-        sessionStorage.setItem("token", res.data.token);
+        //sets initial user
+        sessionStorage.setItem("user", JSON.stringify(res.data));
         setErrorMessage("");
-        // Set authentication context
         //for Refresh
-        // setAuth(res.data.token);
+        // console.log(res.data);
+        setUser(res.data);
       } catch (err) {
         console.log(err.status);
         setErrorMessage("Something went wrong");
@@ -33,12 +33,11 @@ const Onboard = (props) => {
 
   const onSkip = () => {
     //sets initial token
-    sessionStorage.setItem("token", sessionStorage.getItem("onboard"));
+    sessionStorage.setItem("user", sessionStorage.getItem("onboard"));
     //for component to refresh to redirect webpage
-    // setAuth(sessionStorage.getItem("onboard"));
+    setUser(sessionStorage.getItem("onboard"));
     sessionStorage.removeItem("onboard");
   };
-
   return (
     <div className="onboard-page-container">
       <div
@@ -63,13 +62,13 @@ const Onboard = (props) => {
         </div>
         <form className="onboard-page--form" onSubmit={handleSubmit(onboard)}>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="name">Team Name</label>
-            <input name="name"></input>
-            {!name && (
+            <label htmlFor="teamName">Team Name</label>
+            <input name="name" {...register("name", { minLength: 2 })}></input>
+            {/* {errors.name?.type === "minLengh" && (
               <p style={{ color: "red", margin: "1px" }}>
                 Team name must be greater than 1 character
               </p>
-            )}
+            )} */}
           </div>
           <div
             style={{
