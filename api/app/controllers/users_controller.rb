@@ -38,8 +38,7 @@ class UsersController < ApplicationController
       end
       
     def register_onboard
-        user = User.find_by(email: params[:email])
-      
+        user = User.find_by(email: session[:email])
         if user.nil?
           render json: { errors: ['User not found'] }, status: :not_found
           return
@@ -49,7 +48,7 @@ class UsersController < ApplicationController
       
         if team.save
           UserTeam.create(user_id: user.id, team_id: team.id)
-          render json: { message: 'Onboard information saved successfully' }, status: :ok
+          render json: { message: 'Onboard information saved successfully'}, status: :ok
         else
           render json: { errors: team.errors.full_messages }, status: :unprocessable_entity
         end

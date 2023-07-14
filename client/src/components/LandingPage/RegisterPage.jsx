@@ -1,28 +1,34 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import {AuthContext} from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import logo from "../../assets/logo.png";
 import "../../css/LoginPage.css";
 import apiServer from "../../config/apiServer";
+import { useNavigate } from "react-router";
 import { MdKeyboardBackspace } from "react-icons/md";
+
 const RegisterPage = () => {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { handleSubmit, register, formState: { errors } } = useForm();
   const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
   const onSubmit = async ({ name, email, password }) => {
     setLoading(true);
     try {
       const res = await apiServer.post("/register", { name, email, password });
-      session.setItem("onboard", res.data.token);
-      session.setItem("email", res.data.email);
-      session.setItem("userId", res.data.id);
-      window.location.href = "/register/onboard";
+      sessionStorage.setItem("onboard", res.data.session_token);
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("userId", res.data.id);
+      sessionStorage.setItem("user", JSON.stringify(res.data));
       setErrorMessage("");
-      setUser(res.data);
-      setAuth(res.data.token);
+      setAuth(res.data.session_token);
       setEmail(res.data.email);
       setUserId(res.data.id);
+      setUser(res.data);
+      setLoading(false);
+      navigate("/register/onboard");
     } catch (err) {
       setLoading(false);
       console.log(err.status);
@@ -44,7 +50,7 @@ const RegisterPage = () => {
             fontSize: "24px",
           }}
         >
-          Welcome to Methodize!{" "}
+          Welcome to Methodize!
         </h1>
         <h1
           style={{
@@ -75,9 +81,9 @@ const RegisterPage = () => {
           <input
             name="name"
             placeholder="John Doe"
-            {...register("name",{ required: true })}
-          ></input>
-          {errors.name?.type === "required" && (
+            {...register("name", { required: true })}
+          />
+          {errors.name && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter your full name
             </p>
@@ -88,32 +94,31 @@ const RegisterPage = () => {
           <input
             name="email"
             type="email"
-            {...register("email",{ required: true })}
-          ></input>
-          {errors.email?.type === "required" && (
+            {...register("email", { required: true })}
+          />
+          {errors.email && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter an email address
             </p>
           )}
         </div>
-
         <div>
           <label htmlFor="password">Password</label>
           <input
             name="password"
             type="password"
-            {...register("password",{ required: true })}
-          ></input>
-          {errors.password?.type === "required" && (
+            {...register("password", { required: true })}
+          />
+          {errors.password && (
             <p style={{ color: "red", margin: "1px" }}>
               Please enter a password
             </p>
           )}
         </div>
         <button type="submit">{loading ? "Registering.." : "Register"}</button>
-        {errorMessage ? (
+        {errorMessage && (
           <p style={{ color: "red", margin: "1px" }}>{errorMessage}</p>
-        ) : null}
+        )}
       </form>
       <div className="login-container">
         Already a user?{" "}

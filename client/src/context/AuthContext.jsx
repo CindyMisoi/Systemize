@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [sidebar, setSidebar] = useState(true);
   const showSidebar = () => setSidebar(!sidebar);
   const logout = () => {
-    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("session_token");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("userId");
     setAuth(""); // Set the token value to an empty string

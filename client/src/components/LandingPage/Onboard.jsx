@@ -1,28 +1,26 @@
 import React, { useContext, useState } from "react";
-import {AuthContext} from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import apiServer from "../../config/apiServer";
 import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";
 
-const Onboard = (props) => {
-  const { register, handleSubmit } = useForm();
-  const { setAuth } = useContext(AuthContext);
+const Onboard = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { setAuth, setEmail } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
-  // name for team
+
   const onboard = async ({ name }) => {
     const email = sessionStorage.getItem("email");
-    if (name) {
+    if (name && email) {
       try {
         const res = await apiServer.put("/register/onboard", {
           email,
           name,
         });
-        //sets initial user
-        sessionStorage.setItem("session_token",res.data.session_token);
+        sessionStorage.setItem("session_token", res.data.session_token);
         setErrorMessage("");
-        //for Refresh
-        // console.log(res.data);
+        sessionStorage.setItem("email", res.data.email);
         setAuth(res.data.session_token);
       } catch (err) {
         console.log(err.status);
@@ -32,12 +30,11 @@ const Onboard = (props) => {
   };
 
   const onSkip = () => {
-    //sets initial token
     sessionStorage.setItem("session_token", sessionStorage.getItem("onboard"));
-    //for component to refresh to redirect webpage
     setAuth(sessionStorage.getItem("onboard"));
     sessionStorage.removeItem("onboard");
   };
+
   return (
     <div className="onboard-page-container">
       <div
@@ -60,15 +57,19 @@ const Onboard = (props) => {
             What team will you be working on?
           </h1>
         </div>
-        <form className="onboard-page--form" onSubmit={handleSubmit(onboard)}>
+        <form className="onboard-page-form" onSubmit={handleSubmit(onboard)}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <label htmlFor="teamName">Team Name</label>
-            <input name="name" {...register("name", { minLength: 2 })}></input>
-            {/* {errors.name?.type === "minLengh" && (
+            <input
+              name="name"
+              {...register("name", { minLength: 2 })}
+              type="text"
+            />
+            {errors.name?.type === "minLength" && (
               <p style={{ color: "red", margin: "1px" }}>
                 Team name must be greater than 1 character
               </p>
-            )} */}
+            )}
           </div>
           <div
             style={{
@@ -88,21 +89,17 @@ const Onboard = (props) => {
                 cursor: "pointer",
               }}
               onClick={onSkip}
+              type="button"
             >
               Skip
             </button>
-            <button
-              style={{
-                width: "150px",
-              }}
-              type="submit"
-            >
+            <button style={{ width: "150px" }} type="submit">
               Continue
             </button>
           </div>
-          {errorMessage ? (
+          {errorMessage && (
             <p style={{ color: "red", margin: "1px" }}>{errorMessage}</p>
-          ) : null}
+          )}
         </form>
       </div>
     </div>
