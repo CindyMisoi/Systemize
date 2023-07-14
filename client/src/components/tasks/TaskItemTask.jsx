@@ -38,14 +38,14 @@ const TaskItemTask = ({
       showSideTaskDetails();
       //---
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
       setInitialLoad(false);
       console.log("if popout");
     } else {
       console.log("else popout");
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
       setInitialLoad(false);
     }

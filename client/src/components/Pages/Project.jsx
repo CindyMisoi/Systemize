@@ -47,7 +47,7 @@ const ProjectPage = ({ sidebar }) => {
     setSideTaskDetails(!sideTaskDetails);
   };
 
-  //Task through get /project/id/taskslists. Set here so we can refer to it in the ondragend funnction
+  //Task through get /projects/id/taskslists. Set here so we can refer to it in the ondragend funnction
   const [loading, setLoading] = useState(true);
 
   const openTasklistFormModal = () => {
@@ -171,7 +171,7 @@ const ProjectPage = ({ sidebar }) => {
   };
 
   const updateTasklist = async (newIndex, tasklistId, columnIndex) => {
-    await apiServer.put(`/tasklist/${tasklistId}/columnindex/`, { newIndex });
+    await apiServer.put(`/task_lists/${tasklistId}/columnindex/`, { newIndex });
   };
 
   const updateTasks = async (source, destination, draggableId) => {
@@ -181,7 +181,7 @@ const ProjectPage = ({ sidebar }) => {
     const sourceTasklistId = source.droppableId.split("-")[0];
     const sourceIndexId = source.droppableId.split("-")[1];
     const taskId = draggableId;
-    const updatedTasklist = await apiServer.put(`/task/${taskId}/tasklist`, {
+    const updatedTasklist = await apiServer.put(`/tasks/${taskId}/tasklist`, {
       destinationTasklistId,
     }); // this will update the inital task with the new tasklist id
 
@@ -191,7 +191,7 @@ const ProjectPage = ({ sidebar }) => {
 
     // once that comes back, we want to update the task_index of that task to destination.index
     const destinationIndex = destination.index; //index of task in tasklist
-    const updatedTaskIndex = await apiServer.put(`/task/${taskId}/taskindex`, {
+    const updatedTaskIndex = await apiServer.put(`/tasks/${taskId}/taskindex`, {
       destinationIndex,
     });
 
@@ -200,9 +200,9 @@ const ProjectPage = ({ sidebar }) => {
 
   const getProject = async () => {
     try {
-      const res = await apiServer.get(`/project/${projectId}`);
+      const res = await apiServer.get(`/projects/${projectId}`);
       // await getTasklists();
-      const resp = await apiServer.get(`/project/${projectId}/tasklists`);
+      const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
       setProject(res.data);
       setTasklists(resp.data);
       // console.log(tasklists);
@@ -215,7 +215,7 @@ const ProjectPage = ({ sidebar }) => {
   //NOTE: MAYBE TRY GRABBING TASKS IN ONE GET API CALL AND PUSHING IT DOWN?
   const getTasklists = async () => {
     try {
-      const res = await apiServer.get(`/project/${projectId}/tasklists`);
+      const res = await apiServer.get(`/projects/${projectId}/tasklists`);
       setTasklists(res.data);
 
       // setTasks(res.data.Tasks);

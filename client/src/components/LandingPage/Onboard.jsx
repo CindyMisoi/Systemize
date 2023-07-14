@@ -6,7 +6,7 @@ import "../../css/LoginPage.css";
 
 const Onboard = (props) => {
   const { register, handleSubmit } = useForm();
-  const { setUser } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
   // name for team
@@ -19,11 +19,11 @@ const Onboard = (props) => {
           name,
         });
         //sets initial user
-        sessionStorage.setItem("user", JSON.stringify(res.data));
+        sessionStorage.setItem("session_token",res.data.session_token);
         setErrorMessage("");
         //for Refresh
         // console.log(res.data);
-        setUser(res.data);
+        setAuth(res.data.session_token);
       } catch (err) {
         console.log(err.status);
         setErrorMessage("Something went wrong");
@@ -33,9 +33,9 @@ const Onboard = (props) => {
 
   const onSkip = () => {
     //sets initial token
-    sessionStorage.setItem("user", sessionStorage.getItem("onboard"));
+    sessionStorage.setItem("session_token", sessionStorage.getItem("onboard"));
     //for component to refresh to redirect webpage
-    setUser(sessionStorage.getItem("onboard"));
+    setAuth(sessionStorage.getItem("onboard"));
     sessionStorage.removeItem("onboard");
   };
   return (

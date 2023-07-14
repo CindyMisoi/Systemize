@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState(sessionStorage.getItem("token") || "null");
+  const [auth, setAuth] = useState(sessionStorage.getItem("session_token") || "null");
   const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null);
   const [email, setEmail] = useState(sessionStorage.getItem("email") || null);
   const [user, setUser] = useState(sessionStorage.getItem("user") || null);

@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";
 import { useNavigate } from "react-router";
 import apiServer from "../../config/apiServer";
 
 const LoginForm = () => {
+  const { register, handleSubmit, formState: {errors} } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
-  const {setEmail, setUserId, setUser } = useContext(AuthContext);
+  const {setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,7 @@ const LoginForm = () => {
       sessionStorage.setItem("session_token", res.data.session_token);
       sessionStorage.setItem('user', JSON.stringify(res.data));
       setErrorMessage("");
+      setAuth(res.data.session_token);
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
@@ -70,6 +73,7 @@ const LoginForm = () => {
       sessionStorage.setItem("userId", res.data.id);
       sessionStorage.setItem("session_token", res.data.session_token);
       setErrorMessage("");
+      setAuth(res.data.session_token);
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
@@ -82,7 +86,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="login-page--form" onSubmit={onSubmit}>
+    <form className="login-page--form" onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <label htmlFor="email">Email Address</label>
         <input
@@ -90,8 +94,9 @@ const LoginForm = () => {
           type="email"
           value={email}
           onChange={handleEmailChange}
+          {...register("email",{required: true})}
         />
-        {!email && (
+       {errors.email?.type === "required" && (
           <p style={{ color: "red", margin: "1px" }}>
             Please enter an email address
           </p>
@@ -104,8 +109,9 @@ const LoginForm = () => {
           type="password"
           value={password}
           onChange={handlePasswordChange}
+          {...register("password",{required: true})}
         />
-        {!password && (
+         {errors.password?.type === "required" && (
           <p style={{ color: "red", margin: "1px" }}>Please enter a password</p>
         )}
       </div>

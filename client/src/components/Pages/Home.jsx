@@ -187,14 +187,14 @@ const HomePage = () => {
                     {/* call get all projects for specific user route */}
                     {projectTiles}
                     <div
-                      // className="new-home-item-container"
+                      className="new-home-item-container"
                       onClick={showSideProjectForm}
                       style={{ height: "60%" }}
                     >
-                      {/* <div className="new-home-icon-container">
+                      <div className="new-home-icon-container">
                     <Add className="new-home-item-icon" />
                   </div>
-                  <div className="new-home-item-name">Create Project</div> */}
+                  <div className="new-home-item-name">Create Project</div>
                       <NewProjectTile />
                     </div>
                   </div>
