@@ -6,13 +6,13 @@ import "../../css/LoginPage.css";
 
 const Onboard = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setAuth, setEmail } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const onboard = async ({ name }) => {
     const email = sessionStorage.getItem("email");
-    if (name && email) {
+    if (name) {
       try {
         const res = await apiServer.put("/register/onboard", {
           email,
