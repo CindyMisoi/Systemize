@@ -38,7 +38,7 @@ class UsersController < ApplicationController
       end
       
     def register_onboard
-        user = User.find_by(email: session[:email])
+        user = User.find_by(email: params[:email])
         if user.nil?
           render json: { errors: ['User not found'] }, status: :not_found
           return

@@ -12,6 +12,7 @@ const Onboard = () => {
 
   const onboard = async ({ name }) => {
     const email = sessionStorage.getItem("email");
+    console.log(email);
     if (name) {
       try {
         const res = await apiServer.put("/register/onboard", {
@@ -20,11 +21,12 @@ const Onboard = () => {
         });
         sessionStorage.setItem("session_token", res.data.session_token);
         setErrorMessage("");
-        sessionStorage.setItem("email", res.data.email);
+        // for refresh
         setAuth(res.data.session_token);
+        console.log(res.data.session_token);
       } catch (err) {
         console.log(err.status);
-        setErrorMessage("Something went wrong");
+        setErrorMessage( "Something went wrong");
       }
     }
   };
