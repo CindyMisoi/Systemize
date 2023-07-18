@@ -27,11 +27,11 @@ const ColumnTaskItem = ({
       showSideTaskDetails();
       //---
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
     } else {
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
     }
   };

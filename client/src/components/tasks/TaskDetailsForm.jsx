@@ -43,7 +43,7 @@ const TaskDetailsForm = ({
   const onSubmit = async ({ name, due_date, description, completed }) => {
     // put route to update task
     try {
-      await apiServer.put(`/task/${task.id}`, {
+      await apiServer.put(`/tasks/${task.id}`, {
         name,
         due_date,
         description,
@@ -51,12 +51,12 @@ const TaskDetailsForm = ({
       });
       //Updates new task list
       const res = await apiServer.get(
-        `/task/user/${localStorage.getItem("userId")}`
+        `/tasks/user/${sessionStorage.getItem("userId")}`
       );
       await taskdispatch({ type: "update_task", payload: res.data });
       if (setTasklistTasks) {
         const taskres = await apiServer.get(
-          `/tasklist/${task.tasklist_id}/tasks`
+          `/task_lists/${task.tasklist_id}/tasks`
         );
         setTasklistTasks(taskres.data);
       }
@@ -68,10 +68,10 @@ const TaskDetailsForm = ({
 
   const handleDelete = async () => {
     try {
-      await apiServer.delete(`/task/${task.id}`);
+      await apiServer.delete(`/tasks/${task.id}`);
       //Updates new task list
       const res = await apiServer.get(
-        `/task/user/${localStorage.getItem("userId")}`
+        `/tasks/user/${sessionStorage.getItem("userId")}`
       );
       await taskdispatch({ type: "update_task", payload: res.data });
       closeModal();
@@ -97,7 +97,7 @@ const TaskDetailsForm = ({
             type="text"
             placeholder={"Task Name"}
             defaultValue={task.name}
-            ref={register}
+            {...register}
             className="edit-task-title textarea"
           ></textarea>
         </div>
@@ -135,7 +135,7 @@ const TaskDetailsForm = ({
               type="checkbox"
               name="completed"
               defaultChecked={task.completed}
-              ref={register}
+              {...register}
             ></input>
             <label htmlFor="completed" style={{ fontWeight: "500" }}>
               Mark Complete
@@ -173,7 +173,7 @@ const TaskDetailsForm = ({
                 type="date"
                 name="due_date"
                 defaultValue={dueDate}
-                ref={register}
+                {...register}
               ></input>
             </div>
           </div>
@@ -184,7 +184,7 @@ const TaskDetailsForm = ({
             type="text"
             placeholder={"Task Description"}
             defaultValue={task.description}
-            ref={register}
+            {...register}
             className="edit-task-description textarea"
           ></textarea>
         </div>

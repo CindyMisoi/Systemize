@@ -33,7 +33,7 @@ const TaskListItem = ({ index, tasklist, tasks, setTasks }) => {
 
   const updateTasks = async () => {
     //returns individual tasklist tasks
-    const res = await apiServer.get(`/tasklist/${tasklist.id}/tasks`);
+    const res = await apiServer.get(`/task_lists/${tasklist.id}/tasks`);
     setTasklistTasks(res.data);
     setLoading(false);
   };

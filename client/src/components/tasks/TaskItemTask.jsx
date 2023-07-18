@@ -86,7 +86,9 @@ const TaskItemTask = ({
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div
-            className={`task-project-home-name-container task-project-${task.Project.id}`}
+            className={`task-project-home-name-container task-project-${
+              task.Project ? task.Project.id : ""
+            }`}
           >
             <p
               style={{
@@ -99,9 +101,10 @@ const TaskItemTask = ({
                 msUserSelect: "none",
               }}
             >
-              {task.Project.name}
+              {task.Project ? task.Project.name : ""}
             </p>
           </div>
+
           <div
             style={{
               width: "73px",

@@ -10,7 +10,7 @@ import "../../css/Forms.css";
 const ProjectForm = ({
   // setTeamProjects,
   showSideProjectForm}) => {
-  const {handleSubmit, clearErrors } = useForm();
+  const {handleSubmit, clearErrors, register, formState: {errors} } = useForm();
   const [projectName, setProjectName] = useState("");
   // state
   const [teamState, teamdispatch] = useContext(TeamContext);
@@ -96,8 +96,9 @@ const ProjectForm = ({
                 // onChange={clearError}
                 onChange={handleNameChange}
                 onKeyPress={handleUserKeyPress}
+                {...register("name",{required: true})}
               ></input>
-              {!name && (
+              {errors.name?.type === "required" && (
                 <p className="error-message">Please fill out project name</p>
               )}
             </div>
@@ -109,10 +110,11 @@ const ProjectForm = ({
                 id="team-select"
                 name="teamId"
                 className="form-input"
+                {...register("teamId",{required: true})}
               >
                 {renderedTeams}
               </select>
-              {!name && (
+              {errors.teamId?.type === "required" && (
                 <p className="error-message">Please choose a team</p>
               )}
             </div>

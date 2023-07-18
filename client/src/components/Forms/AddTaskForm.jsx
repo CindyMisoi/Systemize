@@ -11,9 +11,9 @@ import Loader from "../Loader";
 
 //Form to add task from anywhere
 const TaskForm = ({setTasklists,showSideTaskForm}) => {
-  const { handleSubmit } = useForm();
+  const { handleSubmit, clearErrors, register, formState: {errors}} = useForm();
   const [projectError, setProjectError] = useState();
-  const [assigneeError, setAssigneeError] = useState();
+  const [assigneeError, setAssigneeError] = useState("");
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [open, setOpen] = useState(false);
@@ -21,18 +21,8 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
   // state
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [taskState, taskdispatch] = useContext(TaskContext);
-  const [projectUsers, setProjectUsers] = useState([
-    {
-      id: "0",
-      name: "Choose a Project First",
-    },
-  ]);
-  const [projectTaskLists, setProjectTaskLists] = useState([
-    {
-      id: "0",
-      name: "Choose a Project First",
-    },
-  ]);
+  const [projectUsers, setProjectUsers] = useState([]);
+  const [projectTaskLists, setProjectTaskLists] = useState([]);
 
   const openModal = () => {
     setOpen(true);
@@ -60,12 +50,13 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
     clearErrors(tasklistSelect.name);
     const res = await apiServer.get(`/projects/${projectSelect.value}/team`);
     setProjectUsers(res.data.Users);
+    // console.log(res.data.Users);
     getProjectTasklists();
   };
 
   const getProjectTasklists = async (projectId) => {
     const res = await apiServer.get(`/projects/${projectId}/tasklists`);
-    setTasklists(res.data);
+    setProjectTaskLists(res.data);
   };
 
   //  useEffect(() => {
@@ -76,7 +67,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
   const onSubmit = async ({
     name,
     projectId,
-    // userId,
+    userId,
     due_date,
     tasklistId,
     completed,
@@ -91,8 +82,8 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
       description,
     });
 
-    const userId = localStorage.getItem("userId");
-    const res = await apiServer.get(`/tasks/user/${userId}`);
+    const storedUserId = sessionStorage.getItem("userId");
+    const res = await apiServer.get(`/tasks/user/${storedUserId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
 
     if (setTasklists) {
@@ -106,29 +97,27 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
     showSideTaskForm();
   };
 
-  const renderedProjects = projectState.projects.map((project, i) => {
-    return (
-      <option key={i} id={project.id} value={project.id}>
-        {project.name}
-      </option>
-    );
-  });
 
-  const renderedUsers = projectUsers.map((user, i) => {
+  const renderedProjects = projectState.projects && projectState.projects.length > 0 ? projectState.projects.map((project, i) => {  
     return (
-      <option key={i} value={user.id}>
-        {user.name}
-      </option>
-    );
-  });
+        <option key={i} id={project.id} value={project.id}>
+          {project.name}
+        </option>
+      ); }) : null;
 
-  const renderedTasklists = projectTaskLists.map((tasklist, i) => {
+  const renderedUsers = projectUsers && projectUsers.length > 0 ? projectUsers.map((user, i) => {  
     return (
-      <option key={i} value={tasklist.id}>
-        {tasklist.name}
-      </option>
-    );
-  });
+        <option key={i} value={user.id}>
+          {user.name}
+        </option>
+      ); }) : null;
+
+  const renderedTasklists = projectTaskLists.length > 0 ? projectTaskLists.map((tasklist, i) => { 
+    return (
+        <option key={i} value={tasklist.id}>
+          {tasklist.name}
+        </option>
+      ); }) : null;
 
    
     
@@ -151,8 +140,9 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 placeholder={"Task Name"}
                 className="form-input"
                 onChange={handleNameChange}
+                {...register("name",{required: true})}
               ></input>
-              {!name && (
+              {errors.name?.type === "required" && (
                 <p className="error-message">Please enter a task name</p>
               )}
             </div>
@@ -166,11 +156,12 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 name="projectId"
                 className="form-input"
                 onChange={getProjectUsers}
+                {...register("projectId",{required: true})}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
                 {renderedProjects}
               </select>
-              {!name && (
+              {errors.projectId?.type === "required" && (
                 <p className="error-message">Please choose a project</p>
               )}
             </div>
@@ -185,8 +176,9 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 type="date"
                 name="due_date"
                 onChange={handleDateChange}
+                {...register("due_date",{required: true})}
               ></input>
-              {!dueDate && (
+              {errors.due_date?.type === "required" && (
                 <p className="error-message">Please choose a Due Date</p>
               )}
             </div>
@@ -198,10 +190,12 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 id="assignee-select"
                 name="userId"
                 className="form-input"
+                {...register("userId",{required: true})}
+                onChange = {() => setAssigneeError("")}
               >
                 {renderedUsers}
               </select>
-              {!name && (
+              {errors.userId?.type === "required" || assigneeError !== "" && (
                 <p className="error-message">Please choose an assignee</p>
               )}
             </div>
@@ -220,6 +214,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 type="checkbox"
                 name="completed"
                 defaultChecked={false}
+                {...register}
               ></input>
             </div>
 
@@ -231,6 +226,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 id="tasklist-select"
                 name="tasklistId"
                 className="form-input"
+                {...register("tasklistId",{required: true})}
               >
                 {/* <option value={0}>Choose a project first</option> */}
                 {projectTaskLists.length === 0 ? (
@@ -243,7 +239,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 {/* {renderedTasklists} */}
               </select>
               {/* <p className="error-message">{taskListError}</p> */}
-              {!name && (
+              {errors.tasklistId?.type === "required" && (
                 <p className="error-message">
                   Please choose a column. You may need to make a column in your
                   project first before adding a task.

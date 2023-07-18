@@ -9,14 +9,14 @@ const ProjectTile = ({ project, teamId, id }) => {
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState();
   const getTeam = async () => {
-    const res = await apiServer.get(`/project/${project.id}/team`);
+    const res = await apiServer.get(`/projects/${project.id}/team`);
     setTeam(res.data);
     setLoading(false);
   };
 
   useEffect(() => {
     (async () => {
-      const res = await apiServer.get(`/project/${project.id}/team`);
+      const res = await apiServer.get(`/projects/${project.id}/team`);
       setTeam(res.data);
       setLoading(false);
     })();

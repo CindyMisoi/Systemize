@@ -43,14 +43,14 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
       showSideTaskDetails();
       //---
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
       // setInitialLoad(false);
       console.log("if popout");
     } else {
       console.log("else popout");
       taskdispatch({ type: "get_selected_task", payload: null });
-      const res = await apiServer.get(`/task/${task.id}`);
+      const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
       // setInitialLoad(false);
     }
@@ -59,9 +59,9 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
   const handleTaskDelete = async (e) => {
     // console.log(task.id);
     handleMenuClose();
-    await apiServer.delete(`/task/${task.id}`);
-    const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${id}`);
+    await apiServer.delete(`/tasks/${task.id}`);
+    const id = sessionStorage.getItem("userId");
+    const res = await apiServer.get(`/tasks/user/${id}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
   //import component as body such as forms, details, etc
