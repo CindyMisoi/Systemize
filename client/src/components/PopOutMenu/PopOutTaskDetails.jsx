@@ -136,7 +136,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   })
   .map((project, i) => {
     return (
-      <option key={i} id={project.id} value={project.id}>
+      <option key={i} value={project.id}>
         {project.name}
       </option>
     );

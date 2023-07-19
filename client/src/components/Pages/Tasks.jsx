@@ -14,8 +14,8 @@ const TasksPage = () => {
   const [open, setOpen] = useState(false);
 
   const getUserTasks = async () => {
-    const id = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${id}`);
+    const id = sessionStorage.getItem("userId");
+    const res = await apiServer.get(`/tasks/user/${id}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
     // setTasks(res.data);
     setLoading(false);

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { Context as TeamContext } from "../../context/store/TeamStore";
 import "../../css/Forms.css";
 
 const TeamForm = () => {
-  const {handleSubmit} = useForm();
+  const {handleSubmit, register, formState: {errors}} = useForm();
   // const dispatch = useDispatch();
   const [teamState, teamdispatch] = useContext(TeamContext);
   const userId = sessionStorage.getItem("userId");
@@ -48,8 +48,9 @@ const TeamForm = () => {
                     type="text"
                     placeholder={"Team Name"}
                     className="form-input"
+                    {...register("name",{required:true})}
                   ></input>
-                  {!name && (
+                  {errors.name?.type === "required" && (
                     <p className="error-message">Please enter a team name</p>
                   )}
                 </label>
@@ -66,6 +67,7 @@ const TeamForm = () => {
                 type="text"
                 placeholder={"Team Description"}
                 className="edit-task-description textarea"
+                {...register}
               ></textarea>
             </div>
             <div style={{ display: "flex", marginLeft: "400px" }}>

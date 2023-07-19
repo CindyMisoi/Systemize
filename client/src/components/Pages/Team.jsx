@@ -6,7 +6,6 @@ import Loader from "../Loader";
 import "../../css/TeamPage.css";
 import { Menu, MenuItem } from "@material-ui/core";
 import { Context as TeamContext } from "../../context/store/TeamStore";
-
 import TeamMemberIcon from "../teams/TeamMemberIcon";
 import ProjectTile from "../projects/ProjectTile";
 import NewProjectTile from "../projects/NewProjectTile";
@@ -16,15 +15,17 @@ import { BiBorderNone } from "react-icons/bi";
 import { AiOutlineEllipsis } from "react-icons/ai";
 
 const TeamPage = () => {
-  const { teamId, teamName } = useParams();
+  const { teamId, name } = useParams();
   const [team, setTeam] = useState();
   const [teamProjects, setTeamProjects] = useState();
-  const [teamUsers, setTeamUsers] = useState(null);
+  const [teamUsers, setTeamUsers] = useState([]);
   const [teamDescription, setTeamDescription] = useState();
   const [loading, setLoading] = useState(true);
   const [anchorMenu, setAnchorMenu] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sideProjectForm, setSideProjectForm] = useState(false);
   const [teamState, teamdispatch] = useContext(TeamContext);
+
   const navigate = useNavigate();
 
   const showSideProjectForm = () => {
@@ -36,27 +37,39 @@ const TeamPage = () => {
       const res = await apiServer.get(`/teams/${teamId}`);
       console.log(res);
       setTeam(res.data);
-      setTeamProjects(res.data.Projects);
-      setTeamUsers(res.data.Users);
+      setTeamProjects(res.data.projects);
+      setTeamUsers(res.data.users);
       setTeamDescription(res.data.description);
       setLoading(false);
+      console.log(res.data);
+      console.log("Team Users:", res.data.users);
+      console.log("Projects :", res.data.projects);
+      console.log("Description:", res.data.description);
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleMenuClick = (event) => {
-    setAnchorMenu(event.currentTarget);
+    setIsMenuOpen(true);
   };
   const handleMenuClose = () => {
-    setAnchorMenu(null);
+    setIsMenuOpen(false);
   };
 
+  useEffect(()=> {
+    if (teamUsers === undefined){
+      navigate("/");
+    }
+  }, [teamUsers, navigate]);
+
+  
+
   const leaveTeam = async () => {
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     handleMenuClose();
-    await apiServer.delete(`/userteam/${teamId}/user/${userId}`);
-    const res = await apiServer.get(`/team/user/${userId}`);
+    await apiServer.delete(`/userteams/${teamId}/user/${userId}`);
+    const res = await apiServer.get(`/teams/user/${userId}`);
     await teamdispatch({ type: "get_user_teams", payload: res.data });
     navigate("/");
     // const resp = await apiServer.get(`/project/${projectId}/tasklists`);
@@ -69,31 +82,23 @@ const TeamPage = () => {
 
   const updateDescription = async (e) => {
     const description = e.target.value;
-    await apiServer.put(`/team/${teamId}/description`, { description });
+    await apiServer.put(`/teams/${teamId}/description`, { description });
     console.log(e.target.value);
   };
 
   useEffect(() => {
+    console.log("useEffect is triggered");
     getTeam();
+   
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamId, teamName, setTeam, setTeamProjects, setTeamUsers]);
+  }, [teamId, name, setTeam, setTeamProjects, setTeamUsers]);
 
   if (loading) {
     return <Loader />;
   }
-
-  // const membersList = teamUsers.map((user, i) => {
-  //   return <TeamMemberIcon user={user} key={i} />;
-  // });
-
-  // const projectsList = teamProjects.map((project, i) => {
-  //   return (
-  //     <ProjectTile teamId={teamId} project={project} key={i} id={project.id} />
-  //   );
-  // });
   return (
     <>
-      <TopNavBar name={teamName} setTeamProjects={setTeamProjects} />
+      <TopNavBar name={name} setTeamProjects={setTeamProjects} />
       <div className="team-page-container">
         <div className="team-page-content-container">
           <div className="team-page-content-left">
@@ -120,7 +125,7 @@ const TeamPage = () => {
                     style={{ marginTop: "40px" }}
                     anchorEl={anchorMenu}
                     keepMounted
-                    open={Boolean(anchorMenu)}
+                    open={isMenuOpen}
                     onClose={handleMenuClose}
                   >
                     <MenuItem onClick={leaveTeam}>Leave Team</MenuItem>
@@ -129,7 +134,7 @@ const TeamPage = () => {
               </div>
               <div className="team-content-left-members--list">
                 {teamUsers === undefined ? (
-                  <Redirect to="/" />
+                  navigate("/")
                 ) : (
                   teamUsers.map((user, i) => {
                     return <TeamMemberIcon user={user} key={i} />;
@@ -149,7 +154,7 @@ const TeamPage = () => {
             </div>
             <div className="team-content-right-projects--list">
               {teamProjects === undefined ? (
-                <Redirect to="/" />
+                navigate("/")
               ) : (
                 teamProjects.map((project, i) => {
                   return (

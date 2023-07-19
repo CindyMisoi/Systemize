@@ -79,7 +79,7 @@ Rails.application.routes.draw do
 
   # user_teams
   # leave team
-  delete '/:teamId/user/:userId', to: 'user_teams#leave_team'
+  delete 'userteams/:teamId/user/:userId', to: 'user_teams#leave_team'
   # get all userTeams
   resources :user_teams, only: [:index]
 
