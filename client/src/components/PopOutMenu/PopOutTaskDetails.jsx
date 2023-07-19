@@ -15,9 +15,9 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [teamDescription, setTeamDescription] = useState(task.description);
-  const [projectUsers, setProjectUsers] = useState(task.Project.Users);
-  const [assigneeUser, setAssigneeUser] = useState(task.User);
-  const [taskComments, setTaskComments] = useState(task.Comments);
+  const [projectUsers, setProjectUsers] = useState(task.Project?.Users || []);
+  const [assigneeUser, setAssigneeUser] = useState(task.User || {});
+  const [taskComments, setTaskComments] = useState(task.Comments || []);
   const [dueDate, setDueDate] = useState(new Date(task.due_date));
   // const [completed, setCompleted] = useState(task.completed);
   const [commentBox, setCommentBox] = useState(false);
@@ -41,7 +41,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     // var assigneeSelect = document.getElementById("assignee-select");
     clearErrors(projectSelect.name);
     // clearErrors(assigneeSelect.name);
-    const res = await apiServer.get(`/project/${projectSelect.value}/team`);
+    const res = await apiServer.get(`/projects/${projectSelect.value}/team`);
     const userList = res.data.Users.filter((user) => {
       return user.id !== task.User.id;
     });
@@ -54,31 +54,31 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     var projectId = document.getElementById("project-select").value;
     const userId = localStorage.getItem("userId");
     console.log(projectId);
-    await apiServer.put(`/task/${task.id}/project/${projectId}`);
-    const res = await apiServer.get(`/task/user/${userId}`);
+    await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
 
   const updateAssignee = async (e) => {
     var assigneeId = document.getElementById("assignee-select").value;
 
-    await apiServer.put(`/task/${task.id}/assignee/${assigneeId}`);
-    const assignee = await apiServer.get(`/task/${task.id}`);
+    await apiServer.put(`/tasks/${task.id}/user/${assigneeId}`);
+    const assignee = await apiServer.get(`/tasks/${task.id}`);
     setAssigneeUser(assignee.data.User);
     //updates tasks
-    const userId = localStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${userId}`);
+    const userId = sessionStorage.getItem("userId");
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
 
   const updateDueDate = async (date) => {
     setDueDate(date);
-    await apiServer.put(`/task/${task.id}/dueDate`, { date });
+    await apiServer.put(`/tasks/${task.id}/due_date`, { date });
     console.log(date);
   };
   const updateDescription = async (e) => {
     const description = e.target.value;
-    await apiServer.put(`/task/${task.id}/description`, { description });
+    await apiServer.put(`/tasks/${task.id}/description`, { description });
 
     console.log(e.target.value);
   };
@@ -88,13 +88,13 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   };
 
   const handleCommentSubmit = async ({ text }) => {
-    const user_id = localStorage.getItem("userId");
-    await apiServer.post(`/task/${task.id}/comment`, {
+    const user_id = sessionStorage.getItem("userId");
+    await apiServer.post(`/tasks/${task.id}/comment`, {
       text,
       user_id,
     });
 
-    const comments = await apiServer.get(`/task/${task.id}/comment`);
+    const comments = await apiServer.get(`/tasks/${task.id}/comment`);
     setTaskComments(comments.data);
     updateScroll();
   };
@@ -106,10 +106,10 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   const updateComplete = async () => {
     // console.log(completed, "before");
     completed = !completed;
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     // console.log(completed, "after");
 
-    const updatedTask = await apiServer.put(`/task/${task.id}/complete`, {
+    const updatedTask = await apiServer.put(`/tasks/${task.id}/completed`, {
       completed,
     });
     await taskdispatch({
@@ -119,7 +119,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
 
     // console.log(task, "after update");
 
-    const res = await apiServer.get(`/task/user/${userId}`);
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
   const expandCommentBox = () => {
@@ -131,30 +131,31 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     element.scrollTop = element.scrollHeight;
   }
   const renderedProjects = projectState.projects
-    .filter((project) => {
-      return project.id !== task.Project.id;
-    })
-    .map((project, i) => {
-      return (
-        <option key={i} id={project.id} value={project.id}>
-          {project.name}
-        </option>
-      );
-    });
+  .filter((project) => {
+    return project.id !== (task.Project?.id || null);
+  })
+  .map((project, i) => {
+    return (
+      <option key={i} id={project.id} value={project.id}>
+        {project.name}
+      </option>
+    );
+  });
 
-  const renderedUsers = projectUsers
-    .filter((user) => {
-      return user.id !== task.User.id;
-    })
-    .map((user, i) => {
-      return (
-        <option key={i} value={user.id}>
-          {user.name}
-        </option>
-      );
-    });
 
-  const renderedComments = taskComments.map((comment, i) => {
+  const renderedUsers = task.Project?.Users?.filter((user) => {
+    return user.id !== (task.User?.id ?? null);
+  }).map((user, i) => {
+    return (
+      <option key={i} value={user.id}>
+        {user.name}
+      </option>
+    );
+  });
+  
+    
+    
+  const renderedComments = taskComments?.map((comment, i) => {
     const commentDate = moment(
       comment.createdAt.substring(0, 10).replace("-", ""),
       "YYYYMMDD"
@@ -296,24 +297,23 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                             marginRight: "10px",
                           }}
                         >
-                          {(
-                            assigneeUser.name[0] + assigneeUser.name[1]
-                          ).toUpperCase()}
+                        {assigneeUser.name}
                         </div>
                         <select
                           id="assignee-select"
-                          name="assigneeId"
+                          name="userId"
                           className="form-input"
-                          ref={register({ required: true })}
+                          {...register("userId",{ required: true })}
                           onChange={updateAssignee}
                           style={{ width: "150px" }}
+                          defaultValue={task.User?.id ?? ''}
                         >
                           <option
-                            value={task.User.id}
-                            id={task.User.id}
+                            value={task.User?.id ?? ''}
+                            id={task.User?.id ?? ''}
                             selected
                           >
-                            {task.User.name}
+                            {task.User?.name}
                           </option>
                           {renderedUsers}
                         </select>
@@ -346,8 +346,8 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                           name="projectId"
                           className={`form-input `}
                           onChange={getProjectUsers}
-                          defaultValue={task.Project.name}
-                          ref={register({ required: true })}
+                          defaultValue={task.Project?.name}
+                          {...register("projectId",{ required: true })}
                           onBlur={updateProject}
                           style={{
                             height: "25px",
@@ -357,13 +357,14 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                             background: "transparent",
                             justifyContent: "center",
                           }}
+                          
                         >
                           <option
-                            value={task.Project.id}
-                            id={task.Project.id}
+                            value={task.Project?.id ?? ''}
+                            id={task.Project?.id ?? ''}
                             selected
                           >
-                            {task.Project.name}
+                            {task.Project?.name}
                           </option>
                           {renderedProjects}
                         </select>
@@ -426,7 +427,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                         name="text"
                         className="comment-textarea"
                         placeholder="Ask a question or post an update..."
-                        ref={register({ required: true })}
+                        {...register("text",{ required: true })}
                       ></textarea>
                     </div>
 
