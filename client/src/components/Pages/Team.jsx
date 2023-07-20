@@ -52,6 +52,7 @@ const TeamPage = () => {
 
   const handleMenuClick = (event) => {
     setIsMenuOpen(true);
+    setAnchorMenu(null);
   };
   const handleMenuClose = () => {
     setIsMenuOpen(false);

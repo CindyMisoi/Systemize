@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
         project_id = params[:id]
         team = Team.includes(:projects, :users)
         .find_by(projects: {id: project_id})
-        render json: team, status: :ok
+        render json: team, include: :users, status: :ok
     end
 
     # post task list for a project

@@ -7,11 +7,8 @@ import { Context as ProjectContext } from "../../context/store/ProjectStore";
 import { Context as TaskContext } from "../../context/store/TaskStore";
 import apiServer from "../../config/apiServer";
 
-import Loader from "../Loader";
-
-//Form to add task from anywhere
-const TaskForm = ({setTasklists,showSideTaskForm}) => {
-  const { handleSubmit, clearErrors, register, formState: {errors}} = useForm();
+const TaskForm = ({ setTasklists, showSideTaskForm }) => {
+  const {handleSubmit,clearErrors,register,formState: { errors }} = useForm();
   const [projectError, setProjectError] = useState();
   const [assigneeError, setAssigneeError] = useState("");
   const [taskName, setTaskName] = useState("");
@@ -21,17 +18,26 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
   // state
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [taskState, taskdispatch] = useContext(TaskContext);
-  const [projectUsers, setProjectUsers] = useState([]);
-  const [projectTaskLists, setProjectTaskLists] = useState([]);
+  const [projectUsers, setProjectUsers] = useState([
+    {
+      id: "0",
+      name: "Choose a Project First",
+    },
+  ]);
+  const [projectTaskLists, setProjectTaskLists] = useState([
+    {
+      id: "0",
+      name: "Choose a Project First",
+    },
+  ]);
 
-  const openModal = () => {
+   const openModal = () => {
     setOpen(true);
   };
 
   const closeModal = () => {
     setOpen(false);
   };
-
 
   const handleNameChange = (e) => {
     setTaskName(e.target.value);
@@ -40,30 +46,44 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
   const handleDateChange = (e) => {
     setDueDate(e.target.value);
   };
+  
 
-  const getProjectUsers = async (event) => {
-    var projectSelect = document.getElementById("project-select");
-    var assigneeSelect = document.getElementById("assignee-select");
-    var tasklistSelect = document.getElementById("tasklist-select");
-    clearErrors(projectSelect.name);
-    clearErrors(assigneeSelect.name);
-    clearErrors(tasklistSelect.name);
-    const res = await apiServer.get(`/projects/${projectSelect.value}/team`);
-    setProjectUsers(res.data.Users);
-    // console.log(res.data.Users);
-    getProjectTasklists();
+  const handleProjectChange = (e) => {
+    console.log("Project selection changed!");
+    const projectId = e.target.value;
+    getProjectUsers(projectId);
+    getProjectTasklists(projectId);
+  
   };
+ const getProjectUsers = async (projectId) => {
+  try {
+    console.log("Fetching project users...");
+    const res = await apiServer.get(`/projects/${projectId}/team`);
+    const users = res.data.users;
+    if (users) {
+      console.log(users);
+      setProjectUsers(users);
+      setAssigneeError("");
+    } else {
+      console.error("User data not found in the API response.");
+    }
+  } catch (error) {
+    console.error("Error fetching project users:", error);
+  }
+};
 
-  const getProjectTasklists = async (projectId) => {
+
+const getProjectTasklists = async (projectId) => {
+  try {
     const res = await apiServer.get(`/projects/${projectId}/tasklists`);
+    console.log(res.data);
     setProjectTaskLists(res.data);
-  };
+  } catch (error) {
+    console.error("Error fetching project tasklists:", error);
+  }
+};
 
-  //  useEffect(() => {
-  //   getUserProjects();
-  // }, []);
 
-  //Probably need dispatch here to update the task page when task is created.
   const onSubmit = async ({
     name,
     projectId,
@@ -92,36 +112,40 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
       );
 
       setTasklists(taskResponse.data);
+      console.log(taskResponse.data);
     }
 
     showSideTaskForm();
   };
 
+  const renderedProjects =
+    projectState.projects && projectState.projects.length > 0
+      ? projectState.projects.map((project) => (
+          <option key={project.id} value={project.id}>
+            {project.name}
+          </option>
+        ))
+      : null;
 
-  const renderedProjects = projectState.projects && projectState.projects.length > 0 ? projectState.projects.map((project, i) => {  
+  const renderedUsers =
+    projectUsers && projectUsers.length > 0
+      ? projectUsers.map((user) => (
+          <option key={user.id} value={user.id}>
+            {user.name}
+          </option>
+        ))
+      : null;
+
+  const renderedTasklists =
+    projectTaskLists.length > 0
+      ? projectTaskLists.map((tasklist) => (
+          <option key={tasklist.id} value={tasklist.id}>
+            {tasklist.name}
+          </option>
+        ))
+      : null;
+
     return (
-        <option key={i} id={project.id} value={project.id}>
-          {project.name}
-        </option>
-      ); }) : null;
-
-  const renderedUsers = projectUsers && projectUsers.length > 0 ? projectUsers.map((user, i) => {  
-    return (
-        <option key={i} value={user.id}>
-          {user.name}
-        </option>
-      ); }) : null;
-
-  const renderedTasklists = projectTaskLists.length > 0 ? projectTaskLists.map((tasklist, i) => { 
-    return (
-        <option key={i} value={tasklist.id}>
-          {tasklist.name}
-        </option>
-      ); }) : null;
-
-   
-    
-  return (
     <>
       <Button onClick={openModal}>Open modal</Button>
       <Modal open={open} onClose={closeModal}>
@@ -137,7 +161,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
               <input
                 name="name"
                 type="text"
-                placeholder={"Task Name"}
+                placeholder="Task Name"
                 className="form-input"
                 onChange={handleNameChange}
                 {...register("name",{required: true})}
@@ -155,7 +179,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 id="project-select"
                 name="projectId"
                 className="form-input"
-                onChange={getProjectUsers}
+                onChange={handleProjectChange}
                 {...register("projectId",{required: true})}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
@@ -191,7 +215,6 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
                 name="userId"
                 className="form-input"
                 {...register("userId",{required: true})}
-                onChange = {() => setAssigneeError("")}
               >
                 {renderedUsers}
               </select>
@@ -230,7 +253,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
               >
                 {/* <option value={0}>Choose a project first</option> */}
                 {projectTaskLists.length === 0 ? (
-                  <option>
+                  <option value= "">
                     You need to make a column in your project first.
                   </option>
                 ) : (
@@ -283,5 +306,7 @@ const TaskForm = ({setTasklists,showSideTaskForm}) => {
       </>
   );
 };
-
 export default TaskForm;
+
+
+        

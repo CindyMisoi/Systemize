@@ -42,7 +42,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     clearErrors(projectSelect.name);
     // clearErrors(assigneeSelect.name);
     const res = await apiServer.get(`/projects/${projectSelect.value}/team`);
-    const userList = res.data.Users.filter((user) => {
+    const userList = res.data.users.filter((user) => {
       return user.id !== task.User.id;
     });
     console.log(userList, "userList");
@@ -52,7 +52,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
 
   const updateProject = async (e) => {
     var projectId = document.getElementById("project-select").value;
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     console.log(projectId);
     await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
     const res = await apiServer.get(`/tasks/user/${userId}`);
@@ -107,7 +107,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     // console.log(completed, "before");
     completed = !completed;
     const userId = sessionStorage.getItem("userId");
-    // console.log(completed, "after");
+    console.log(completed, "after");
 
     const updatedTask = await apiServer.put(`/tasks/${task.id}/completed`, {
       completed,
@@ -311,7 +311,6 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                           <option
                             value={task.User?.id ?? ''}
                             id={task.User?.id ?? ''}
-                            selected
                           >
                             {task.User?.name}
                           </option>
@@ -362,7 +361,6 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                           <option
                             value={task.Project?.id ?? ''}
                             id={task.Project?.id ?? ''}
-                            selected
                           >
                             {task.Project?.name}
                           </option>
