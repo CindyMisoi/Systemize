@@ -58,7 +58,8 @@ const ProjectForm = ({
   });
   if (setTeamProjects) {
     const teamResponse = await apiServer.get(`/teams/${teamId}`);
-    setTeamProjects(teamResponse.data.Projects);
+    console.log(teamResponse.data.projects);
+    setTeamProjects(teamResponse.data.projects);
   }
   window.location.reload();
 

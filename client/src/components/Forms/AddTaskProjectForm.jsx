@@ -15,7 +15,7 @@ const AddTaskProjectForm = ({
   setTasklists,
   showSideTaskForm,
 }) => {
-  const {handleSubmit } = useForm();
+  const {handleSubmit, register, formState: {errors} } = useForm();
   const { teamId, projectId } = useParams();
   const [projectUsers, setProjectUsers] = useState();
   const [loading, setLoading] = useState(true);
@@ -24,8 +24,8 @@ const AddTaskProjectForm = ({
 
   const { selectedTasklist } = tasklistState;
   const getProjectUsers = async (event) => {
-    const res = await apiServer.get(`/team/${teamId}/users`);
-    setProjectUsers(res.data[0].Users);
+    const res = await apiServer.get(`/teams/${teamId}/users`);
+    setProjectUsers(res.data[0].users);
     setLoading(false);
   };
 
@@ -93,8 +93,9 @@ const AddTaskProjectForm = ({
                   type="text"
                   placeholder={"Task Name"}
                   className="form-input"
+                  {...register("name",{required:true})}
                 />
-                {!name && (
+               {errors.name?.type === "required" && (
                   <p className="error-message">Please enter a task name</p>
                 )}
               </div>
@@ -109,10 +110,11 @@ const AddTaskProjectForm = ({
                   id="assignee-select"
                   name="userId"
                   className="form-input"
+                  {...register("userId",{required:true})}
                 >
                   {renderedUsers}
                 </select>
-                {!name && (
+                {errors.userId?.type === "required" && (
                   <p className="error-message">Please choose an assignee</p>
                 )}
               </div>
@@ -128,8 +130,9 @@ const AddTaskProjectForm = ({
                   className="form-input"
                   type="date"
                   name="due_date"
+                  {...register("due_date",{required:true})}
                 ></input>
-                {!name && (
+                {errors.due_date?.type === "required" && (
                   <p className="error-message">Please choose a due_date</p>
                 )}
               </div>
@@ -155,6 +158,7 @@ const AddTaskProjectForm = ({
                   name="completed"
                   //here
                   defaultChecked={false}
+                  {...register}
                 ></input>
               </div>
             </div>
@@ -166,6 +170,7 @@ const AddTaskProjectForm = ({
             type="text"
             placeholder={"Task Description"}
             className="edit-task-description textarea"
+            {...register}
           ></textarea>
         </div>
 

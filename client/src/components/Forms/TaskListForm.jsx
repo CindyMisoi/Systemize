@@ -9,7 +9,7 @@ import apiServer from "../../config/apiServer";
 
 
 const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
-  const {handleSubmit} = useForm();
+  const {handleSubmit, register, formState: {errors}} = useForm();
   const [tasklistName, setTasklistName] = useState();
   const { projectId } = useParams();
 
@@ -52,8 +52,9 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
               className="form-input"
               onChange={handleNameChange}
               onKeyPress={handleUserKeyPress}
+              {...register("name",{required:true})}
             ></input>
-            {!name && (
+            {errors.name?.type === "required" && (
               <p className="error-message">Please enter a column name</p>
             )}
           </div>

@@ -201,39 +201,17 @@ const ProjectPage = ({ sidebar }) => {
   const getProject = async () => {
     try {
       const res = await apiServer.get(`/projects/${projectId}`);
-      // await getTasklists();
+      console.log("Project Data", res.data);
       const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+      console.log("Tasklist Data", resp.data);
       setProject(res.data);
       setTasklists(resp.data);
-      // console.log(tasklists);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.log("Error fetching project data", err);
+      setLoading(false);
     }
   };
-
-  //NOTE: MAYBE TRY GRABBING TASKS IN ONE GET API CALL AND PUSHING IT DOWN?
-  const getTasklists = async () => {
-    try {
-      const res = await apiServer.get(`/projects/${projectId}/tasklists`);
-      setTasklists(res.data);
-
-      // setTasks(res.data.Tasks);
-      // const taskResponse = await apiServer.get(`/project/${projectId}/tasks`);
-      // setTaskArray(taskResponse.data); //Array of all tasks
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //----------------------------------------------------------------------------
-
-  // const updateTasks = async () => {
-  //   //returns individual tasklist tasks
-  //   const res = await apiServer.get(`/tasklist/${tasklist.id}/tasks`);
-  //   setTasklistTasks(res.data);
-  //   setLoading(false);
-  // };
 
   useEffect(() => {
     getProject();
@@ -244,19 +222,6 @@ const ProjectPage = ({ sidebar }) => {
   if (loading) {
     return <Loader />;
   }
-
-  //Task list creation
-  const tasklistFormModal = (
-    <div className="modal-container">
-      <TaskListForm
-        setTasklists={setTasklists}
-        projectId={projectId}
-        clickClose={closeTasklistFormModal}
-        open={openTasklistForm}
-      ></TaskListForm>
-    </div>
-  );
-
   const renderedTasklists = tasklists.map((tasklist, index) => {
     return (
       <ColumnTasklist

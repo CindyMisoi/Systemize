@@ -35,7 +35,7 @@ const TaskDetailsForm = ({
   const [loading, setLoading] = useState(true);
   // console.log(task.completed);
   const getTaskUser = async () => {
-    const res = await apiServer.get(`/user/${task.assignee_id}`);
+    const res = await apiServer.get(`/users/${task.assignee_id}`);
     setUser(res.data);
     setLoading(false);
   };

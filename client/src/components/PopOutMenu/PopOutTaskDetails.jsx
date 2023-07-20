@@ -64,7 +64,8 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
 
     await apiServer.put(`/tasks/${task.id}/user/${assigneeId}`);
     const assignee = await apiServer.get(`/tasks/${task.id}`);
-    setAssigneeUser(assignee.data.User);
+    console.log(assignee.data.user);
+    setAssigneeUser(assignee.data.user);
     //updates tasks
     const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${userId}`);
@@ -95,6 +96,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     });
 
     const comments = await apiServer.get(`/tasks/${task.id}/comment`);
+    console.log(comments.data);
     setTaskComments(comments.data);
     updateScroll();
   };
@@ -362,7 +364,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                             value={task.Project?.id ?? ''}
                             id={task.Project?.id ?? ''}
                           >
-                            {task.Project?.name}
+                            {"<---Choose Project--->"}
                           </option>
                           {renderedProjects}
                         </select>
