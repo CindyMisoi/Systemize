@@ -7,7 +7,7 @@ import apiServer from "../../config/apiServer";
 import Loader from "../Loader";
 
 const AddMemberForm = ({ teamId, clickClose, setTeamUsers }) => {
-  const {handleSubmit} = useForm();
+  const {handleSubmit, register, formState: {errors}} = useForm();
   const [users, setUsers] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
@@ -21,26 +21,34 @@ const AddMemberForm = ({ teamId, clickClose, setTeamUsers }) => {
     setOpen(false);
   };
 
+  const getAllUsers = async () => {
+    try {
+    const res = await apiServer.get("/users");
+    setUsers(res.data);
+    console.log(res.data);
+    setLoading(false);
+    } catch (err) {
+      console.error("Error getting users", err);
+      setLoading(false);
+    }
+  };
+
   const onSubmit = async ({ userId }) => {
     try {
       await apiServer.post(`/teams/${teamId}/user/${userId}`);
       const res = await apiServer.get(`/teams/${teamId}`);
       setTeamUsers(res.data.users);
-
+      // console.log(res.data.users);
       clickClose();
     } catch (err) {
-      setError("User already on team");
+      console.error("User already on team", err);
     }
 
     // const res = await apiServer.get(`/projects/${projectId}/tasklists`);
   };
 
-  const getAllUsers = async () => {
-    const res = await apiServer.get("/users");
-    setUsers(res.data);
-    setLoading(false);
-  };
   useEffect(() => {
+    console.log("useEffect is triggered");
     getAllUsers();
   }, []);
 
@@ -73,14 +81,15 @@ const AddMemberForm = ({ teamId, clickClose, setTeamUsers }) => {
                     name="userId"
                     className="form-input"
                     onChange={() => setError("")}
+                    {...register("userId",{required: true})}
                   >
                     <option value={0}>{"<---Choose user--->"}</option>
                     {renderedUsers}
                   </select>
                   <div className="error-message">{error}</div>
-                  {/* {!projectId && (
+                  {errors.projectId?.type === "required" && (
                     <p className="error-message">Please choose a user to add</p>
-                  )} */}
+                  )}
                 </label>
               </div>
               <div className="form-top-middle"></div>
