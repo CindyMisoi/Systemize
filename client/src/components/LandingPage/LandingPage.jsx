@@ -69,7 +69,7 @@ const LandingPage = () => {
                         fontWeight: "200",
                         color: "white",
                         width: "46%",
-                    }}>Why use Methodize? Methodize gives you everything you need to stay
+                    }}>Why use Systemize? Systemize gives you everything you need to stay
                     in sync, hit deadlines, and reach your goals</h3>
                     <div className="landing-message-button--div">
                         <Link to="/login">
