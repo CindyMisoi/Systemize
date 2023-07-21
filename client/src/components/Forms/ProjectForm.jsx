@@ -10,7 +10,7 @@ import "../../css/Forms.css";
 const ProjectForm = ({
   // setTeamProjects,
   showSideProjectForm}) => {
-  const {handleSubmit, clearErrors, register, formState: {errors} } = useForm();
+  const {handleSubmit, register, formState: {errors} } = useForm();
   const [projectName, setProjectName] = useState("");
   // state
   const [teamState, teamdispatch] = useContext(TeamContext);
@@ -29,45 +29,50 @@ const ProjectForm = ({
   };
 
   const handleNameChange = (e) => {
+    console.log("Handle name change:", e.target.value);
     setProjectName(e.target.value);
   };
 
   const handleUserKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
+      console.log("Enter key pressed, submitting form...");
       handleSubmit(onSubmit)();
     }
   };
 
   // create project for a team
   const onSubmit = async ({ name, teamId }) => {
-    await apiServer.post(`/teams/${teamId}/project`, {
-      name,
-      userId,
-    });
-
-  //REFER TO THIS WHEN CHECKING FOR RERENDERING
-  const res = await apiServer.get(`/projects/user/${userId}`);
-  await projectdispatch({ type: "get_user_projects", payload: res.data });
-  const projectResponse = await apiServer.get(`/teams/${teamId}`);
-  // NOTE: One way this could work is if we recreate form for just team page add project form button
-  // Will not work with top nav bar form
-  // setTeamProjects(projectResponse.data.Projects);
-  await teamdispatch({
-    type: `get_team_projects${teamId}`,
-    payload: projectResponse.data,
-  });
-  if (setTeamProjects) {
-    const teamResponse = await apiServer.get(`/teams/${teamId}`);
-    console.log(teamResponse.data.projects);
-    setTeamProjects(teamResponse.data.projects);
-  }
-  window.location.reload();
-
-  showSideProjectForm();
-};
-  const clearError = () => {
-    var teamSelect = document.getElementById("team-select");
-    clearErrors(teamSelect.name);
+    try {
+      console.log("Submitting form with name:", name, "and teamId:", teamId);
+      await apiServer.post(`/teams/${teamId}/project`, {
+        name,
+        userId,
+      });
+      console.log("Project added successfully");
+  
+      //REFER TO THIS WHEN CHECKING FOR RERENDERING
+      const res = await apiServer.get(`/projects/user/${userId}`);
+      await projectdispatch({ type: "get_user_projects", payload: res.data });
+  
+      const projectResponse = await apiServer.get(`/teams/${teamId}`);
+      // NOTE: One way this could work is if we recreate form for just team page add project form button
+      // Will not work with top nav bar form
+      // setTeamProjects(projectResponse.data.Projects);
+      await teamdispatch({
+        type: `get_team_projects${teamId}`,
+        payload: projectResponse.data,
+      });
+  
+      if (setTeamProjects) {
+        const teamResponse = await apiServer.get(`/teams/${teamId}`);
+        console.log(teamResponse.data.projects);
+        setTeamProjects(teamResponse.data.projects);
+      }
+      showSideProjectForm();
+      setOpen(false);
+    } catch (err) {
+      console.error("Error occurred while submitting form:", err);
+    }
   };
 
   const renderedTeams = teamState.teams.map((team, i) => (
@@ -132,11 +137,8 @@ const ProjectForm = ({
             Cancel
           </button>
           <button
-            className={
-              projectName ? "submit-button enabled" : "submit-button disabled"
-            }
-            disabled={projectName ? false : true}
-            type="submit"
+           className="submit-button enabled"
+           type="submit"
           >
             Create Project
           </button>
