@@ -21,17 +21,28 @@ const TeamForm = () => {
     setOpen(false);
   };
 
-
   const onSubmit = async ({ name, description }) => {
-    await apiServer.post(`/teams/user/${userId}`, {
-      name,
-      description,
-    });
-
-    const res = await apiServer.get(`/teams/user/${userId}`);
-    await teamdispatch({ type: "update_user_teams", payload: res.data });
-    closeModal();
+    try {
+      console.log("Submitting form with name:", name, "and description:", description);
+  
+      await apiServer.post(`/teams/user/${userId}`, {
+        name,
+        description,
+      });
+  
+      console.log("Team added successfully!");
+  
+      const res = await apiServer.get(`/teams/user/${userId}`);
+      console.log("Response data:", res.data);
+  
+      await teamdispatch({ type: "update_user_teams", payload: res.data });
+      closeModal();
+    } catch (error) {
+      console.error("Error occurred while submitting the form:", error);
+    }
   };
+  
+  
   return (
     <div>
       <Button onClick={openModal}>Open modal</Button>
@@ -67,7 +78,7 @@ const TeamForm = () => {
                 type="text"
                 placeholder={"Team Description"}
                 className="edit-task-description textarea"
-                {...register}
+                {...register("description",{required: true})}
               ></textarea>
             </div>
             <div style={{ display: "flex", marginLeft: "400px" }}>

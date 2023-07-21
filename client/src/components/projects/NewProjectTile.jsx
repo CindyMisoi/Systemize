@@ -4,7 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import "../../css/Project.css";
 import ProjectForm from "../Forms/ProjectForm";
 const NewProjectTile = ({ showSideProjectForm }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   // const openModal = () => {
   //   setOpen(true);
   // };
