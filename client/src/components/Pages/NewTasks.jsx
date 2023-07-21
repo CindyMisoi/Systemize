@@ -27,7 +27,7 @@ const NewTasks = () => {
   };
 
   const getUserTasks = async () => {
-    const id = localStorage.getItem("userId");
+    const id = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${id}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
     setLoading(false);

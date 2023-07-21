@@ -64,11 +64,11 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
 
     await apiServer.put(`/tasks/${task.id}/user/${assigneeId}`);
     const assignee = await apiServer.get(`/tasks/${task.id}`);
-    console.log(assignee.data.user);
     setAssigneeUser(assignee.data.user);
     //updates tasks
     const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${userId}`);
+    console.log(res.data);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
 
