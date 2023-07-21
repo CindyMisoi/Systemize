@@ -10,7 +10,7 @@ import "../../css/Forms.css";
 const ProjectForm = ({
   // setTeamProjects,
   showSideProjectForm}) => {
-  const {handleSubmit, register, formState: {errors} } = useForm();
+  const {handleSubmit, register, formState: {errors}, setValue } = useForm();
   const [projectName, setProjectName] = useState("");
   // state
   const [teamState, teamdispatch] = useContext(TeamContext);
@@ -29,8 +29,10 @@ const ProjectForm = ({
   };
 
   const handleNameChange = (e) => {
-    console.log("Handle name change:", e.target.value);
-    setProjectName(e.target.value);
+    const projectName = e.target.value;
+    console.log("Handle name change:", projectName);
+    setProjectName(projectName);
+    setValue("name", projectName);
   };
 
   const handleUserKeyPress = (e) => {
@@ -137,8 +139,11 @@ const ProjectForm = ({
             Cancel
           </button>
           <button
-           className="submit-button enabled"
-           type="submit"
+            className={
+               errors.name || !teamState.teams.length ? "submit-button disabled" : "submit-button enabled"
+            }
+            disabled={errors.name || !teamState.teams.length}
+            type="submit"
           >
             Create Project
           </button>
