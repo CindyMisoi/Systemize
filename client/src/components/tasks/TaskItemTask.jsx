@@ -21,10 +21,10 @@ const TaskItemTask = ({
   const [taskState, taskdispatch] = useContext(TaskContext);
   const [open, setOpen] = useState(false);
 
-  const date = moment(
+  const date = task && task.due_date ? moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  );
+  ) : null;  
   const openModal = () => {
     setOpen(true);
   };
@@ -120,7 +120,7 @@ const TaskItemTask = ({
                 msUserSelect: "none",
               }}
             >
-              {date.format("MMM D YYYY")}
+              {date?.format("MMM D YYYY")}
             </p>
           </div>
         </div>

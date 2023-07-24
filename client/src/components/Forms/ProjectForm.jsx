@@ -30,7 +30,6 @@ const ProjectForm = ({
 
   const handleNameChange = (e) => {
     const projectName = e.target.value;
-    console.log("Handle name change:", projectName);
     setProjectName(projectName);
     setValue("name", projectName);
   };

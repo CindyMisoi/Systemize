@@ -276,14 +276,14 @@ TASKLISTS = [
   },
 ]
 TASKLISTS.each do |tasklist|
-  TaskList.create! tasklist
+  Tasklist.create! tasklist
 end
 
 # tasks
 TASKS = [
 {
   name: "Create schema",
-  task_list_id: 1,
+  tasklist_id: 1,
   project_id: 1,
   user_id: 1,
   description: "create initial database schema",
@@ -292,7 +292,7 @@ TASKS = [
 },
 {
   name: "Create Models",
-  task_list_id: 1,
+  tasklist_id: 1,
   project_id: 1,
   user_id: 1,
   description: "create models",
@@ -301,7 +301,7 @@ TASKS = [
 },
 {
   name: "Update new product feature",
-  task_list_id: 1,
+  tasklist_id: 1,
   project_id: 1,
   user_id: 3,
   description: "Update client's request",
@@ -310,7 +310,7 @@ TASKS = [
 },
 {
   name: "Test Functionality",
-  task_list_id: 2,
+  tasklist_id: 2,
   project_id: 1,
   user_id: 1,
   description: "Test functionality of feature",
@@ -319,7 +319,7 @@ TASKS = [
 },
 {
   name: "Product Feature XY",
-  task_list_id: 3,
+  tasklist_id: 3,
   project_id: 1,
   user_id: 1,
   description: "Test functionality of feature",
@@ -329,7 +329,7 @@ TASKS = [
 
 {
   name: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  task_list_id: 3,
+  tasklist_id: 3,
   project_id: 1,
   user_id: 1,
   description:
@@ -339,7 +339,7 @@ TASKS = [
 },
 {
   name: "Create Pamphlet",
-  task_list_id: 4,
+  tasklist_id: 4,
   project_id: 6,
   user_id: 1,
   description: "create marketing pamphlets",
@@ -348,7 +348,7 @@ TASKS = [
 },
 {
   name: "Discuss marketing strategy",
-  task_list_id: 4,
+  tasklist_id: 4,
   project_id: 6,
   user_id: 1,
   description: "discuss marketing strategy",
@@ -357,7 +357,7 @@ TASKS = [
 },
 {
   name: "Meet with client",
-  task_list_id: 10,
+  tasklist_id: 10,
   project_id: 7,
   user_id: 1,
   description: "Meet with client",
@@ -366,7 +366,7 @@ TASKS = [
 },
 {
   name: "Discuss business requirements with client",
-  task_list_id: 11,
+  tasklist_id: 11,
   project_id: 7,
   user_id: 1,
   description: "Business requirements",
@@ -375,7 +375,7 @@ TASKS = [
 },
 {
   name: "Meet with stakeholders",
-  task_list_id: 11,
+  tasklist_id: 11,
   project_id: 7,
   user_id: 1,
   description: "Stakeholder meeting at location Y",

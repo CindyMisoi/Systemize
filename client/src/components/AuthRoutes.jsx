@@ -76,11 +76,6 @@ const AuthRoutes = () => {
             <Route exact path="/" element={<HomePage/>} />
             <Route exact path="/tasks" element={<NewTasksPage/>} />
             <Route exact path="/projects" element={<ProjectsPage/>} />
-
-            {/* <Route
-              path="/team/:teamId/project/:projectId/:projectName"
-              component={ProjectPage}
-            /> */}
             <Route
               path="/teams/:teamId/project/:projectId/:projectName"
               render={() => <ProjectPage sidebar={sidebar} />}

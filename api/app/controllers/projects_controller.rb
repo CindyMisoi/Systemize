@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
     end
     def get_tasklists_for_project
         project_id = params[:id]
-        tasklists = TaskList.where(project_id: project_id)
+        tasklists = Tasklist.where(project_id: project_id)
         .order(column_index: :asc)
         .includes(tasks: :user)  
      if tasklists.present?
@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
     end
 
     # post task list for a project
-    def create_tasklist
+    def create_Tasklist
         project = Project.find(params[:id])
         tasklist = project.task_lists.create(tasklist_params)
         render json: tasklist, status: :created

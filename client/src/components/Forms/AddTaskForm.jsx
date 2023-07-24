@@ -13,8 +13,6 @@ const TaskForm = ({
   showSideTaskForm,
 }) => {
   const { register, handleSubmit, formState: {errors}, setValue } = useForm();
-  const [projectError, setProjectError] = useState();
-  const [assigneeError, setAssigneeError] = useState();
   const [taskName, setTaskName] = useState();
   const [dueDate, setDueDate] = useState();
   const [open, setOpen] = useState(false);
@@ -33,81 +31,102 @@ const TaskForm = ({
       };
     const handleNameChange = (e) => {
     const taskName = e.target.value;
-    console.log("Task Name:", taskName);
     setTaskName(taskName);
     setValue("name", taskName);
   };
 
   const handleDateChange = (e) => {
     const dueDate = e.target.value;
-    console.log("Due Date:", dueDate);
     setDueDate(dueDate);
     setValue("due_date", dueDate);
   };
 
-  const getProjectUsersAndTasklists = async (projectId) => {
+  const getProjectUsers = async (projectId) => {
     try {
-      const userRes = await apiServer.get(`/projects/${projectId}/team`);
-      setProjectUsers(userRes.data.users);
-
-      const tasklistRes = await apiServer.get(`/projects/${projectId}/tasklists`);
-      setProjectTaskLists(tasklistRes.data);
+      const res = await apiServer.get(`/projects/${projectId}/team`);
+      console.log(res.data.users);
+      setProjectUsers(res.data.users);
+      getProjectTasklists(projectId);
     } catch (error) {
-      console.error("Error fetching project users or tasklists:", error);
+      console.error("Error fetching project users:", error);
     }
   };
 
-  const onSubmit = async ({
-        name,
-        projectId,
-        userId,
-        due_date,
-        tasklistId,
-        completed,
-        description,
-      }) => {
-        projectId = parseInt(projectId);
-        userId = parseInt(userId);
-        tasklistId = parseInt(tasklistId);
-        console.log("form is submitted with data:", {
-          name,
-          projectId,
-          userId,
-          due_date,
-          tasklistId,
-          completed,
-          description,
-        });
-        await apiServer.post(`/task_lists/${tasklistId}/task`, {
-          name,
-          projectId,
-          userId,
-          due_date,
-          tasklistId,
-          completed,
-          description,
-        });
-    
-        const storedUserId = sessionStorage.getItem("userId");
-        const res = await apiServer.get(`/tasks/user/${storedUserId}`);
-        await taskdispatch({ type: "get_user_tasks", payload: res.data });
-    
-        if (setTasklists) {
-          const taskResponse = await apiServer.get(
-            `/projects/${projectId}/tasklists`
-          );
-    
-          setTasklists(taskResponse.data);
-          console.log(taskResponse.data);
-        }
-    
-        showSideTaskForm();
-      };
+const getProjectTasklists = async (projectId) => {
+  try{
+    const tasklistRes = await apiServer.get(`/projects/${projectId}/tasklists`);
+      console.log(tasklistRes.data);
+      setProjectTaskLists(tasklistRes.data);
+  }catch (error){
+    console.error("Error fetching project tasklists:", error);
+  }
+}
+
+
+const onSubmit = async ({
+  name,
+  projectId,
+  userId,
+  due_date,
+  tasklistId,
+  completed,
+  description,
+}) => {
+  projectId = parseInt(projectId);
+  userId = parseInt(userId);
+  tasklistId = parseInt(tasklistId);
+
+console.log("Task data to be sent:", {
+    name,
+    projectId,
+    userId,
+    due_date,
+    tasklistId,
+    completed,
+    description,
+  });
+
+  try {
+    const taskData = {
+      name: name,
+      project_id: projectId,
+      user_id: userId,
+      due_date: due_date,
+      tasklist_id: tasklistId, // Make sure the key matches the expected parameter name (tasklist_id).
+      completed: completed,
+      description: description,
+    };
+
+    const response = await apiServer.post(`/tasklists/${tasklistId}/task`, taskData);
+
+    if (response.status === 201) {
+      console.log("Task added successfully");
+
+      const storedUserId = sessionStorage.getItem("userId");
+      const res = await apiServer.get(`/tasks/user/${storedUserId}`);
+      await taskdispatch({ type: "get_user_tasks", payload: res.data });
+
+      if (setTasklists) {
+        const taskResponse = await apiServer.get(`/projects/${projectId}/tasklists`);
+        setTasklists(taskResponse.data);
+        console.log(taskResponse.data);
+      }
+
+      showSideTaskForm();
+      closeModal();
+    } else {
+      console.error("Error creating task:", response.data.error);
+    }
+  } catch (err) {
+    console.error("Error creating task:", err);
+  }
+};
+
 
   useEffect(() => {
     if (projectState.projects.length > 0) {
       const initialProjectId = projectState.projects[0].id;
-      getProjectUsersAndTasklists(initialProjectId);
+      getProjectUsers(initialProjectId);
     }
   }, [projectState.projects]);
 
@@ -146,6 +165,7 @@ const TaskForm = ({
                 type="text"
                 placeholder={"Task Name"}
                 className="form-input"
+                value={taskName}
                 onChange={handleNameChange}
                 {...register("name",{ required: true })}
               />
@@ -163,8 +183,8 @@ const TaskForm = ({
                 name="projectId"
                 className="form-input"
                 onChange={(e) => {
-                  setValue("assigneeId", "");
-                  getProjectUsersAndTasklists(e.target.value);
+                  setValue("userId", "");
+                  getProjectUsers(e.target.value);
                 }}
                 {...register("projectId",{ required: true })}
               >
@@ -185,6 +205,7 @@ const TaskForm = ({
                 className="form-input"
                 type="date"
                 name="due_date"
+                value={dueDate}
                 onChange={handleDateChange}
                 {...register("due_date",{ required: true })}
               />

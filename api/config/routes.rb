@@ -23,15 +23,15 @@ Rails.application.routes.draw do
 
   # tasklists
   # get all tasklists 
-  resources :task_lists, only: [:index, :destroy]
+  resources :tasklists, only: [:index, :destroy]
   # get all tasks for a tasklist
-  get 'task_lists/:id/tasks', to: 'task_lists#get_tasks_for_tasklist'
+  get 'tasklists/:id/tasks', to: 'tasklists#get_tasks_for_tasklist'
   # create task for a tasklist
-  post 'task_lists/:id/task', to: 'task_lists#create_task'
+  post 'tasklists/:id/task', to: 'tasklists#create_task'
   # edit column index
-  put 'task_lists/:id/column_index', to: 'task_lists#edit_columnIndex'
+  put 'tasklists/:id/column_index', to: 'tasklists#edit_columnIndex'
   # update tasklist name
-  put 'task_lists/:id/title', to: 'task_lists#update_tasklist_name'
+  put 'tasklists/:id/title', to: 'tasklists#update_tasklist_name'
 
   # tasks
   # get all tasks

@@ -42,7 +42,7 @@ const LoginForm = () => {
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
-      navigate("/homepage");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       setErrorMessage("The provided credentials were invalid");
@@ -75,7 +75,7 @@ const LoginForm = () => {
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
-      navigate("/homepage")
+      navigate("/")
     } catch (err) {
       setLoading(false);
       console.log(err.status);

@@ -157,7 +157,7 @@ const ProjectPage = () => {
   };
 
   const updateTasklist = async (newIndex, tasklistId, columnIndex) => {
-    await apiServer.put(`/task_lists/${tasklistId}/columnindex/`, { newIndex });
+    await apiServer.put(`/tasklists/${tasklistId}/columnindex/`, { newIndex });
   };
 
   const updateTasks = async (source, destination, draggableId) => {

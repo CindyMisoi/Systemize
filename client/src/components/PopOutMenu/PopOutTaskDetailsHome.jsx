@@ -52,7 +52,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
 
   const updateProject = async (e) => {
     var projectId = document.getElementById("project-select").value;
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     console.log(projectId);
     await apiServer.put(`/task/${task.id}/project/${projectId}`);
     const res = await apiServer.get(`/task/user/${userId}`);
@@ -66,7 +66,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
     const assignee = await apiServer.get(`/task/${task.id}`);
     setAssigneeUser(assignee.data.User);
     //updates tasks
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/task/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
@@ -88,7 +88,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   };
 
   const handleCommentSubmit = async ({ text }) => {
-    const user_id = localStorage.getItem("userId");
+    const user_id = sessionStorage.getItem("userId");
     await apiServer.post(`/task/${task.id}/comment`, {
       text,
       user_id,
@@ -106,7 +106,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const updateComplete = async () => {
     // console.log(completed, "before");
     completed = !completed;
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     // console.log(completed, "after");
 
     const updatedTask = await apiServer.put(`/task/${task.id}/complete`, {
@@ -415,7 +415,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                   className="task-detail-comment-avatar"
                   style={{ width: "25px", height: "25px", fontSize: "10px" }}
                 >
-                  <UserAvatar id={localStorage.getItem("userId")} />
+                  <UserAvatar id={sessionStorage.getItem("userId")} />
                 </div>
                 <div className="task-detail-comment-box">
                   <form

@@ -116,7 +116,7 @@ const TopNavBarTask = () => {
           }}
         >
           <div style={{ padding: "0" }}>
-            <UserAvatar id={localStorage.getItem("userId")} />
+            <UserAvatar id={sessionStorage.getItem("userId")} />
           </div>
           <div>{userState.user.name}</div>
           <div

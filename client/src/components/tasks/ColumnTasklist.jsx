@@ -58,13 +58,13 @@ const ColumnTasklist = ({
   const handleTasklistDelete = async (e) => {
     // console.log(tasklist.id);
     handleMenuClose();
-    await apiServer.delete(`/task_lists/${tasklist.id}`);
+    await apiServer.delete(`/tasklists/${tasklist.id}`);
     const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(resp.data);
   };
 
   const updateAndCloseTitle = async (e) => {
-    await apiServer.put(`/task_lists/${tasklist.id}/title`, { columnTitle });
+    await apiServer.put(`/tasklists/${tasklist.id}/title`, { columnTitle });
     const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(resp.data);
     setTitleSelect(false);
