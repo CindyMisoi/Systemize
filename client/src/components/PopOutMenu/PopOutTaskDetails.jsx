@@ -14,25 +14,26 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   const [taskState, taskdispatch] = useContext(TaskContext);
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
-  const [teamDescription, setTeamDescription] = useState(task.description);
-  const [projectUsers, setProjectUsers] = useState(task.Project?.Users || []);
-  const [assigneeUser, setAssigneeUser] = useState(task.User || {});
-  const [taskComments, setTaskComments] = useState(task.Comments || []);
-  const [dueDate, setDueDate] = useState(new Date(task.due_date));
+  const [teamDescription, setTeamDescription] = useState(task?.description);
+  const [projectUsers, setProjectUsers] = useState(task?.project?.users || []);
+  const [assigneeUser, setAssigneeUser] = useState(task?.user || {});
+  const [taskComments, setTaskComments] = useState(task?.comments || []);
+  const [dueDate, setDueDate] = useState(task?.due_date? new Date(task.due_date) : null);
   // const [completed, setCompleted] = useState(task.completed);
   const [commentBox, setCommentBox] = useState(false);
 
   var completed = task.completed;
-  const date = moment(
+  const date = task?.due_date? moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  );
+  ): null;
 
   console.log(task);
   // console.log(task.due_date, "task.due_date DB");
   // console.log(date, "moment date convert from db");
   // console.log(dueDate, "dueDate state new Date convert ");
 
+  
   const { register, handleSubmit, clearErrors } = useForm();
 
   //This doesn't do anything for initial
@@ -134,7 +135,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   }
   const renderedProjects = projectState.projects
   .filter((project) => {
-    return project.id !== (task.Project?.id || null);
+    return project.id !== (task?.project?.id || null);
   })
   .map((project, i) => {
     return (
@@ -145,8 +146,8 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   });
 
 
-  const renderedUsers = task.Project?.Users?.filter((user) => {
-    return user.id !== (task.User?.id ?? null);
+  const renderedUsers = task?.project?.users?.filter((user) => {
+    return user.id !== (task?.user?.id ?? null);
   }).map((user, i) => {
     return (
       <option key={i} value={user.id}>
@@ -291,15 +292,8 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                         className="assignee-select-container"
                         style={{ display: "flex" }}
                       >
-                        <div
-                          className="user-avatar"
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            marginRight: "10px",
-                          }}
-                        >
-                        {assigneeUser.name}
+                        <div>
+                        {assigneeUser?.name}
                         </div>
                         <select
                           id="assignee-select"
@@ -308,13 +302,13 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                           {...register("userId",{ required: true })}
                           onChange={updateAssignee}
                           style={{ width: "150px" }}
-                          defaultValue={task.User?.id ?? ''}
+                          defaultValue={task.user?.id ?? ''}
                         >
                           <option
-                            value={task.User?.id ?? ''}
-                            id={task.User?.id ?? ''}
+                            value={task.user?.id ?? ''}
+                            id={task.user?.id ?? ''}
                           >
-                            {task.User?.name}
+                            {task?.user?.name}
                           </option>
                           {renderedUsers}
                         </select>
@@ -361,8 +355,8 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                           
                         >
                           <option
-                            value={task.Project?.id ?? ''}
-                            id={task.Project?.id ?? ''}
+                            value={task?.project?.id ?? ''}
+                            id={task?.project?.id ?? ''}
                           >
                             {"<---Choose Project--->"}
                           </option>

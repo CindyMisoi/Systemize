@@ -15,6 +15,10 @@ import apiServer from "../../config/apiServer";
 //Task item list for home and task page
 
 const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
+
+  if(!task || !task.due_date) {
+    return <div>Loading...</div>
+  } 
   const date = moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
@@ -74,6 +78,7 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
       <TaskDetailsForm task={task} closeModal={closeModal} />
     </div>
   );
+  
   return (
     <>
       <div className="task-home-item">
