@@ -2,7 +2,7 @@ class TasksController < ApplicationController
     # get all tasks
     def index
         tasks = Task.all
-        render json: tasks, status: :ok
+        render json: tasks, include: :project, status: :ok
     end
     # get individual tasks
     def show

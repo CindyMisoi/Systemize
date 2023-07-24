@@ -25,10 +25,11 @@ const TaskDetailsForm = ({
     "YYYYMMDD"
   );
 
-  const date = moment(
+  const date = task?.due_date? moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  );
+  ): null;
+  
   const dueDate = date.format("YYYY-MM-DD");
 
   const [user, setUser] = useState();

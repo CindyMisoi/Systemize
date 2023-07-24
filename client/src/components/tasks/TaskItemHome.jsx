@@ -19,11 +19,11 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
   if(!task || !task.due_date) {
     return <div>Loading...</div>
   } 
-  const date = moment(
+  const date = task?.due_date? moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  );
-
+  ): null;
+  
   const [taskState, taskdispatch] = useContext(TaskContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);

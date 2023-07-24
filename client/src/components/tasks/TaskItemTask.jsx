@@ -21,10 +21,13 @@ const TaskItemTask = ({
   const [taskState, taskdispatch] = useContext(TaskContext);
   const [open, setOpen] = useState(false);
 
-  const date = task && task.due_date ? moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+  console.log(task);
+  const date = moment(
+    task?.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  ) : null;  
+  );
+
+  
   const openModal = () => {
     setOpen(true);
   };
@@ -87,7 +90,7 @@ const TaskItemTask = ({
         <div style={{ display: "flex", alignItems: "center" }}>
           <div
             className={`task-project-home-name-container task-project-${
-              task.Project ? task.Project.id : ""
+              task.project ? task.project.id : ""
             }`}
           >
             <p
@@ -101,7 +104,7 @@ const TaskItemTask = ({
                 msUserSelect: "none",
               }}
             >
-              {task.Project ? task.Project.name : ""}
+              {task.project ? task.project.name : ""}
             </p>
           </div>
 
@@ -120,7 +123,7 @@ const TaskItemTask = ({
                 msUserSelect: "none",
               }}
             >
-              {date?.format("MMM D YYYY")}
+              {date?.format("YYYY MM DD")}
             </p>
           </div>
         </div>

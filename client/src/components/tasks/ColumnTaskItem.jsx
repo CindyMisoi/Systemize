@@ -17,10 +17,10 @@ const ColumnTaskItem = ({
 }) => {
   const [taskState, taskdispatch] = useContext(TaskContext);
 
-  const date = moment(
+  const date = task?.due_date? moment(
     task.due_date.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
-  );
+  ): null;
 
   const setTaskPopOut = async () => {
     if (sideTaskDetails === false) {
@@ -69,7 +69,7 @@ const ColumnTaskItem = ({
             <div className="task-project-container-right">
               <div className="task-project-assignee-avatar">
                 <div className="user-avatar">
-                  {(task.User.name[0] + task.User.name[1]).toUpperCase()}
+                  {(task.user.name[0] + task.user.name[1]).toUpperCase()}
                 </div>
               </div>
               <div className="task-project-due_date">

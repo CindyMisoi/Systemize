@@ -15,20 +15,20 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [teamDescription, setTeamDescription] = useState(task.description);
-  const [projectUsers, setProjectUsers] = useState(task.Project.Users);
-  const [assigneeUser, setAssigneeUser] = useState(task.User);
-  const [taskComments, setTaskComments] = useState(task.Comments);
-  const [dueDate, setDueDate] = useState(new Date(task.due_date));
+  const [projectUsers, setProjectUsers] = useState(task?.project?.users);
+  const [assigneeUser, setAssigneeUser] = useState(task?.user);
+  const [taskComments, setTaskComments] = useState(task?.comments);
+  const [dueDate, setDueDate] = useState(new Date(task?.due_date));
   // const [completed, setCompleted] = useState(task.completed);
   const [commentBox, setCommentBox] = useState(false);
 
   var completed = task.completed;
   const date = moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+    task?.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
 
-  console.log(task);
+
   // console.log(task.due_date, "task.due_date DB");
   // console.log(date, "moment date convert from db");
   // console.log(dueDate, "dueDate state new Date convert ");
@@ -36,14 +36,12 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const { register, handleSubmit, clearErrors } = useForm();
 
   //This doesn't do anything for initial
-  const getProjectUsers = async (event) => {
-    var projectSelect = document.getElementById("project-select");
-    // var assigneeSelect = document.getElementById("assignee-select");
+  const getProjectUsers = async (projectId) => {
     clearErrors(projectSelect.name);
     // clearErrors(assigneeSelect.name);
-    const res = await apiServer.get(`/project/${projectSelect.value}/team`);
-    const userList = res.data.Users.filter((user) => {
-      return user.id !== task.User.id;
+    const res = await apiServer.get(`/project/${projectId}/team`);
+    const userList = res.data.users.filter((user) => {
+      return user.id !== task.user.id;
     });
     console.log(userList, "userList");
     setProjectUsers(userList);
@@ -62,9 +60,9 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const updateAssignee = async (e) => {
     var assigneeId = document.getElementById("assignee-select").value;
 
-    await apiServer.put(`/task/${task.id}/assignee/${assigneeId}`);
+    await apiServer.put(`/task/${task.id}/user/${assigneeId}`);
     const assignee = await apiServer.get(`/task/${task.id}`);
-    setAssigneeUser(assignee.data.User);
+    setAssigneeUser(assignee.data.user);
     //updates tasks
     const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/task/user/${userId}`);
@@ -157,8 +155,8 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const renderedComments = taskComments.map((comment, i) => {
     const commentDate = moment(
       comment.createdAt.substring(0, 10).replace("-", ""),
-      "YYYYMMDD"
-    ).format("MMM D");
+      "YYYY MM DD"
+    ).format("YYYY MM DD");
 
     return (
       <div className="comment-container">
@@ -171,14 +169,14 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
               marginRight: "10px",
             }}
           >
-            {(comment.User.name[0] + comment.User.name[1]).toUpperCase()}
+            {(comment.user.name[0] + comment.user.name[1]).toUpperCase()}
           </div>
 
           <div>
             <p
               style={{ fontWeight: 500, marginRight: "10px", fontSize: "15px" }}
             >
-              {comment.User.name}
+              {comment.user.name}
             </p>
           </div>
           <div>
@@ -277,7 +275,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
               <div>
                 <form className="task-detail-menu-main-content">
                   <div className="task-detail-title">
-                    <h2>{task.name}</h2>
+                    <h2>{task?.name}</h2>
                   </div>
                   <div className="task-details-container">
                     <div className="task-details-subtitles">
@@ -312,11 +310,11 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                           style={{ width: "150px" }}
                         >
                           <option
-                            value={task.User.id}
-                            id={task.User.id}
+                            value={task?.user?.id}
+                            id={task?.user?.id}
                             selected
                           >
-                            {task.User.name}
+                            {task?.user?.name}
                           </option>
                           {renderedUsers}
                         </select>
@@ -362,18 +360,18 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                           }}
                         >
                           <option
-                            value={task.Project.id}
-                            id={task.Project.id}
+                            value={task?.project?.id}
+                            id={task?.project?.id}
                             selected
                           >
-                            {task.Project.name}
+                            {task?.project?.name}
                           </option>
                           {renderedProjects}
                         </select>
-                        {/* <p style={{ margin: 0 }}> {task.Project.name}</p> */}
+                        {/* <p style={{ margin: 0 }}> {task?.project?.name}</p> */}
                       </div>
 
-                      {/* <p style={{ marginTop: "17px" }}> {task.description}</p> */}
+                      {/* <p style={{ marginTop: "17px" }}> {task?.description}</p> */}
                       <div className="task-detail-description-container">
                         <textarea
                           className="task-detail-edit-description"
@@ -429,7 +427,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                         name="text"
                         className="comment-textarea"
                         placeholder="Ask a question or post an update..."
-                        ref={register({ required: true })}
+                        {...register("text",{ required: true })}
                       ></textarea>
                     </div>
 
