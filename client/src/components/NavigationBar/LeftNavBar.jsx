@@ -113,8 +113,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                   </div>
                 </div>
               </NavLink>
-
-              {/* <NavLink
+               <NavLink
                 to="/projects"
                 className="left-nav-bar-main-link"
                 // activeClassName="navlink--active"
@@ -125,7 +124,7 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
                     <p className="left-nav-bar-link-title">Projects</p>
                   </div>
                 </div>
-              </NavLink> */}
+              </NavLink> 
             </div>
             <div className="teams-items-container">
               <div className="teams-items-header" style={{ display: "flex" }}>
@@ -144,21 +143,23 @@ const LeftNavBar = ({ showSidebar, sidebar }) => {
             </div>
             <div className="social-links">
               <div>
-                <a href="https://github.com/ctran01/Methodize" target="__blank">
+                <a href="https://github.com/CindyMisoi/Systemize" target="__blank">
                   <ImGithub className="social-icon" />
                 </a>
               </div>
               <div>
                 <a
-                  href="https://www.linkedin.com/in/chris-tran-"
+                  href="https://www.linkedin.com/in/cynthiamisoi/"
                   target="__blank"
                 >
                   <ImLinkedin className="social-icon" />
                 </a>
               </div>
             </div>
+            <div style={{marginTop: "auto", color: "white",}}><small>&copy; 2023 Cindy Misoi. All rights reserved.</small></div>
           </div>
         </div>
+        
 
         {sidebar ? null : (
           <div

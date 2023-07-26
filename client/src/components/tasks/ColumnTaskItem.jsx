@@ -18,7 +18,7 @@ const ColumnTaskItem = ({
   const [taskState, taskdispatch] = useContext(TaskContext);
 
   const date = task?.due_date? moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+    task.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   ): null;
 
@@ -73,7 +73,7 @@ const ColumnTaskItem = ({
                 </div>
               </div>
               <div className="task-project-due_date">
-                <p style={{ color: "darkgray" }}>{date.format("MMM D")}</p>
+                <p style={{ color: "darkgray" }}>{date?.format("MMM  D")}</p>
               </div>
             </div>
           </div>

@@ -177,7 +177,7 @@ const AddTaskProjectForm = ({
                   name="completed"
                   //here
                   defaultChecked={false}
-                  {...register("completed",{required: true})}
+                  {...register("completed",{required: false})}
                 ></input>
               </div>
             </div>
