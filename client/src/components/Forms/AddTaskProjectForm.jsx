@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../../css/Task.css";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
@@ -13,7 +13,8 @@ const AddTaskProjectForm = ({
   setTasklists,
   showSideTaskForm,
 }) => {
-  const {handleSubmit, register, formState: {errors} } = useForm();
+
+  const { register, handleSubmit, formState: {errors} } = useForm();
   const { teamId, projectId } = useParams();
   const [projectUsers, setProjectUsers] = useState();
   const [loading, setLoading] = useState(true);
@@ -21,10 +22,15 @@ const AddTaskProjectForm = ({
   const [tasklistState, tasklistdispatch] = useContext(TasklistContext);
 
   const { selectedTasklist } = tasklistState;
-  const getProjectUsers = async (event) => {
+  const getProjectUsers = async () => {
+    try{
     const res = await apiServer.get(`/teams/${teamId}/users`);
-    setProjectUsers(res.data[0].users);
+    setProjectUsers(res.data);
     setLoading(false);
+    console.log("Project Users:", res.data);
+    }catch(err){
+      console.error("Error getting project users:", err);
+    }
   };
 
   useEffect(() => {
@@ -37,28 +43,42 @@ const AddTaskProjectForm = ({
   const onSubmit = async ({
     name,
     userId,
-    projectId,
     due_date,
     completed,
     description,
   }) => {
-    console.log(userId);
-    console.log(projectId);
-    console.log(due_date);
-    console.log(completed);
-    await apiServer.post(`/tasklists/${selectedTasklist}/task`, {
+    console.log("onSubmit is called");
+   const  selectedUserId = parseInt(userId);
+   const selectedProjectId = parseInt(projectId);
+    
+    console.log("Task data to be sent:", {
       name,
-      projectId,
-      userId,
+      selectedUserId,
+      selectedProjectId,
       due_date,
       completed,
       description,
     });
-
+  
+    try{
+      const tasklistData = {
+        name: name,
+        project_id: selectedProjectId,
+        user_id: selectedUserId,
+        due_date: due_date,
+        completed: completed,
+        description: description,
+      };
+  
+    await apiServer.post(`/tasklists/${selectedTasklist}/task`, tasklistData);
  
     const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(resp.data);
+    console.log(resp.data);
     showSideTaskForm();
+  }catch(err){
+     console.error("Error getting tasklists:", err)
+  }
   };
 
   if (loading) {
