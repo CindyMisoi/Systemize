@@ -17,12 +17,12 @@ import ColumnTasklist from "../tasks/ColumnTasklist";
 import Add from "../../assets/Add";
 
 const ProjectPage = ({ sidebar }) => {
-  const { projectId, projectName, teamId } = useParams();
+  const { projectId, teamId, projectName} = useParams();
   const [taskState, taskdispatch] = useContext(TaskContext);
   const [openTasklistForm, setOpenTasklistForm] = useState(false);
   const [tasks, setTasks] = useState();
-  const [project, setProject] = useState();
-  const [tasklists, setTasklists] = useState();
+  const [project, setProject] = useState([]);
+  const [tasklists, setTasklists] = useState([]);
 
   //Side Menus
   const [sideTaskForm, setSideTaskForm] = useState(false);
@@ -95,55 +95,12 @@ const ProjectPage = ({ sidebar }) => {
       const sourceIndexId = source.droppableId.split("-")[1];
       const destinationTaskIndex = destination.index;
       const sourceTaskIndex = source.index;
-      //DroppableID of column ${tasklist.id.toString()}-${index.toString()}
-
-      // console.log(
-      //   tasklists[sourceIndexId].Tasks,
-      //   "tasklists[sourceIndexId] before"
-      // );
-
-      // tasklists[sourceIndexId].Tasks = [];
-
-      // console.log(
-      //   tasklists[sourceIndexId].Tasks,
-      //   "tasklists[sourceIndexId] after"
-      // );
-
       //sets source tasklist
       let sourceTasklist = tasklists[sourceIndexId].Tasks;
       //sets destination tasklist
       let destinationTasklist = tasklists[destinationIndexId].Tasks;
 
       reorderTasks(sourceTasklist, destinationTasklist, source, destination);
-      // //returns [new source tasklist, new destination tasklist]
-      // let newSourceTasklist = newTasklists[0];
-      // let newDestinationTasklist = newTasklists[1];
-      // tasklists[sourceIndexId].Tasks = newSourceTasklist;
-      // tasklists[destinationIndexId].Tasks = newDestinationTasklist;
-      // console.log(tasklists, "tasklists after reorder");
-      // console.log("source: ", source);
-      // console.log("destination: ", destination);
-      // console.log("draggableId: ", draggableId);
-      // console.log("type: ", type);
-
-      // console.log(tasklists, "tasklists after updating");
-      // tasklists.map((task, index) => {
-      //   return updateTasks(
-      //     index,
-      //     task.id,
-      //     task.task_index,
-      //     sourceTasklistId,
-      //     destinationTasklistId
-      //   );
-      // });
-
-      //tasklists.map((tasklist,index)=>{
-      //   tasklist.task.map((task,index)=>{
-      // return updateTasks(
-
-      // )
-      //   })
-      // })
     }
   };
 
@@ -163,11 +120,6 @@ const ProjectPage = ({ sidebar }) => {
   ) => {
     let sourceTask = sourceTasklist.splice(source.index, 1);
     destinationTasklist.splice(destination.index, 0, sourceTask[0]);
-    // return [sourceTasklist, destinationTasklist];
-    // console.log(sourceTasklist);
-    // console.log(destinationTasklist, "destinationTasklist");
-    //splice source task and insert into destination tasklist
-    //return new sourcetasklist and new desinationtasklist
   };
 
   const updateTasklist = async (newIndex, tasklistId, columnIndex) => {
@@ -185,10 +137,6 @@ const ProjectPage = ({ sidebar }) => {
       destinationTasklistId,
     }); // this will update the inital task with the new tasklist id
 
-    //Draggable Id === Task.id
-    //source.droppableId[0] === initial tasklist.id
-    //destination.droppableId[0] === destination tasklist.id
-
     // once that comes back, we want to update the task_index of that task to destination.index
     const destinationIndex = destination.index; //index of task in tasklist
     const updatedTaskIndex = await apiServer.put(`/tasks/${taskId}/taskindex`, {
@@ -202,26 +150,33 @@ const ProjectPage = ({ sidebar }) => {
     try {
       const res = await apiServer.get(`/projects/${projectId}`);
       console.log("Project Data", res.data);
-      const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
-      console.log("Tasklist Data", resp.data);
       setProject(res.data);
-      setTasklists(resp.data);
       setLoading(false);
     } catch (err) {
       console.log("Error fetching project data", err);
       setLoading(false);
     }
   };
+  const getTasklists = async () => {
+    try {
+      const res = await apiServer.get(`/projects/${projectId}/tasklists`);
+      console.log("Tasklist Data", res.data);
+      setTasklists(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
+    console.log("UseEffect triggered");
     getProject();
+    getTasklists();
     taskdispatch({ type: "get_selected_task", payload: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setProject, setTasklists, setTasks]);
+  }, [projectId]);
 
-  if (loading) {
-    return <Loader />;
-  }
+
   const renderedTasklists = tasklists.map((tasklist, index) => {
     return (
       <ColumnTasklist
@@ -235,8 +190,10 @@ const ProjectPage = ({ sidebar }) => {
       />
     );
   });
-
-  //----------------------------------------------Project
+  if (loading) {
+    return <Loader />;
+  }
+  
   return (
     // <div style={{ height: "inherit" }}>
     // <div style={{ height: "inherit" }}>
@@ -261,18 +218,6 @@ const ProjectPage = ({ sidebar }) => {
                   ref={provided.innerRef}
                 >
                   {renderedTasklists}
-                  {/* {tasklists.map((tasklist, i) => {
-                  return ( */}
-                  {/* <TaskListItem
-                      index={i}
-                      teamId={teamId}
-                      tasklist={tasklist}
-                      key={tasklist.id}
-                    /> */}
-
-                  {/* );
-                })} */}
-
                   {provided.placeholder}
                   <div
                     className="tasklist-new-tasklist--button"
@@ -318,12 +263,6 @@ const ProjectPage = ({ sidebar }) => {
           ) : null}
         </div>
       </div>
-
-      {/* </div> */}
-      {/* <Modal open={openTasklistForm} onClose={closeTasklistFormModal}>
-    //     {tasklistFormModal}
-    //   </Modal> */}
-      {/* // // </div> */}
     </>
   );
 };

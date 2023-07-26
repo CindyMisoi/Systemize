@@ -112,7 +112,7 @@ PROJECTS = [
   team_id: 1,
 },
 {
-  name: "UI/UX Project",
+  name: "UI-UX Project",
   team_id: 1,
 },
 

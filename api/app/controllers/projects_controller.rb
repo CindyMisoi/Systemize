@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
     # get one project
     def show
         project = Project.find(params[:id])
-        render json: project, include: :task_lists
+        render json: project, include: :tasklists
     end
     
     # get all projects for teams that a user is on
@@ -38,11 +38,11 @@ class ProjectsController < ApplicationController
         tasklists = Tasklist.where(project_id: project_id)
         .order(column_index: :asc)
         .includes(tasks: :user)  
-     if tasklists.present?
+    #  if tasklists.present?
         render json: tasklists, include: {tasks:{include:{user:{only: [:id,:name,:email]}}}}
-     else
-        render json: { message:'error'}
-     end
+    #  else
+    #     render json: { message:'error'}
+    #  end
     end
     # get team project is on
     def get_team
@@ -53,9 +53,9 @@ class ProjectsController < ApplicationController
     end
 
     # post task list for a project
-    def create_Tasklist
+    def create_tasklist
         project = Project.find(params[:id])
-        tasklist = project.task_lists.create(tasklist_params)
+        tasklist = project.tasklists.create(tasklist_params)
         render json: tasklist, status: :created
     end
 

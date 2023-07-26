@@ -168,7 +168,6 @@ const TeamPage = () => {
                   );
                 })
               )}
-              {/* {projectsList} */}
               <NewProjectTile showSideProjectForm={showSideProjectForm} />
             </div>
           </div>

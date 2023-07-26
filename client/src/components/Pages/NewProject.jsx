@@ -18,14 +18,14 @@ const ProjectPage = () => {
   const [openTasklistForm, setOpenTasklistForm] = useState(false);
   const [tasks, setTasks] = useState();
   const [project, setProject] = useState();
-  const [tasklists, setTasklists] = useState();
+  const [tasklists, setTasklists] = useState([]);
   const [taskArray, setTaskArray] = useState();
 
   const [openTaskProjectForm, setOpenTaskProjectForm] = useState(false);
   const [tasklistTasks, setTasklistTasks] = useState();
   const [openTaskDetailForm, setOpenTaskDetailForm] = useState(false);
 
-  //Task through get /project/id/taskslists. Set here so we can refer to it in the ondragend function
+  //Task through get /project/id/taskslists. Set here so we can refer to it in the ondragend funnction
   const [loading, setLoading] = useState(true);
 
   const openTasklistFormModal = () => {
@@ -229,9 +229,10 @@ const ProjectPage = () => {
   // };
 
   useEffect(() => {
+    getTasklists();
     getProject();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setProject, setTasklists, setTasks]);
+  }, [projectId]);
 
   if (loading) {
     return <Loader />;
@@ -251,7 +252,7 @@ const ProjectPage = () => {
 
   const renderedTasklists = tasklists.map((tasklist, index) => {
     //returns individual tasklist tasks
-
+   const tasks = tasklists.tasks || [];
     return (
       <div key={tasklist.id}>
         <Draggable
@@ -279,7 +280,7 @@ const ProjectPage = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {tasklist.Tasks.map((task, index) => {
+                    {tasks.map((task, index) => {
                       return (
                         <div key={task.id}>
                           <Draggable
@@ -293,7 +294,7 @@ const ProjectPage = () => {
                               <div
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                ref={provided.innerRef}
+                                ref = {provided.innerRef}
                                 className="task-project-item"
                                 onClick={openTaskDetailFormModal}
                               >
@@ -371,20 +372,9 @@ const ProjectPage = () => {
               <div
                 className="project-container"
                 {...provided.droppableProps}
-                ref={provided.innerRef}
+                ref = {provided.innerRef}
               >
                 {renderedTasklists}
-                {/* {tasklists.map((tasklist, i) => {
-                  return ( */}
-                {/* <TaskListItem
-                      index={i}
-                      teamId={teamId}
-                      tasklist={tasklist}
-                      key={tasklist.id}
-                    /> */}
-
-                {/* );
-                })} */}
                 <div
                   className="tasklist-new-tasklist--button"
                   onClick={openTasklistFormModal}

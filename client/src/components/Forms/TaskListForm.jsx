@@ -9,22 +9,30 @@ import apiServer from "../../config/apiServer";
 
 
 const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
-  const {handleSubmit, register, formState: {errors}} = useForm();
+  const {handleSubmit, register, formState: {errors}, setValue} = useForm();
   const [tasklistName, setTasklistName] = useState();
   const { projectId } = useParams();
 
   const handleNameChange = (e) => {
-    setTasklistName(e.target.value);
+    const tasklistName = e.target.value;
+    setTasklistName(tasklistName);
+    setValue("name", tasklistName);
   };
 
   const onSubmit = async ({ name }) => {
+    try {
     const userId = sessionStorage.getItem("userId");
-    await apiServer.post(`/projects/${projectId}/tasklist`, { name, userId });
-
+    const tasklistData = {name, user_id: userId}
+    console.log("Tasklist data sent:" ,{name, userId});
+    await apiServer.post(`/projects/${projectId}/tasklist`, tasklistData);
+    console.log("Tasklist created successfully");
     const res = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(res.data);
     // tasklistdispatch({ type: "update_project_tasklists", payload: res.data });
     showSideTasklistForm();
+    }catch (err){
+      console.log("Error creating tasklist:", err);
+    }
   };
 
   const handleUserKeyPress = (e) => {
@@ -51,6 +59,7 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
               placeholder={"Column Name"}
               className="form-input"
               onChange={handleNameChange}
+              value={tasklistName}
               onKeyPress={handleUserKeyPress}
               {...register("name",{required:true})}
             ></input>
@@ -66,14 +75,16 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
           Cancel
         </button>
         <button
-          className={
-            tasklistName ? "submit-button enabled" : "submit-button disabled"
-          }
-          disabled={tasklistName ? false : true}
-          type="submit"
-        >
-          Create Column
-        </button>
+                className={
+                  errors.name
+                    ? "submit-button disabled"
+                    : "submit-button enabled"
+                }
+                disabled={errors.name}
+                type="submit"
+              >
+                Create Column
+              </button>
       </div>
     </form>
   );

@@ -25,7 +25,7 @@ const ProjectTile = ({ project, teamId, id }) => {
   return (
     <Link
       className="project-tile--link"
-      to={`/team/${team_id}/project/${project.id}/${project.name}`}
+      to={`/teams/${team_id}/project/${project.id}/${project.name}`}
     >
       <div className={`project-tile-container`}>
         <div className="project-tile-box">

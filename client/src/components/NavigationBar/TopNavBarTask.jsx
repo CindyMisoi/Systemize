@@ -66,33 +66,6 @@ const TopNavBarTask = () => {
       </div>
       <div className="top-nav-bar-middle"></div>
       <div className="top-nav-bar-right" style={{}}>
-        {/* <div style={{ display: "flex" }}>
-          <input className="searchbar" placeholder={"Search"}></input>
-        </div> */}
-        {/* <div>
-          <GrAddCircle onClick={handleNewClick} className="top-nav-bar--icon" />
-          <Menu
-            style={{ marginTop: "40px" }}
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleNewClose}
-          >
-            <MenuItem onClick={clickOpenTask}>Add Task</MenuItem>
-            <TaskForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseTask}
-              open={openTask}
-            ></TaskForm>
-            <MenuItem onClick={clickOpenProject}>Add Project</MenuItem>
-            <ProjectForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseProject}
-              open={openProject}
-            />
-            
-          </Menu>
-        </div> */}
         <div
           className="top-nav-icons"
           style={{ display: "flex", alignItems: "center" }}

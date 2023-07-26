@@ -11,7 +11,7 @@ import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
 import { Context as UserContext } from "../../context/store/UserStore";
 
-const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
+const TopNavBar = ({ name }) => {
   const { logout } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -63,34 +63,7 @@ const TopNavBar = ({ name, setTeamProjects, setTasklists, sidebar }) => {
       </div>
       <div className="top-nav-bar-middle"></div>
       <div className="top-nav-bar-right" style={{}}>
-        {/* <div style={{ display: "flex" }}>
-          <input className="searchbar" placeholder={"Search"}></input>
-        </div> */}
-        {/* <div>
-          <GrAddCircle onClick={handleNewClick} className="top-nav-bar--icon" />
-          <Menu
-            style={{ marginTop: "40px" }}
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleNewClose}
-          >
-            <MenuItem onClick={clickOpenTask}>Add Task</MenuItem>
-            <TaskForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseTask}
-              open={openTask}
-              setTasklists={setTasklists}
-            ></TaskForm>
-            <MenuItem onClick={clickOpenProject}>Add Project</MenuItem>
-            <ProjectForm
-              handleNewClose={handleNewClose}
-              clickClose={clickCloseProject}
-              open={openProject}
-              setTeamProjects={setTeamProjects}
-            />
-          </Menu>
-        </div> */}
+        
         <div
           className="top-nav-icons"
           style={{ display: "flex", alignItems: "center" }}

@@ -22,21 +22,10 @@ const ProjectItemHome = ({ project }) => {
     setAnchorEl(null);
   };
 
-  //import component as body such as forms, details, etc
-  // const body = (
-  //   <div className="modal-container">
-  //     {/* <h2 id="modal-title">Task Detail</h2>
-  //     <p id="modal-description">
-  //       Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-  //     </p> */}
-  //     <TaskDetailsForm task={task} closeModal={closeModal} />
-  //   </div>
-  // );
-
   return (
     <Link
       className="project-tile--link"
-      to={`/team/${project.team_id}/project/${project.id}/${project.name}`}
+      to={`/teams/${project.team_id}/project/${project.id}/${project.name}`}
     >
       <div className="project-home-item" onClick={openModal}>
         <div className="project-home-item-inner-container">

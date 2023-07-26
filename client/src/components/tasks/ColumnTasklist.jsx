@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Modal, responsiveFontSizes } from "@material-ui/core";
+import { Modal } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import AddTaskProjectForm from "../Forms/AddTaskProjectForm";
 import ColumnTaskItem from "./ColumnTaskItem";
@@ -19,8 +19,7 @@ const ColumnTasklist = ({
 }) => {
   const { projectId } = useParams();
   const [openTaskProjectForm, setOpenTaskProjectForm] = useState(false);
-  // const [tasklistTasks, setTasklistTasks] = useState();
-  const [columnTitle, setColumnTitle] = useState(tasklist.name);
+  const [columnTitle, setColumnTitle] = useState(tasklist ? tasklist.name : "");
   const [titleSelect, setTitleSelect] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tasklistState, tasklistdispatch] = useContext(TasklistContext);
@@ -40,14 +39,16 @@ const ColumnTasklist = ({
     });
     showSideTaskForm();
   };
+
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = () => {
     setTitleSelect(true);
   };
 
@@ -55,25 +56,31 @@ const ColumnTasklist = ({
     setColumnTitle(e.target.value);
   };
 
-  const handleTasklistDelete = async (e) => {
-    // console.log(tasklist.id);
+  const handleTasklistDelete = async () => {
     handleMenuClose();
     await apiServer.delete(`/tasklists/${tasklist.id}`);
     const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(resp.data);
   };
 
-  const updateAndCloseTitle = async (e) => {
-    await apiServer.put(`/tasklists/${tasklist.id}/title`, { columnTitle });
-    const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
-    setTasklists(resp.data);
-    setTitleSelect(false);
+  const updateAndCloseTitle = async () => {
+    if (tasklist) {
+      await apiServer.put(`/tasklists/${tasklist.id}/title`, { columnTitle });
+      const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+      setTasklists(resp.data);
+      setTitleSelect(false);
+    }
   };
 
   useEffect(() => {}, [setColumnTitle]);
 
+  if (!tasklist) {
+    return null;
+  }
+
   return (
     <div key={tasklist.id}>
+      {tasklist && tasklist.column_index && (
       <Draggable
         type="tasklist"
         draggableId={`Column-${tasklist.column_index.toString()}`}
@@ -129,17 +136,15 @@ const ColumnTasklist = ({
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {tasklist.Tasks.map((task, index) => {
-                    return (
-                      <ColumnTaskItem
-                        key={index}
-                        task={task}
-                        index={index}
-                        showSideTaskDetails={showSideTaskDetails}
-                        sideTaskDetails={sideTaskDetails}
-                      />
-                    );
-                  })}
+                  {tasklist.tasks.map((task, index) => (
+                    <ColumnTaskItem
+                      key={index}
+                      task={task}
+                      index={index}
+                      showSideTaskDetails={showSideTaskDetails}
+                      sideTaskDetails={sideTaskDetails}
+                    />
+                  ))}
                   {provided.placeholder}
                 </div>
               )}
@@ -147,7 +152,6 @@ const ColumnTasklist = ({
 
             <div
               className="tasklist-new-task--button"
-              // onClick={openTaskProjectFormModal}
               onClick={handleAddTaskClick}
             >
               + Add task
@@ -155,8 +159,9 @@ const ColumnTasklist = ({
           </div>
         )}
       </Draggable>
+      )}
       <div>
-        {/* <Modal
+        <Modal
           className="modal"
           style={{ backgroundColor: "white" }}
           open={openTaskProjectForm}
@@ -165,14 +170,13 @@ const ColumnTasklist = ({
           <div className="modal-container">
             <AddTaskProjectForm
               setTasklists={setTasklists}
-              // setTasklistTasks={setTasklistTasks}
               tasklistId={tasklist.id}
               projectId={tasklist.project_id}
               clickClose={closeTaskProjectFormModal}
               open={openTaskProjectForm}
             ></AddTaskProjectForm>
           </div>
-        </Modal> */}
+        </Modal>
       </div>
     </div>
   );

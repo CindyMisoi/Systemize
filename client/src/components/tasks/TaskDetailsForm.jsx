@@ -87,7 +87,7 @@ const TaskDetailsForm = ({
   }, []);
 
   if (loading) {
-    return <div></div>;
+    return <div>Loading...</div>;
   }
   return (
     <div>

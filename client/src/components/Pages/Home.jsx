@@ -175,19 +175,13 @@ const HomePage = () => {
                       </h2>
                     </div>
                     <div>
-                  <Link
-                    to="/projects"
-                    style={{ textDecoration: "none", color: "blue" }}
-                  >
-                    <p style={{ fontSize: "14px" }}>See all my projects</p>
-                  </Link>
                 </div>
                   </div>
                   <div className="home-projects--list">
                     {/* call get all projects for specific user route */}
                     {projectTiles}
                     <div
-                      className="new-home-item-container"
+                      // className="new-home-item-container"
                       onClick={showSideProjectForm}
                       style={{ height: "60%" }}
                     >

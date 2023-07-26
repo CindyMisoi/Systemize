@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/Home";
-import TasksPage from "./Pages/Tasks";
-import ProjectPage from "./Pages/Project";
 import ProjectsPage from "./Pages/Projects";
-import NewProjectPage from "./Pages/NewProject";
+import ProjectPage from "./Pages/Project";
 import TeamPage from "./Pages/Team";
 import NewTasksPage from "./Pages/NewTasks";
 import "../css/Navbar.css";
@@ -75,18 +73,10 @@ const AuthRoutes = () => {
           <Routes>
             <Route exact path="/" element={<HomePage/>} />
             <Route exact path="/tasks" element={<NewTasksPage/>} />
-            <Route exact path="/projects" element={<ProjectsPage/>} />
-            <Route
-              path="/teams/:teamId/project/:projectId/:projectName"
-              render={() => <ProjectPage sidebar={sidebar} />}
-            />
-            <Route path="/teams/:teamId/:teamName" element={<TeamPage/>} />
-            <Route
-              path="/*"
-              render={() => {
-                return <Redirect to="/" />;
-              }}
-            />
+            <Route exact path="/projects" element={<ProjectsPage />} />
+            <Route exact path="/teams/:teamId/project/:projectId/:projectName" element={<ProjectPage sidebar={sidebar}/>} />
+            <Route exact path="/teams/:teamId/:teamName" element={<TeamPage/>} />
+            <Route path = "*" element = {<h1>404 - Not Found</h1>}/>
           </Routes>
         </div>
       </BrowserRouter>

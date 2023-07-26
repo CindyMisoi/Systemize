@@ -8,7 +8,7 @@ import { Context as ProjectContext } from "../../context/store/ProjectStore";
 import { Context as TasklistContext } from "../../context/store/TasklistStore";
 import { Context as TaskContext } from "../../context/store/TaskStore";
 
-const TaskForm = ({
+const AddTaskForm = ({
   setTasklists,
   showSideTaskForm,
 }) => {
@@ -16,6 +16,9 @@ const TaskForm = ({
   const [taskName, setTaskName] = useState();
   const [dueDate, setDueDate] = useState();
   const [open, setOpen] = useState(false);
+  const [projectId, setProjectId] = useState("")
+
+  
 
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [taskState, taskdispatch] = useContext(TaskContext);
@@ -41,16 +44,25 @@ const TaskForm = ({
     setValue("due_date", dueDate);
   };
 
+  const handleProjectChange = (e) => {
+    const selectedProjectId = e.target.value;
+    console.log("handleProjectChange is triggered");
+    setProjectId(selectedProjectId)
+    setValue("projectId", selectedProjectId);
+    getProjectUsers(selectedProjectId)
+    getProjectTasklists(selectedProjectId)
+  }
+
   const getProjectUsers = async (projectId) => {
     try {
       const res = await apiServer.get(`/projects/${projectId}/team`);
       console.log(res.data.users);
-      setProjectUsers(res.data.users);
-      getProjectTasklists(projectId);
+      setProjectUsers(res.data.users || []); // Set an empty array if users is null or undefined
     } catch (error) {
       console.error("Error fetching project users:", error);
     }
   };
+  
 
 const getProjectTasklists = async (projectId) => {
   try{
@@ -117,18 +129,24 @@ console.log("Task data to be sent:", {
     } else {
       console.error("Error creating task:", response.data.error);
     }
+    getProjectUsers(projectId);
+    getProjectTasklists(projectId);
   } catch (err) {
     console.error("Error creating task:", err);
   }
 };
 
+useEffect(() => {
+  console.log("projectId", projectId);
+  if (projectState.projects.length > 0) {
+    const initialProjectId = projectState.projects[3].id;
+    setProjectId(initialProjectId); // Set initial project id
+    setValue("projectId", initialProjectId); // Set the value in the form
+    getProjectUsers(initialProjectId);
+    getProjectTasklists(initialProjectId);
+  }
+}, [projectState.projects]);
 
-  useEffect(() => {
-    if (projectState.projects.length > 0) {
-      const initialProjectId = projectState.projects[0].id;
-      getProjectUsers(initialProjectId);
-    }
-  }, [projectState.projects]);
 
   const renderedProjects = projectState.projects.map((project) => (
     <option key={project.id} value={project.id}>
@@ -182,10 +200,8 @@ console.log("Task data to be sent:", {
                 id="project-select"
                 name="projectId"
                 className="form-input"
-                onChange={(e) => {
-                  setValue("userId", "");
-                  getProjectUsers(e.target.value);
-                }}
+                onChange={handleProjectChange}
+                value={projectId}
                 {...register("projectId",{ required: true })}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
@@ -312,4 +328,4 @@ console.log("Task data to be sent:", {
     </>
   );
 };
-export default TaskForm;
+export default AddTaskForm;

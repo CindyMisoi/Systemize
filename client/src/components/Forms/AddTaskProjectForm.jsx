@@ -10,8 +10,6 @@ import { Context as TasklistContext } from "../../context/store/TasklistStore";
 
 // form to add task from selected project
 const AddTaskProjectForm = ({
-  tasklistId,
-  setTasklistTasks,
   setTasklists,
   showSideTaskForm,
 }) => {
@@ -39,6 +37,7 @@ const AddTaskProjectForm = ({
   const onSubmit = async ({
     name,
     userId,
+    projectId,
     due_date,
     completed,
     description,
@@ -158,7 +157,7 @@ const AddTaskProjectForm = ({
                   name="completed"
                   //here
                   defaultChecked={false}
-                  {...register}
+                  {...register("completed",{required: true})}
                 ></input>
               </div>
             </div>
@@ -170,7 +169,7 @@ const AddTaskProjectForm = ({
             type="text"
             placeholder={"Task Description"}
             className="edit-task-description textarea"
-            {...register}
+            {...register("description",{required: true})}
           ></textarea>
         </div>
 
