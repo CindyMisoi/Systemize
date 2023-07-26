@@ -11,6 +11,7 @@ import TaskForm from "../Forms/AddTaskForm";
 import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
+import { useNavigate } from "react-router";
 
 const TopNavBarTask = () => {
   const { logout } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const TopNavBarTask = () => {
   const [anchorEle, setAnchorEle] = useState(null);
   const [openProject, setOpenProject] = useState(false);
   const [openTask, setOpenTask] = useState(false);
+  const navigate = useNavigate();
 
   const clickOpenTask = () => {
     setOpenTask(true);
@@ -55,6 +57,11 @@ const TopNavBarTask = () => {
     setAnchorEle(null);
   };
 
+  const handleProfCloseAndLogout = () => {
+    handleProfClose();
+    logout();
+    navigate("/")
+  }
   return (
     <div className="top-nav-bar-container" style={{}}>
       <div
@@ -107,7 +114,7 @@ const TopNavBarTask = () => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={logout} 
+          <MenuItem onClick={handleProfCloseAndLogout} 
           >Logout</MenuItem>
         </Menu>
       </div>

@@ -11,6 +11,7 @@ import ProjectForm from "../Forms/ProjectForm";
 import TaskForm from "../Forms/AddTaskForm";
 import apiServer from "../../config/apiServer";
 import { Context as UserContext } from "../../context/store/UserStore";
+import { useNavigate } from "react-router";
 
 const TopNavBarHome = () => {
   const { logout } = useContext(AuthContext);
@@ -21,6 +22,7 @@ const TopNavBarHome = () => {
   const [openProject, setOpenProject] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const userId = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
 
   // useEffect(()=>{
   //   (async()=>{
@@ -58,6 +60,11 @@ const TopNavBarHome = () => {
   const handleProfClose = () => {
     setAnchorEle(null);
   };
+  const handleProfCloseAndLogout = () => {
+    handleProfClose();
+    logout();
+    navigate("/")
+  }
   return (
     <div className="top-nav-bar-container" style={{}}>
       <div
@@ -109,7 +116,7 @@ const TopNavBarHome = () => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={logout}>Logout</MenuItem>
+          <MenuItem onClick={handleProfCloseAndLogout}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

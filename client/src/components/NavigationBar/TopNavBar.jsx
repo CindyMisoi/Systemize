@@ -10,6 +10,7 @@ import Search from "../../assets/search";
 import messageIcon from "../../assets/message.png";
 import Alert from "../../assets/alert";
 import { Context as UserContext } from "../../context/store/UserStore";
+import { useNavigate } from "react-router";
 
 const TopNavBar = ({ name }) => {
   const { logout } = useContext(AuthContext);
@@ -19,6 +20,7 @@ const TopNavBar = ({ name }) => {
   const [openProject, setOpenProject] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [userState, userdispatch] = useContext(UserContext);
+  const navigate = useNavigate();
 
   const clickOpenTask = () => {
     setOpenTask(true);
@@ -50,6 +52,11 @@ const TopNavBar = ({ name }) => {
   const handleProfClose = () => {
     setAnchorEle(null);
   };
+  const handleProfCloseAndLogout = () => {
+    handleProfClose();
+    logout();
+    navigate("/")
+  }
 
   return (
     // <div
@@ -105,7 +112,7 @@ const TopNavBar = ({ name }) => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={logout}>Logout</MenuItem>
+          <MenuItem onClick={handleProfCloseAndLogout}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

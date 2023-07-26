@@ -1,6 +1,5 @@
 import React, { createContext, useState } from "react";
 
-
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -8,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null);
   const [email, setEmail] = useState(sessionStorage.getItem("email") || null);
   const [user, setUser] = useState(sessionStorage.getItem("user") || null);
-
+ 
   
   const [sidebar, setSidebar] = useState(true);
   const showSidebar = () => setSidebar(!sidebar);
