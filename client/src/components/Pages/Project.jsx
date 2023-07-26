@@ -109,7 +109,7 @@ const ProjectPage = ({ sidebar }) => {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    return result;
+    return result.map((tasklist) => ({...tasklist, column_index: tasklist.column_index !== null? tasklist.column_index : 0,}));
   };
 
   const reorderTasks = (
@@ -122,8 +122,8 @@ const ProjectPage = ({ sidebar }) => {
     destinationTasklist.splice(destination.index, 0, sourceTask[0]);
   };
 
-  const updateTasklist = async (newIndex, tasklistId, columnIndex) => {
-    await apiServer.put(`/tasklists/${tasklistId}/columnindex/`, { newIndex });
+  const updateTasklist = async (newIndex, tasklistId, columnindex) => {
+    await apiServer.put(`/tasklists/${tasklistId}/columnindex`, { newIndex });
   };
 
   const updateTasks = async (source, destination, draggableId) => {
@@ -151,6 +151,7 @@ const ProjectPage = ({ sidebar }) => {
       const res = await apiServer.get(`/projects/${projectId}`);
       console.log("Project Data", res.data);
       setProject(res.data);
+      console.log(res.data.tasklists);
       setLoading(false);
     } catch (err) {
       console.log("Error fetching project data", err);
@@ -175,7 +176,6 @@ const ProjectPage = ({ sidebar }) => {
     taskdispatch({ type: "get_selected_task", payload: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
-
 
   const renderedTasklists = tasklists.map((tasklist, index) => {
     return (

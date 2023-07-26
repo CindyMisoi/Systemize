@@ -107,7 +107,8 @@ const TopNavBarTask = () => {
           open={Boolean(anchorEle)}
           onClose={handleProfClose}
         >
-          <MenuItem onClick={logout}>Logout</MenuItem>
+          <MenuItem onClick={logout} 
+          >Logout</MenuItem>
         </Menu>
       </div>
     </div>

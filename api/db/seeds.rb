@@ -218,61 +218,73 @@ TASKLISTS = [
     name: "To Do",
     project_id: 1,
     user_id: 1,
+    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 1,
     user_id: 1,
+    column_index: 2,
   },
   {
     name: "Completed",
     project_id: 1,
     user_id: 1,
+    column_index: 3,
   },
   {
     name: "To Do",
     project_id: 6,
     user_id: 1,
+    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 6,
     user_id: 1,
+    column_index: 2,
   },
   {
     name: "Completed",
     project_id: 6,
     user_id: 1,
+    column_index: 3,
   },
   {
     name: "To Do",
     project_id: 8,
     user_id: 1,
+    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 8,
     user_id: 1,
+    column_index: 2,
   },
   {
     name: "Completed",
     project_id: 8,
     user_id: 1,
+    column_index: 3,
   },
   {
     name: "To Do",
     project_id: 7,
     user_id: 1,
+    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 7,
     user_id: 1,
+    column_index: 2,
   },
   {
     name: "Completed",
     project_id: 7,
     user_id: 1,
+    column_index: 3,
   },
 ]
 TASKLISTS.each do |tasklist|
@@ -289,6 +301,7 @@ TASKS = [
   description: "create initial database schema",
   due_date: "2021-08-13",
   completed: false,
+ 
 },
 {
   name: "Create Models",
@@ -298,6 +311,7 @@ TASKS = [
   description: "create models",
   due_date: "2021-08-13",
   completed: false,
+ 
 },
 {
   name: "Update new product feature",
@@ -307,6 +321,7 @@ TASKS = [
   description: "Update client's request",
   due_date: "2021-08-13",
   completed: false,
+
 },
 {
   name: "Test Functionality",
@@ -316,6 +331,7 @@ TASKS = [
   description: "Test functionality of feature",
   due_date: "2021-08-13",
   completed: false,
+
 },
 {
   name: "Product Feature XY",
@@ -325,6 +341,7 @@ TASKS = [
   description: "Test functionality of feature",
   due_date: "2021-08-13",
   completed: true,
+
 },
 
 {
@@ -336,6 +353,7 @@ TASKS = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   due_date: "2021-08-13",
   completed: true,
+
 },
 {
   name: "Create Pamphlet",
@@ -345,6 +363,7 @@ TASKS = [
   description: "create marketing pamphlets",
   due_date: "2020-12-30",
   completed: false,
+ 
 },
 {
   name: "Discuss marketing strategy",
@@ -354,6 +373,7 @@ TASKS = [
   description: "discuss marketing strategy",
   due_date: "2021-08-13",
   completed: true,
+ 
 },
 {
   name: "Meet with client",
@@ -363,6 +383,7 @@ TASKS = [
   description: "Meet with client",
   due_date: "2020-12-13",
   completed: false,
+  
 },
 {
   name: "Discuss business requirements with client",
@@ -372,6 +393,7 @@ TASKS = [
   description: "Business requirements",
   due_date: "2021-12-13",
   completed: false,
+ 
 },
 {
   name: "Meet with stakeholders",
@@ -381,6 +403,7 @@ TASKS = [
   description: "Stakeholder meeting at location Y",
   due_date: "2021-12-13",
   completed: false,
+ 
 },
 ]
 TASKS.each do |task|

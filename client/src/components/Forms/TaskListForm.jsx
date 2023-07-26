@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import { Modal } from "@material-ui/core";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import apiServer from "../../config/apiServer";
 const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
   const {handleSubmit, register, formState: {errors}, setValue} = useForm();
   const [tasklistName, setTasklistName] = useState();
+  const [columnIndex, setColumnIndex] = useState();
   const { projectId } = useParams();
 
   const handleNameChange = (e) => {
@@ -18,16 +19,30 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
     setTasklistName(tasklistName);
     setValue("name", tasklistName);
   };
+  const handleColumnIndexChange = (e) => {
+    const columnIndex = e.target.value;
+    setColumnIndex(columnIndex);
+    setValue("columnIndex", columnIndex);
+  };
 
-  const onSubmit = async ({ name }) => {
+  const onSubmit = async ({ name, columnIndex }) => {
+
     try {
-    const userId = sessionStorage.getItem("userId");
-    const tasklistData = {name, user_id: userId}
-    console.log("Tasklist data sent:" ,{name, userId});
+    let userId = sessionStorage.getItem("userId");
+
+    columnIndex = parseInt(columnIndex);
+    userId = parseInt(userId);
+
+    const tasklistData = {name, user_id: userId, column_index: columnIndex}
+
+   
+    console.log("Tasklist data sent:" ,tasklistData);
     await apiServer.post(`/projects/${projectId}/tasklist`, tasklistData);
+
     console.log("Tasklist created successfully");
     const res = await apiServer.get(`/projects/${projectId}/tasklists`);
     setTasklists(res.data);
+
     // tasklistdispatch({ type: "update_project_tasklists", payload: res.data });
     showSideTasklistForm();
     }catch (err){
@@ -67,6 +82,24 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
               <p className="error-message">Please enter a column name</p>
             )}
           </div>
+          <div className="label-container">
+            <label className="form-label">Column Index</label>
+          </div>
+          <div className="input-container">
+            <input
+              name="columnIndex"
+              type="number"
+              placeholder={"Column Index"}
+              className="form-input"
+              onChange={handleColumnIndexChange}
+              value={columnIndex}
+              onKeyPress={handleUserKeyPress}
+              {...register("columnIndex",{required:true})}
+            ></input>
+            {errors.columnIndex?.type === "required" && (
+              <p className="error-message">Please enter a column Index</p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -76,11 +109,11 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
         </button>
         <button
                 className={
-                  errors.name
+                  errors.name && errors.columnIndex
                     ? "submit-button disabled"
                     : "submit-button enabled"
                 }
-                disabled={errors.name}
+                disabled={errors.name && errors.columnIndex}
                 type="submit"
               >
                 Create Column

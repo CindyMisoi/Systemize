@@ -62,7 +62,7 @@ class ProjectsController < ApplicationController
     # private methods
     private
     def tasklist_params
-        params.permit(:name, :user_id)
+        params.permit(:name, :user_id, :column_index)
     end
     def response_not_found
         render json: {error: "Project not found"}, status: :not_found

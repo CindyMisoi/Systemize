@@ -77,7 +77,6 @@ const ColumnTasklist = ({
   if (!tasklist) {
     return null;
   }
-
   return (
     <div key={tasklist.id}>
       {tasklist && tasklist.column_index && (
@@ -108,7 +107,7 @@ const ColumnTasklist = ({
                     ></textarea>
                   </form>
                 ) : (
-                  tasklist.name
+                 tasklist.name
                 )}
               </div>
 
