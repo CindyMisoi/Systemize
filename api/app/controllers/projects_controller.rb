@@ -12,7 +12,12 @@ class ProjectsController < ApplicationController
         project = Project.find(params[:id])
         render json: project, include: :tasklists
     end
-    
+    # delete project
+    def destroy
+        project = Project.find(params[:id])
+        project.destroy
+        head :no_content
+    end
     # get all projects for teams that a user is on
     def get_team_projects
         user_id = params[:id]
