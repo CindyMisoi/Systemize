@@ -5,7 +5,7 @@ class TasklistsController < ApplicationController
         render json: tasklists, status: :ok
     end
     # get all tasks for a Tasklist
-    def get_tasks_for_Tasklist
+    def get_tasks_for_tasklist
         tasklist = Tasklist.find(params[:id])
         tasks = tasklist.tasks
         render json: tasks, status: :ok
@@ -44,10 +44,10 @@ class TasklistsController < ApplicationController
     end
 
     # update Tasklist name
-    def update_Tasklist_name
+    def update_tasklist_name
         tasklist = Tasklist.find(params[:id])
         if tasklist.update(name: params[:name])
-            render json: Tasklist
+            render json: tasklist
         else
             render json: {error: "Tasklist name did not update"}, status: :unprocessable_entity
         end
@@ -58,9 +58,7 @@ class TasklistsController < ApplicationController
     private
     def task_params
         params.permit(:name, :user_id, :project_id, :due_date, :completed, :description).merge(tasklist_id: params[:tasklist_id])
-      end
-      
-    
+      end  
 
 end
 

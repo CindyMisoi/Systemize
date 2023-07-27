@@ -58,94 +58,99 @@ const ProjectPage = ({ sidebar }) => {
     setOpenTasklistForm(false);
   };
 
-  const onDragEnd = async (result) => {
-    console.log(result, "result");
-    const { destination, source, draggableId, type } = result;
 
-    if (!destination) {
+const reorderTasklists = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result.map((tasklist, index) => ({
+    ...tasklist,
+    column_index: index,
+  }));
+};
+
+const updateTasklist = async (newIndex, tasklistId) => {
+  await apiServer.put(`/tasklists/${tasklistId}/columnindex`, { newIndex });
+};
+
+const onDragEnd = async (result) => {
+  const { destination, source, draggableId, type } = result;
+
+  if (!destination) {
+    return;
+  }
+
+  if (
+    destination.droppableId === source.droppableId &&
+    destination.index === source.index
+  ) {
+    return;
+  }
+
+  if (type === "column") {
+    const startIndex = source.index;
+    const endIndex = destination.index;
+
+    if (startIndex === endIndex) {
       return;
     }
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
+    const updatedTasklists = reorderTasklists(
+      tasklists,
+      startIndex,
+      endIndex
+    );
 
-    if (type === "column") {
-      const redorderedLists = reorderTasklists(
-        tasklists,
-        source.index,
-        destination.index
-      );
+    setTasklists(updatedTasklists);
 
-      setTasklists(redorderedLists);
-      console.log(redorderedLists, "reordedLists");
-      redorderedLists.map((list, index) => {
-        return updateTasklist(index, list.id, list.column_index);
-      });
-    }
+    // Update column_index for tasklists in the database
+    updatedTasklists.map(async (list, index) => {
+      await updateTasklist(index, list.id);
+    });
+  }
 
-    if (type === "task") {
-      updateTasks(source, destination, draggableId);
-      const destinationTasklistId = destination.droppableId.split("-")[0];
-      const destinationIndexId = destination.droppableId.split("-")[1];
-      const sourceTasklistId = source.droppableId.split("-")[0];
-      const sourceIndexId = source.droppableId.split("-")[1];
-      const destinationTaskIndex = destination.index;
-      const sourceTaskIndex = source.index;
-      //sets source tasklist
-      let sourceTasklist = tasklists[sourceIndexId].Tasks;
-      //sets destination tasklist
-      let destinationTasklist = tasklists[destinationIndexId].Tasks;
-
-      reorderTasks(sourceTasklist, destinationTasklist, source, destination);
-    }
-  };
-
-  const reorderTasklists = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result.map((tasklist) => ({...tasklist, column_index: tasklist.column_index !== null? tasklist.column_index : 0,}));
-  };
-
-  const reorderTasks = (
-    sourceTasklist,
-    destinationTasklist,
-    source,
-    destination
-  ) => {
-    let sourceTask = sourceTasklist.splice(source.index, 1);
-    destinationTasklist.splice(destination.index, 0, sourceTask[0]);
-  };
-
-  const updateTasklist = async (newIndex, tasklistId, columnindex) => {
-    await apiServer.put(`/tasklists/${tasklistId}/columnindex`, { newIndex });
-  };
-
-  const updateTasks = async (source, destination, draggableId) => {
-    const sourceColumnId = source.droppableId;
+  if (type === "task") {
     const destinationTasklistId = destination.droppableId.split("-")[0];
-    const destinationIndexId = destination.droppableId.split("-")[1];
+    const destinationTaskIndex = destination.index;
     const sourceTasklistId = source.droppableId.split("-")[0];
-    const sourceIndexId = source.droppableId.split("-")[1];
-    const taskId = draggableId;
-    const updatedTasklist = await apiServer.put(`/tasks/${taskId}/tasklist`, {
-      destinationTasklistId,
-    }); // this will update the inital task with the new tasklist id
+    const sourceTaskIndex = source.index;
 
-    // once that comes back, we want to update the task_index of that task to destination.index
-    const destinationIndex = destination.index; //index of task in tasklist
-    const updatedTaskIndex = await apiServer.put(`/tasks/${taskId}/taskindex`, {
-      destinationIndex,
+    // Ensure source and destination tasklist ids are defined
+    if (!destinationTasklistId || !sourceTasklistId) {
+      return;
+    }
+
+    // Update the tasklist of the dragged task in the database
+    await apiServer.put(`/tasks/${draggableId}/tasklist`, {
+      destinationTasklistId,
     });
 
-    // once that comes back, we will  update task_indexes for tasklists then re render
-  };
+    // Update the task_index of the dragged task in the database
+    await apiServer.put(`/tasks/${draggableId}/task_index`, {
+      destinationTaskIndex,
+    });
+   
 
+    // Perform any other task updates or reordering if needed
+    const updatedTasklists = [...tasklists];
+    const sourceTasklist = updatedTasklists.find(
+      (list) => list.id === sourceTasklistId
+    );
+    const destinationTasklist = updatedTasklists.find(
+      (list) => list.id === destinationTasklistId
+    );
+
+    if (!sourceTasklist || !destinationTasklist) {
+      return;
+    }
+
+    const [movedTask] = sourceTasklist.Tasks.splice(sourceTaskIndex, 1);
+    destinationTasklist.Tasks.splice(destinationTaskIndex, 0, movedTask);
+
+    setTasklists(updatedTasklists);
+  }
+};
   const getProject = async () => {
     try {
       const res = await apiServer.get(`/projects/${projectId}`);

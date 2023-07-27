@@ -41,7 +41,7 @@ const ColumnTasklist = ({
   };
 
   const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.target);
   };
 
   const handleMenuClose = () => {
@@ -49,10 +49,12 @@ const ColumnTasklist = ({
   };
 
   const handleTitleChange = () => {
+    console.log(titleSelect);
     setTitleSelect(true);
   };
 
   const handleTitleUpdate = (e) => {
+    console.log(columnTitle);
     setColumnTitle(e.target.value);
   };
 
@@ -60,13 +62,15 @@ const ColumnTasklist = ({
     handleMenuClose();
     await apiServer.delete(`/tasklists/${tasklist.id}`);
     const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+   
     setTasklists(resp.data);
   };
 
   const updateAndCloseTitle = async () => {
     if (tasklist) {
-      await apiServer.put(`/tasklists/${tasklist.id}/title`, { columnTitle });
+      await apiServer.put(`/tasklists/${tasklist.id}/title`, { name: columnTitle });
       const resp = await apiServer.get(`/projects/${projectId}/tasklists`);
+      console.log(resp.data);
       setTasklists(resp.data);
       setTitleSelect(false);
     }
@@ -96,16 +100,19 @@ const ColumnTasklist = ({
             <div className="tasklist-header">
               <div className="tasklist-title" onClick={handleTitleChange}>
                 {titleSelect ? (
-                  <form>
+                
                     <textarea
                       className="tasklist-title__textarea"
                       placeholder="Enter column name here.."
-                      value={columnTitle}
+                      value={columnTitle || ""}
                       onChange={handleTitleUpdate}
-                      onBlur={updateAndCloseTitle}
+                      onKeyDown={(e) => {if(e.key === "Enter"){
+                        e.preventDefault();
+                        updateAndCloseTitle();
+                      }}}
                       autoFocus
                     ></textarea>
-                  </form>
+                 
                 ) : (
                  tasklist.name
                 )}

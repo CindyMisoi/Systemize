@@ -43,7 +43,7 @@ class TasksController < ApplicationController
     # update tasklists
     def update_tasklist
         task = Task.find(params[:id])
-        task.update(task_list_id: params[:task_list_id])
+        task.update(tasklist_id: params[:tasklist_id])
         render json: task
     rescue
         StandardError
@@ -117,6 +117,6 @@ class TasksController < ApplicationController
         params.permit(:text, :user_id)
     end
     def task_params
-        params.permit(:name, :due_date, :description, :completed) 
-    end
+        params.permit(:name, :user_id, :due_date, :completed, :description)
+      end
 end
