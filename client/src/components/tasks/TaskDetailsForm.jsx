@@ -17,16 +17,16 @@ const TaskDetailsForm = ({
   const { register, handleSubmit } = useForm();
   const [taskState, taskdispatch] = useContext(TaskContext);
   const createdDate = moment(
-    task.createdAt.substring(0, 10).replace("-", ""),
+    task?.createdAt?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
   const updatedDate = moment(
-    task.updatedAt.substring(0, 10).replace("-", ""),
+    task?.updatedAt?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   );
 
   const date = task?.due_date? moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+    task?.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   ): null;
   
@@ -58,7 +58,7 @@ const TaskDetailsForm = ({
       await taskdispatch({ type: "update_task", payload: res.data });
       if (setTasklistTasks) {
         const taskres = await apiServer.get(
-          `/task_lists/${task.tasklist_id}/tasks`
+          `/tasklists/${task.tasklist_id}/tasks`
         );
         setTasklistTasks(taskres.data);
       }
@@ -99,7 +99,7 @@ const TaskDetailsForm = ({
             type="text"
             placeholder={"Task Name"}
             defaultValue={task.name}
-            {...register}
+            {...register("name",{required: true})}
             className="edit-task-title textarea"
           ></textarea>
         </div>
@@ -112,7 +112,7 @@ const TaskDetailsForm = ({
             }}
           >
             <div className="edit-task-user-avatar-container">
-              <UserAvatar id={task.assignee_id} />
+              <UserAvatar id={task.user_id} />
             </div>
             <div
               style={{
@@ -137,7 +137,7 @@ const TaskDetailsForm = ({
               type="checkbox"
               name="completed"
               defaultChecked={task.completed}
-              {...register}
+              {...register("completed",{required:false})}
             ></input>
             <label htmlFor="completed" style={{ fontWeight: "500" }}>
               Mark Complete
@@ -175,7 +175,7 @@ const TaskDetailsForm = ({
                 type="date"
                 name="due_date"
                 defaultValue={dueDate}
-                {...register}
+                {...register("due_date",{required: true})}
               ></input>
             </div>
           </div>
@@ -186,7 +186,7 @@ const TaskDetailsForm = ({
             type="text"
             placeholder={"Task Description"}
             defaultValue={task.description}
-            {...register}
+            {...register("description",{required: true})}
             className="edit-task-description textarea"
           ></textarea>
         </div>

@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     def get_tasks_for_user
         user = User.find(params[:id])
         tasks = user.tasks
-        render json: tasks, status: :ok
+        render json: tasks, include: :project, status: :ok
     end
     # create comment for a task
     def create_comment_for_task

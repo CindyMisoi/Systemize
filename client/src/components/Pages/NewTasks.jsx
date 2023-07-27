@@ -30,6 +30,7 @@ const NewTasks = () => {
     const id = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${id}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    console.log(res.data);
     setLoading(false);
   };
 

@@ -20,7 +20,7 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
     return <div>Loading...</div>
   } 
   const date = task?.due_date? moment(
-    task.due_date.substring(0, 10).replace("-", ""),
+    task?.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
   ): null;
   
@@ -69,15 +69,15 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
   //import component as body such as forms, details, etc
-  const body = (
-    <div className="modal-container">
-      {/* <h2 id="modal-title">Task Detail</h2>
-      <p id="modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p> */}
-      <TaskDetailsForm task={task} closeModal={closeModal} />
-    </div>
-  );
+  // const body = (
+  //   <div className="modal-container">
+  //     {/* <h2 id="modal-title">Task Detail</h2>
+  //     <p id="modal-description">
+  //       Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+  //     </p> */}
+  //     <TaskDetailsForm task={task} closeModal={closeModal} />
+  //   </div>
+  // );
   
   return (
     <>
@@ -85,13 +85,7 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
         <div className="task-home-item-inner-container">
           <div className="task-home-item-inner-left" onClick={setTaskPopOut}>
             <div className="task-home-item-icon-container">
-              {/* {task.completed ? (
-                <RiCheckboxCircleLine
-                  style={{ color: "green", fontSize: "16px" }}
-                />
-              ) : (
-                <RiCheckboxBlankCircleLine style={{ fontSize: "16px" }} />
-              )} */}
+
               <span className={`dot-task-${task.id}`}></span>
             </div>
             <div className="task-home-item-name-container">
@@ -127,10 +121,6 @@ const TaskItemHome = ({ task, showSideTaskDetails, sideTaskDetails }) => {
           </Menu>
         </div>
       </div>
-      {/* <Modal open={open} onClose={closeModal}>
-        {body}
-      </Modal> */}
-      {/* <TaskDetailsForm task={task} closeModal={closeModal} open={open} /> */}
     </>
   );
 };

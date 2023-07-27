@@ -10,8 +10,6 @@ import {
 import { Context as TaskContext } from "../../context/store/TaskStore";
 import apiServer from "../../config/apiServer";
 
-//Task item list for home and task page
-
 const TaskItemTask = ({
   task,
   showSideTaskDetails,
@@ -22,12 +20,10 @@ const TaskItemTask = ({
   const [open, setOpen] = useState(false);
 
   console.log(task);
-  const date = task?.due_date? moment(
-    task.due_date?.substring(0, 10).replace("-", ""),
-    "YYYYMMDD"
-  ): null;
+  const date = task?.due_date
+    ? moment(task.due_date?.substring(0, 10).replace("-", ""), "YYYYMMDD")
+    : null;
 
-  
   const openModal = () => {
     setOpen(true);
   };
@@ -39,7 +35,6 @@ const TaskItemTask = ({
   const setTaskPopOut = async () => {
     if (sideTaskDetails === false) {
       showSideTaskDetails();
-      //---
       taskdispatch({ type: "get_selected_task", payload: null });
       const res = await apiServer.get(`/tasks/${task.id}`);
       await taskdispatch({ type: "get_selected_task", payload: res.data });
@@ -54,24 +49,18 @@ const TaskItemTask = ({
     }
   };
 
-  //import component as body such as forms, details, etc
   const body = (
     <div className="modal-container">
-      {/* <h2 id="modal-title">Task Detail</h2>
-      <p id="modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p> */}
       <TaskDetailsForm task={task} closeModal={closeModal} />
     </div>
   );
+
   return (
     <>
       <li className="task-task-item" onClick={setTaskPopOut}>
         <div style={{ display: "flex", alignItems: "center" }}>
           {task.completed ? (
-            <RiCheckboxCircleLine
-              style={{ color: "green", fontSize: "16px" }}
-            />
+            <RiCheckboxCircleLine style={{ color: "green", fontSize: "16px" }} />
           ) : (
             <RiCheckboxBlankCircleLine style={{ fontSize: "16px" }} />
           )}
@@ -88,25 +77,43 @@ const TaskItemTask = ({
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            className={`task-project-home-name-container task-project-${
-              task.project ? task.project.id : ""
-            }`}
-          >
-            <p
-              style={{
-                margin: "0px",
-                padding: "5px",
-                fontSize: "12px",
-                fontWeight: "500",
-                WebkitUserSelect: "none",
-                MozUserSelect: "none",
-                msUserSelect: "none",
-              }}
+          {task.project ? (
+            <div
+              className={`task-project-home-name-container task-project-${task.project.id}`}
             >
-              {task.project ? task.project.name : ""}
-            </p>
-          </div>
+              <p
+                style={{
+                  margin: "0px",
+                  padding: "5px",
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  WebkitUserSelect: "none",
+                  MozUserSelect: "none",
+                  msUserSelect: "none",
+                }}
+              >
+                {task.project.name}
+              </p>
+            </div>
+          ) : (
+            <div
+              className={`task-project-home-name-container task-project-unknown`}
+            >
+              <p
+                style={{
+                  margin: "0px",
+                  padding: "5px",
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  WebkitUserSelect: "none",
+                  MozUserSelect: "none",
+                  msUserSelect: "none",
+                }}
+              >
+                No Project
+              </p>
+            </div>
+          )}
 
           <div
             style={{
@@ -128,9 +135,6 @@ const TaskItemTask = ({
           </div>
         </div>
       </li>
-      {/* <Modal open={open} onClose={closeModal}>
-        {body}
-      </Modal> */}
     </>
   );
 };

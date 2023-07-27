@@ -318,6 +318,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                         style={{ marginTop: "20px" }}
                       >
                         <DatePicker
+                          key = {dueDate.toISOString()}
                           selected={dueDate}
                           onChange={(date) => updateDueDate(date)}
                         />

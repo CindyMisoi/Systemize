@@ -10,19 +10,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BiCheck } from "react-icons/bi";
 
-const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
+const PopOutTaskDetailsHome = ({ showSideTaskDetails }) => {
   const [taskState, taskdispatch] = useContext(TaskContext);
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
   const [teamDescription, setTeamDescription] = useState(task.description);
   const [projectUsers, setProjectUsers] = useState(task?.project?.users);
-  const [assigneeUser, setAssigneeUser] = useState(task?.user);
+  const [assigneeUser, setAssigneeUser] = useState(task?.user || "");
   const [taskComments, setTaskComments] = useState(task?.comments);
   const [dueDate, setDueDate] = useState(new Date(task?.due_date));
   // const [completed, setCompleted] = useState(task.completed);
   const [commentBox, setCommentBox] = useState(false);
 
   var completed = task.completed;
+
+  
   const date = moment(
     task?.due_date?.substring(0, 10).replace("-", ""),
     "YYYYMMDD"
@@ -39,7 +41,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   const getProjectUsers = async (projectId) => {
     clearErrors(projectSelect.name);
     // clearErrors(assigneeSelect.name);
-    const res = await apiServer.get(`/project/${projectId}/team`);
+    const res = await apiServer.get(`/projects/${projectId}/team`);
     const userList = res.data.users.filter((user) => {
       return user.id !== task.user.id;
     });
@@ -52,8 +54,8 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
     var projectId = document.getElementById("project-select").value;
     const userId = sessionStorage.getItem("userId");
     console.log(projectId);
-    await apiServer.put(`/task/${task.id}/project/${projectId}`);
-    const res = await apiServer.get(`/task/user/${userId}`);
+    await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
 
@@ -65,18 +67,18 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
     setAssigneeUser(assignee.data.user);
     //updates tasks
     const userId = sessionStorage.getItem("userId");
-    const res = await apiServer.get(`/task/user/${userId}`);
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
 
   const updateDueDate = async (date) => {
     setDueDate(date);
-    await apiServer.put(`/task/${task.id}/dueDate`, { date });
+    await apiServer.put(`/tasks/${task.id}/dueDate`, { date });
     console.log(date);
   };
   const updateDescription = async (e) => {
     const description = e.target.value;
-    await apiServer.put(`/task/${task.id}/description`, { description });
+    await apiServer.put(`/tasks/${task.id}/description`, { description });
 
     console.log(e.target.value);
   };
@@ -87,12 +89,12 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
 
   const handleCommentSubmit = async ({ text }) => {
     const user_id = sessionStorage.getItem("userId");
-    await apiServer.post(`/task/${task.id}/comment`, {
+    await apiServer.post(`/tasks/${task.id}/comment`, {
       text,
       user_id,
     });
 
-    const comments = await apiServer.get(`/task/${task.id}/comment`);
+    const comments = await apiServer.get(`/tasks/${task.id}/comment`);
     setTaskComments(comments.data);
     updateScroll();
   };
@@ -107,7 +109,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
     const userId = sessionStorage.getItem("userId");
     // console.log(completed, "after");
 
-    const updatedTask = await apiServer.put(`/task/${task.id}/complete`, {
+    const updatedTask = await apiServer.put(`/tasks/${task.id}/complete`, {
       completed,
     });
     await taskdispatch({
@@ -117,7 +119,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
 
     // console.log(task, "after update");
 
-    const res = await apiServer.get(`/task/user/${userId}`);
+    const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
   const expandCommentBox = () => {
@@ -130,7 +132,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
   }
   const renderedProjects = projectState.projects
     .filter((project) => {
-      return project.id !== task.Project.id;
+      return project.id !== task?.project?.id;
     })
     .map((project, i) => {
       return (
@@ -142,7 +144,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
 
   const renderedUsers = projectUsers
     .filter((user) => {
-      return user.id !== task.User.id;
+      return user.id !== task?.user?.id;
     })
     .map((user, i) => {
       return (
@@ -152,7 +154,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
       );
     });
 
-  const renderedComments = taskComments.map((comment, i) => {
+  const renderedComments = taskComments?.map((comment, i) => {
     const commentDate = moment(
       comment.createdAt.substring(0, 10).replace("-", ""),
       "YYYY MM DD"
@@ -297,25 +299,19 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                             marginRight: "10px",
                           }}
                         >
-                          {(
-                            assigneeUser.name[0] + assigneeUser.name[1]
-                          ).toUpperCase()}
+                           {assigneeUser?.name? assigneeUser.name[0] + assigneeUser.name[1] : ""}
                         </div>
                         <select
                           id="assignee-select"
-                          name="assigneeId"
+                          name="userId"
                           className="form-input"
-                          ref={register({ required: true })}
+                          {...register("userId",{ required: true })}
                           onChange={updateAssignee}
                           style={{ width: "150px" }}
                         >
-                          <option
-                            value={task?.user?.id}
-                            id={task?.user?.id}
-                            selected
-                          >
-                            {task?.user?.name}
-                          </option>
+                       <option value={task?.user?.id} id={task?.user?.id}> 
+                       {task?.user?.name}
+                       </option>
                           {renderedUsers}
                         </select>
                       </div>
@@ -324,11 +320,10 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                         style={{ marginTop: "20px" }}
                       >
                         <DatePicker
+                          key = {dueDate.toISOString()}
                           selected={dueDate}
                           onChange={(date) => updateDueDate(date)}
-                          // customInput={<DateButton />}
                         />
-                        {/* <p style={{ marginTop: "20px" }}> {date.format("MMM D")}</p> */}
                       </div>
 
                       <div
@@ -347,8 +342,8 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                           name="projectId"
                           className={`form-input `}
                           onChange={getProjectUsers}
-                          defaultValue={task.Project.name}
-                          ref={register({ required: true })}
+                          defaultValue={task?.project?.name}
+                          {...register("projectId",{ required: true })}
                           onBlur={updateProject}
                           style={{
                             height: "25px",
@@ -359,12 +354,8 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                             justifyContent: "center",
                           }}
                         >
-                          <option
-                            value={task?.project?.id}
-                            id={task?.project?.id}
-                            selected
-                          >
-                            {task?.project?.name}
+                        <option value={task?.project?.id} id={task?.project?.id}>
+                          {task?.project?.name}
                           </option>
                           {renderedProjects}
                         </select>
@@ -385,7 +376,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails, sideTaskDetails }) => {
                   </div>
                 </form>
                 <div className="task-detail-user-comments-container">
-                  {taskComments.length !== 0 ? (
+                  {taskComments?.length !== 0 ? (
                     renderedComments
                   ) : (
                     <div>No comments yet.. </div>

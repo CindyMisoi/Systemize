@@ -82,12 +82,20 @@ const reorderTasklists = (list, startIndex, endIndex) => {
   return result;
 };
 
-  
-
 const updateTasklist = async (newIndex, tasklistId) => {
   console.log("column Index updated: " + newIndex);
   await apiServer.put(`/tasklists/${tasklistId}/column_index`, { newIndex });
 };
+
+const updateTaskPosition = async (taskId, newTaskIndex) => {
+  try {
+    console.log("task index updated: " + newTaskIndex);
+    await apiServer.put(`/tasks/${taskId}/task_index`, { newTaskIndex });
+  } catch (err) {
+    console.error("Error updating task position:", err);
+  }
+};
+
 
 const onDragEnd = async (result) => {
   const { destination, source, draggableId, type } = result;
@@ -155,10 +163,13 @@ const onDragEnd = async (result) => {
       return;
     }
 
-    const [movedTask] = sourceTasklist.Tasks.splice(sourceTaskIndex, 1);
-    destinationTasklist.Tasks.splice(destinationTaskIndex, 0, movedTask);
+    const [movedTask] = sourceTasklist.tasks.splice(sourceTaskIndex, 1);
+    destinationTasklist.tasks.splice(destinationTaskIndex, 0, movedTask);
 
     setTasklists(updatedTasklists);
+
+    // update task's position
+    await updateTaskPosition(draggableId, destinationTaskIndex)
   }
 };
 
