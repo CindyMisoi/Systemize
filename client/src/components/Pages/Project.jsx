@@ -57,21 +57,31 @@ const ProjectPage = ({ sidebar }) => {
   const closeTasklistFormModal = () => {
     setOpenTasklistForm(false);
   };
-
-
-const reorderTasklists = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result.map((tasklist, index) => ({
-    ...tasklist,
-    column_index: index,
-  }));
-};
+  
+  const reorderTasklists = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+  
+    // If moving to the first position, handle special case
+    if (endIndex === 0) {
+      // Shift all tasklists to the right
+      result.forEach((tasklist) => {
+        tasklist.column_index += 1;
+      });
+      removed.column_index = 0; // Update the column_index for the moved tasklist
+      result.unshift(removed); // Add the removed tasklist to the beginning
+    } else {
+      // Handle normal reordering
+      result.splice(endIndex, 0, removed);
+    }
+  
+    return result;
+  };
+  
 
 const updateTasklist = async (newIndex, tasklistId) => {
-  await apiServer.put(`/tasklists/${tasklistId}/columnindex`, { newIndex });
+  console.log("column Index updated: " + newIndex);
+  await apiServer.put(`/tasklists/${tasklistId}/column_index`, { newIndex });
 };
 
 const onDragEnd = async (result) => {

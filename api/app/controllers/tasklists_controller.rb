@@ -37,7 +37,7 @@ class TasklistsController < ApplicationController
     def edit_columnIndex
         tasklist = Tasklist.find(params[:id])
         if tasklist.update(column_index: params[:id])
-            render json: Tasklist.column_index
+            render json: tasklist.column_index, status: :ok
         else
             render json: {error: "something went wrong"}, status: :unprocessable_entity
         end
