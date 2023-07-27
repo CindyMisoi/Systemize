@@ -11,7 +11,6 @@ import apiServer from "../../config/apiServer";
 const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
   const {handleSubmit, register, formState: {errors}, setValue} = useForm();
   const [tasklistName, setTasklistName] = useState();
-  const [columnIndex, setColumnIndex] = useState();
   const { projectId } = useParams();
 
   const handleNameChange = (e) => {
@@ -19,21 +18,16 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
     setTasklistName(tasklistName);
     setValue("name", tasklistName);
   };
-  const handleColumnIndexChange = (e) => {
-    const columnIndex = e.target.value;
-    setColumnIndex(columnIndex);
-    setValue("columnIndex", columnIndex);
-  };
+ 
 
-  const onSubmit = async ({ name, columnIndex }) => {
+  const onSubmit = async ({ name }) => {
 
     try {
     let userId = sessionStorage.getItem("userId");
 
-    columnIndex = parseInt(columnIndex);
     userId = parseInt(userId);
 
-    const tasklistData = {name, user_id: userId, column_index: columnIndex}
+    const tasklistData = {name, user_id: userId}
 
    
     console.log("Tasklist data sent:" ,tasklistData);
@@ -80,24 +74,6 @@ const TaskListForm = ({ setTasklists, showSideTasklistForm }) => {
             ></input>
             {errors.name?.type === "required" && (
               <p className="error-message">Please enter a column name</p>
-            )}
-          </div>
-          <div className="label-container">
-            <label className="form-label">Column Index</label>
-          </div>
-          <div className="input-container">
-            <input
-              name="columnIndex"
-              type="number"
-              placeholder={"Column Index"}
-              className="form-input"
-              onChange={handleColumnIndexChange}
-              value={columnIndex}
-              onKeyPress={handleUserKeyPress}
-              {...register("columnIndex",{required:true})}
-            ></input>
-            {errors.columnIndex?.type === "required" && (
-              <p className="error-message">Please enter a column Index</p>
             )}
           </div>
         </div>

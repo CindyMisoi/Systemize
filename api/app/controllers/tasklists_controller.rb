@@ -26,7 +26,8 @@ class TasklistsController < ApplicationController
             render json: {error: "Task not created"}, status: :unprocessable_entity
         end
     end
-    # delete task list
+
+    # delete tasklist
     def destroy
         tasklist = Tasklist.find(params[:id])
         tasklist.destroy

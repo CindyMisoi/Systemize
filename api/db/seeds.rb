@@ -218,73 +218,70 @@ TASKLISTS = [
     name: "To Do",
     project_id: 1,
     user_id: 1,
-    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 1,
     user_id: 1,
-    column_index: 2,
   },
   {
     name: "Completed",
     project_id: 1,
     user_id: 1,
-    column_index: 3,
+   
   },
   {
     name: "To Do",
     project_id: 6,
     user_id: 1,
-    column_index: 1,
   },
   {
     name: "In Progress",
     project_id: 6,
     user_id: 1,
-    column_index: 2,
+  
   },
   {
     name: "Completed",
     project_id: 6,
     user_id: 1,
-    column_index: 3,
+   
   },
   {
     name: "To Do",
     project_id: 8,
     user_id: 1,
-    column_index: 1,
+    
   },
   {
     name: "In Progress",
     project_id: 8,
     user_id: 1,
-    column_index: 2,
+  
   },
   {
     name: "Completed",
     project_id: 8,
     user_id: 1,
-    column_index: 3,
+   
   },
   {
     name: "To Do",
     project_id: 7,
     user_id: 1,
-    column_index: 1,
+    
   },
   {
     name: "In Progress",
     project_id: 7,
     user_id: 1,
-    column_index: 2,
+  
   },
   {
     name: "Completed",
     project_id: 7,
     user_id: 1,
-    column_index: 3,
+   
   },
 ]
 TASKLISTS.each do |tasklist|

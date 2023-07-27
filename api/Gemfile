@@ -30,6 +30,8 @@ gem 'devise-jwt'
 gem 'jsonapi-serializer'
 gem 'securerandom'
 
+# autoincrement
+# gem 'active_record_autoincrement'
 
 # cors
 gem 'rack-cors'

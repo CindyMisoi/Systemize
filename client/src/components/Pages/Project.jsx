@@ -57,26 +57,31 @@ const ProjectPage = ({ sidebar }) => {
   const closeTasklistFormModal = () => {
     setOpenTasklistForm(false);
   };
-  
-  const reorderTasklists = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-  
-    // If moving to the first position, handle special case
+
+const reorderTasklists = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+
+  // Check if the tasklist is already at the first position
+  if (startIndex !== 0 && endIndex === 0) {
+    // If not, remove the tasklist from its original position
+    result.splice(startIndex, 1);
+  } else {
+    // If moving to the first position or staying at the first position, handle as before
     if (endIndex === 0) {
-      // Shift all tasklists to the right
       result.forEach((tasklist) => {
         tasklist.column_index += 1;
       });
-      removed.column_index = 0; // Update the column_index for the moved tasklist
-      result.unshift(removed); // Add the removed tasklist to the beginning
+      removed.column_index = 0;
+      result.unshift(removed);
     } else {
-      // Handle normal reordering
       result.splice(endIndex, 0, removed);
     }
-  
-    return result;
-  };
+  }
+
+  return result;
+};
+
   
 
 const updateTasklist = async (newIndex, tasklistId) => {
@@ -106,12 +111,7 @@ const onDragEnd = async (result) => {
       return;
     }
 
-    const updatedTasklists = reorderTasklists(
-      tasklists,
-      startIndex,
-      endIndex
-    );
-
+    const updatedTasklists = reorderTasklists(tasklists, startIndex, endIndex);
     setTasklists(updatedTasklists);
 
     // Update column_index for tasklists in the database
@@ -132,6 +132,7 @@ const onDragEnd = async (result) => {
     }
 
     // Update the tasklist of the dragged task in the database
+    console.log("task is dragged");
     await apiServer.put(`/tasks/${draggableId}/tasklist`, {
       destinationTasklistId,
     });
@@ -140,7 +141,6 @@ const onDragEnd = async (result) => {
     await apiServer.put(`/tasks/${draggableId}/task_index`, {
       destinationTaskIndex,
     });
-   
 
     // Perform any other task updates or reordering if needed
     const updatedTasklists = [...tasklists];
@@ -161,6 +161,8 @@ const onDragEnd = async (result) => {
     setTasklists(updatedTasklists);
   }
 };
+
+
   const getProject = async () => {
     try {
       const res = await apiServer.get(`/projects/${projectId}`);
