@@ -85,8 +85,8 @@ const ProjectForm = ({
   return (
     <>
       <Button onClick={openModal}>Open modal</Button>
-      <Modal open={open} onClose={closeModal}>
-        <div className="modal-container">
+      {/* <Modal open={open} onClose={closeModal}>
+        <div className="modal-container"> */}
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="form-header">Add a Project</h2>
         <div className="form-top-container">
@@ -148,8 +148,8 @@ const ProjectForm = ({
           </button>
         </div>
       </form>
-      </div>
-      </Modal>
+      {/* </div>
+      </Modal> */}
     </>
   );
 };

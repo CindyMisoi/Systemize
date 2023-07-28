@@ -38,19 +38,23 @@ const AddTaskForm = ({
     setValue("name", taskName);
   };
 
-  const handleDateChange = (e) => {
+  const handleDateChange =  (e) => {
     const dueDate = e.target.value;
     setDueDate(dueDate);
     setValue("due_date", dueDate);
   };
 
-  const handleProjectChange = (e) => {
-    const selectedProjectId = e.target.value;
+  const handleProjectChange = async (e) => {
     console.log("handleProjectChange is triggered");
+    const selectedProjectId = e.target.value;
+    console.log(selectedProjectId);
     setProjectId(selectedProjectId)
     setValue("projectId", selectedProjectId);
-    getProjectUsers(selectedProjectId)
-    getProjectTasklists(selectedProjectId)
+
+    await Promise.all([
+      getProjectUsers(selectedProjectId),
+      getProjectTasklists(selectedProjectId)
+    ])
   }
 
   const getProjectUsers = async (projectId) => {
@@ -136,18 +140,6 @@ console.log("Task data to be sent:", {
   }
 };
 
-useEffect(() => {
-  console.log("projectId", projectId);
-  if (projectState.projects.length > 0) {
-    const initialProjectId = projectState.projects[3].id;
-    setProjectId(initialProjectId); // Set initial project id
-    setValue("projectId", initialProjectId); // Set the value in the form
-    getProjectUsers(initialProjectId);
-    getProjectTasklists(initialProjectId);
-  }
-}, [projectState.projects]);
-
-
   const renderedProjects = projectState.projects.map((project) => (
     <option key={project.id} value={project.id}>
       {project.name}
@@ -169,8 +161,8 @@ useEffect(() => {
   return (
     <>      
      <Button onClick={openModal}>Open modal</Button>
-      <Modal open={open} onClose={closeModal}>
-        <div className="modal-container">
+      {/* <Modal open={open} onClose={closeModal}> */}
+        {/* <div className="modal-container"> */}
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-top-container">
           <div className="form-section">
@@ -200,8 +192,8 @@ useEffect(() => {
                 id="project-select"
                 name="projectId"
                 className="form-input"
-                onChange={handleProjectChange}
-                value={projectId}
+                onClick={handleProjectChange}
+                // value={projectId}
                 {...register("projectId",{ required: true })}
               >
                 <option value={0}>{"<---Choose Project--->"}</option>
@@ -323,8 +315,8 @@ useEffect(() => {
               </button>
             </div>
             </form>
-        </div>
-      </Modal>
+        {/* </div> */}
+      {/* </Modal> */}
     </>
   );
 };
