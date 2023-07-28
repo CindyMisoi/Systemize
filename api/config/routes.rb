@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   # update due date
   put 'tasks/:id/due_date', to: 'tasks#update_due_date'
   # update description
-  put '/:id/description', to: 'tasks#update_description'
+  put 'tasks/:id/description', to: 'tasks#update_description'
   # update completed
   put 'tasks/:id/completed', to: 'tasks#update_completed'
   # update task index

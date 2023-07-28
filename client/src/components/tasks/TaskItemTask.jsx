@@ -19,10 +19,11 @@ const TaskItemTask = ({
   const [taskState, taskdispatch] = useContext(TaskContext);
   const [open, setOpen] = useState(false);
 
-  console.log(task);
+  // console.log(task);
   const date = task?.due_date
     ? moment(task.due_date?.substring(0, 10).replace("-", ""), "YYYYMMDD")
     : null;
+    console.log("Date:", date);
 
   const openModal = () => {
     setOpen(true);

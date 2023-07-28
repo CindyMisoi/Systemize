@@ -35,6 +35,16 @@ const ColumnTaskItem = ({
       await taskdispatch({ type: "get_selected_task", payload: res.data });
     }
   };
+  function getInitials(name) {
+    // Split the name into individual words
+    const words = name.trim().split(' ');
+  
+    // Extract the first letter from each word and convert to uppercase
+    const initials = words.map(word => word.charAt(0).toUpperCase());
+  
+    // Join the initials together
+    return initials.join('');
+  }
 
   return (
     <div key={task.id}>
@@ -69,7 +79,7 @@ const ColumnTaskItem = ({
             <div className="task-project-container-right">
               <div className="task-project-assignee-avatar">
                 <div className="user-avatar">
-                  {(task.user.name[0] + task.user.name[1]).toUpperCase()}
+                  {getInitials(task.user.name)}
                 </div>
               </div>
               <div className="task-project-due_date">

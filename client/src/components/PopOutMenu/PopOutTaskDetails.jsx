@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { BiCheck } from "react-icons/bi";
 
 const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
+  const { register, handleSubmit, clearErrors } = useForm();
   const [taskState, taskdispatch] = useContext(TaskContext);
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
@@ -34,9 +35,6 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   // console.log(date, "moment date convert from db");
   // console.log(dueDate, "dueDate state new Date convert ");
 
-  
-  const { register, handleSubmit, clearErrors } = useForm();
-
   //This doesn't do anything for initial
   const getProjectUsers = async (projectId) => {
     var projectSelect = document.getElementById("project-select");
@@ -50,80 +48,107 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     updateProject();
   };
 
-  const updateProject = async (e) => {
-    var projectId = document.getElementById("project-select").value;
-    const userId = sessionStorage.getItem("userId");
-    console.log(projectId);
-    await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
-    const res = await apiServer.get(`/tasks/user/${userId}`);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
-  };
+  // const updateProject = async (e) => {
+  //   var projectId = document.getElementById("project-select").value;
+  //   console.log(projectId);
+  //   const userId = sessionStorage.getItem("userId");
+  //   await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
+  //   const res = await apiServer.get(`/tasks/user/${userId}`);
+  //   await taskdispatch({ type: "get_user_tasks", payload: res.data });
+  //   console.log("project updated");
+  // };
 
   const updateAssignee = async (e) => {
-    var assigneeId = document.getElementById("assignee-select").value;
-
-    await apiServer.put(`/tasks/${task.id}/user/${assigneeId}`);
-    const assignee = await apiServer.get(`/tasks/${task.id}`);
-    setAssigneeUser(assignee.data.user);
-    //updates tasks
-    const userId = sessionStorage.getItem("userId");
-    const res = await apiServer.get(`/tasks/user/${userId}`);
-    console.log(res.data);
-    await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    try {
+      const userId = sessionStorage.getItem("userId");
+      await apiServer.put(`/tasks/${task.id}/user/${userId}`);
+      const assignee = await apiServer.get(`/tasks/${task.id}`);
+      setAssigneeUser(assignee.data.user_id);
+      console.log(assignee.data.user_id);
+      console.log("Assignee updated successfully");
+  
+      //updates tasks
+      const res = await apiServer.get(`/tasks/user/${userId}`);
+      console.log(res.data);
+      await taskdispatch({ type: "get_user_tasks", payload: res.data });
+    } catch (error) {
+      console.error("Error updating assignee:", error);
+      // You can handle the error here, e.g., show an error message to the user.
+    }
   };
+  
 
   const updateDueDate = async (date) => {
     setDueDate(date);
     await apiServer.put(`/tasks/${task.id}/due_date`, { date });
-    console.log(date);
   };
-  const updateDescription = async (e) => {
-    const description = e.target.value;
-    await apiServer.put(`/tasks/${task.id}/description`, { description });
 
-    console.log(e.target.value);
+   // update the comment / submit the comment
+   const handleCommentSubmit = async (event) => {
+    console.log("handleCommentSubmit triggered");
+    event.preventDefault();
+    const user_id = sessionStorage.getItem("userId");
+    const text = event.target.text.value;
+    // clear the input
+    event.target.text.value = "";
+  
+    try{
+      await apiServer.post(`/tasks/${task.id}/comment`, {
+        text,
+        user_id,
+      });
+      // fetch updated comments
+      const comments = await apiServer.get(`/tasks/${task.id}/comment`);
+      setTaskComments(comments.data);
+      updateScroll();
+    } catch(err){
+      console.error("Error submitting comment", err);
+    }
+  };
+  
+  
+  // update description
+  const updateDescription = async () => {
+    try {
+      await apiServer.put(`/tasks/${task.id}/description`, {
+        description: teamDescription,
+      });
+      // Optionally, you may want to display a success message to the user.
+    } catch (error) {
+      // Handle error (e.g., display an error message).
+      console.error("Error updating description:", error);
+    }
   };
 
   const handleDescriptionUpdate = (e) => {
     setTeamDescription(e.target.value);
   };
 
-  const handleCommentSubmit = async ({ text }) => {
-    const user_id = sessionStorage.getItem("userId");
-    await apiServer.post(`/tasks/${task.id}/comment`, {
-      text,
-      user_id,
-    });
-
-    const comments = await apiServer.get(`/tasks/${task.id}/comment`);
-    console.log(comments.data);
-    setTaskComments(comments.data);
-    updateScroll();
-  };
-
+  // mark as complete
   const handleMarkComplete = async () => {
+    console.log("Mark as complete called");
     await updateComplete();
   };
 
   const updateComplete = async () => {
-    // console.log(completed, "before");
     completed = !completed;
-    const userId = sessionStorage.getItem("userId");
-    console.log(completed, "after");
-
+    console.log(completed);
     const updatedTask = await apiServer.put(`/tasks/${task.id}/completed`, {
       completed,
     });
+
+    // Update the taskState with the updated task data
     await taskdispatch({
       type: "get_selected_task",
       payload: updatedTask.data,
     });
 
-    // console.log(task, "after update");
-
+    // Fetch updated tasks for the user
+    const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
+
   const expandCommentBox = () => {
     setCommentBox(!commentBox);
   };
@@ -132,40 +157,41 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     var element = document.getElementById("scrollable");
     element.scrollTop = element.scrollHeight;
   }
-  const renderedProjects = projectState.projects
-  .filter((project) => {
-    return project.id !== (task?.project?.id || null);
-  })
-  .map((project, i) => {
-    return (
-      <option key={i} value={project.id}>
-        {project.name}
-      </option>
-    );
-  });
-
-
-  const renderedUsers = task?.project?.users?.filter((user) => {
-    return user.id !== (task?.user?.id ?? null);
-  }).map((user, i) => {
-    return (
-      <option key={i} value={user.id}>
-        {user.name}
-      </option>
-    );
-  });
   
-    
-    
-  const renderedComments = taskComments?.map((comment, i) => {
-    const commentDate = moment(
-      comment.createdAt.substring(0, 10).replace("-", ""),
-      "YYYYMMDD"
-    ).format("MMM D");
+  // get initials on the comments -> user avatar
+  function getInitials(name) {
+    // Split the name into individual words
+    const words = name.trim().split(' ');
+  
+    // Extract the first letter from each word and convert to uppercase
+    const initials = words.map(word => word.charAt(0).toUpperCase());
+  
+    // Join the initials together
+    return initials.join('');
+  }
 
+const renderedProjects = projectState.projects
+.filter((project) => project.id !== (task?.project?.id || null))
+.map((project, i) => (
+  <option key={i} value={project.id}>
+    {project.name}
+  </option>
+));
 
+const renderedUsers = (task?.project?.users || [])
+.filter((user) => user.id !== (task?.user?.id ?? null))
+.map((user, i) => (
+  <option key={i} value={user.id}>
+    {user.name}
+  </option>
+));
+
+  const renderedComments = taskComments?.map((comment) => {
+    const commentDate = moment( moment(comment?.createdAt).format(
+      "YYYY-MM-DDTHH:mm:ss.SSSZ"),
+      "YYYY-MM-DDTHH:mm:ss.SSSZ").format("MMM D");
     return (
-      <div className="comment-container">
+      <div className="comment-container" key={comment.id}>
         <div className="comment-header">
           <div
             className="user-avatar"
@@ -175,13 +201,10 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
               marginRight: "10px",
             }}
           >
-            {(comment.user.name[0] + comment.user.name[1]).toUpperCase()}
+            {getInitials(comment.user.name)}
           </div>
-
           <div>
-            <p
-              style={{ fontWeight: 500, marginRight: "10px", fontSize: "15px" }}
-            >
+            <p style={{ fontWeight: 500, marginRight: "10px", fontSize: "15px" }}>
               {comment.user.name}
             </p>
           </div>
@@ -195,7 +218,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
       </div>
     );
   });
-
+  
   return (
     <>
       <div className={"task-detail-menu active"}>
@@ -412,7 +435,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
                 <div className="task-detail-comment-box">
                   <form
                     className="task-detail-comment-form"
-                    onSubmit={handleSubmit(handleCommentSubmit)}
+                    onSubmit={handleCommentSubmit}
                     onFocus={expandCommentBox}
                     onBlur={expandCommentBox}
                   >
@@ -427,15 +450,14 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
 
                     {/* {commentBox ? ( */}
                     <div style={{ alignSelf: "flex-end", marginTop: "10px" }}>
-                      <button
-                        className="comment-button"
-                        style={{ height: "30px", width: "80px" }}
-                        type="submit"
-                      >
-                        Comment
+                    <button
+                    className="comment-button"
+                    style={{ height: "30px", width: "80px" }}
+                    type="submit"
+                    >
+                      Comment
                       </button>
-                    </div>
-                    {/* ) : null} */}
+                    </div> 
                   </form>
                 </div>
               </div>

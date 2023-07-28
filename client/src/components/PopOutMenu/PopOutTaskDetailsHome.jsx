@@ -14,7 +14,7 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails }) => {
   const [taskState, taskdispatch] = useContext(TaskContext);
   const { selectedTask: task } = taskState;
   const [projectState, projectdispatch] = useContext(ProjectContext);
-  const [teamDescription, setTeamDescription] = useState(task.description);
+  const [teamDescription, setTeamDescription] = useState(task?.description);
   const [projectUsers, setProjectUsers] = useState(task?.project?.users);
   const [assigneeUser, setAssigneeUser] = useState(task?.user || "");
   const [taskComments, setTaskComments] = useState(task?.comments);
@@ -76,52 +76,72 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails }) => {
     await apiServer.put(`/tasks/${task.id}/dueDate`, { date });
     console.log(date);
   };
-  const updateDescription = async (e) => {
-    const description = e.target.value;
-    await apiServer.put(`/tasks/${task.id}/description`, { description });
 
-    console.log(e.target.value);
+  // update the comment / submit the comment
+  const handleCommentSubmit = async (event) => {
+    event.preventDefault();
+    const user_id = sessionStorage.getItem("userId");
+    const text = event.target.text.value;
+    // clear the input
+    event.target.text.value = "";
+  
+    try{
+      await apiServer.post(`/tasks/${task.id}/comment`, {
+        text,
+        user_id,
+      });
+      // fetch updated comments
+      const comments = await apiServer.get(`/tasks/${task.id}/comment`);
+      setTaskComments(comments.data);
+      updateScroll();
+    } catch(err){
+      console.error("Error submitting comment", err);
+    }
+  };
+  
+
+  // update description
+  const updateDescription = async () => {
+    try {
+      await apiServer.put(`/tasks/${task.id}/description`, {
+        description: teamDescription,
+      });
+      // Optionally, you may want to display a success message to the user.
+    } catch (error) {
+      // Handle error (e.g., display an error message).
+      console.error("Error updating description:", error);
+    }
   };
 
   const handleDescriptionUpdate = (e) => {
     setTeamDescription(e.target.value);
   };
 
-  const handleCommentSubmit = async ({ text }) => {
-    const user_id = sessionStorage.getItem("userId");
-    await apiServer.post(`/tasks/${task.id}/comment`, {
-      text,
-      user_id,
-    });
-
-    const comments = await apiServer.get(`/tasks/${task.id}/comment`);
-    setTaskComments(comments.data);
-    updateScroll();
-  };
-
+  // mark as complete
   const handleMarkComplete = async () => {
     await updateComplete();
   };
 
   const updateComplete = async () => {
-    // console.log(completed, "before");
     completed = !completed;
-    const userId = sessionStorage.getItem("userId");
-    // console.log(completed, "after");
 
     const updatedTask = await apiServer.put(`/tasks/${task.id}/complete`, {
       completed,
     });
+
+    // Update the taskState with the updated task data
     await taskdispatch({
       type: "get_selected_task",
       payload: updatedTask.data,
     });
 
-    // console.log(task, "after update");
-
+    // Fetch updated tasks for the user
+    const userId = sessionStorage.getItem("userId");
     const res = await apiServer.get(`/tasks/user/${userId}`);
     await taskdispatch({ type: "get_user_tasks", payload: res.data });
   };
+
+
   const expandCommentBox = () => {
     setCommentBox(!commentBox);
   };
