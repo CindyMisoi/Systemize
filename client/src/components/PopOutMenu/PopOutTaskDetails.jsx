@@ -37,13 +37,22 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   console.log("Initial assigneeUser:", assigneeUser);
   
 
+  
+  const updateDueDate = async (date) => {
+    setDueDate(date);
+    await apiServer.put(`/tasks/${task.id}/due_date`, { date });
+  };
+
+  // update Assignee
   const updateAssignee = async (e) => {
+    console.log("Update Assignee triggered");
+    var assigneeId = document.getElementById("assignee-select").value;
     try {
-      const userId = sessionStorage.getItem("userId");
-      await apiServer.put(`/tasks/${task.id}/user/${userId}`);
+      console.log("Update Assignee triggered");
+      await apiServer.put(`/tasks/${task.id}/user/${assigneeId}`, {user_id: assigneeId});
       const assignee = await apiServer.get(`/tasks/${task.id}`);
       setAssigneeUser(assignee.data.user_id);
-      console.log(assignee.data.user_id);
+      console.log("assignee data:",assignee.data.user_id);
       console.log("Assignee updated successfully");
   
       //updates tasks
@@ -54,12 +63,6 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
       console.error("Error updating assignee:", error);
       // You can handle the error here, e.g., show an error message to the user.
     }
-  };
-  
-
-  const updateDueDate = async (date) => {
-    setDueDate(date);
-    await apiServer.put(`/tasks/${task.id}/due_date`, { date });
   };
 
    //  update project
@@ -321,6 +324,7 @@ const renderedUsers = (task?.project?.users || [])
                           className="form-input"
                           {...register("userId",{ required: true })}
                           onChange={updateAssignee}
+                          onBlur={updateAssignee}
                           style={{ width: "150px" }}
                           defaultValue={task?.user?.id ?? ''}
                         >
