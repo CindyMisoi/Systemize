@@ -37,15 +37,22 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   console.log("Initial assigneeUser:", assigneeUser);
   
 
-  
+  // update date
   const updateDueDate = async (date) => {
+   console.log("update date triggered");
+   try{
+    const res = await apiServer.put(`/tasks/${task.id}/due_date`, { due_date: date });
+    console.log("updated date response:",res.data);
     setDueDate(date);
-    await apiServer.put(`/tasks/${task.id}/due_date`, { date });
+   }catch(err){
+
+   }
   };
 
   // update Assignee
   const updateAssignee = async (e) => {
     console.log("Update Assignee triggered");
+    const userId = sessionStorage.getItem("userId");
     var assigneeId = document.getElementById("assignee-select").value;
     try {
       console.log("Update Assignee triggered");
@@ -332,7 +339,7 @@ const renderedUsers = (task?.project?.users || [])
                             value={task?.user?.id ?? ''}
                             id={task?.user?.id ?? ''}
                           >
-                           {"<---Choose Assignee--->"}
+                           {task?.user?.name}
                           </option>
                           {renderedUsers}
                         </select>
