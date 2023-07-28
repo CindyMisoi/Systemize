@@ -30,33 +30,12 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
   );
 
 
-  console.log(task);
-  // console.log(task.due_date, "task.due_date DB");
-  // console.log(date, "moment date convert from db");
-  // console.log(dueDate, "dueDate state new Date convert ");
-
-  //This doesn't do anything for initial
-  const getProjectUsers = async (projectId) => {
-    var projectSelect = document.getElementById("project-select");
-    clearErrors(projectSelect.name);
-    const res = await apiServer.get(`/projects/${projectId}/team`);
-    const userList = res.data.users.filter((user) => {
-      return user.id !== task.user.id;
-    });
-    console.log(userList, "userList");
-    setProjectUsers(userList);
-    updateProject();
-  };
-
-  // const updateProject = async (e) => {
-  //   var projectId = document.getElementById("project-select").value;
-  //   console.log(projectId);
-  //   const userId = sessionStorage.getItem("userId");
-  //   await apiServer.put(`/tasks/${task.id}/project/${projectId}`);
-  //   const res = await apiServer.get(`/tasks/user/${userId}`);
-  //   await taskdispatch({ type: "get_user_tasks", payload: res.data });
-  //   console.log("project updated");
-  // };
+  console.log("Initial task:", task);
+  console.log("Initial project state:", projectState);
+  console.log("Initial taskComments:", taskComments);
+  console.log("Initial dueDate:", dueDate);
+  console.log("Initial assigneeUser:", assigneeUser);
+  
 
   const updateAssignee = async (e) => {
     try {
@@ -82,6 +61,21 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     setDueDate(date);
     await apiServer.put(`/tasks/${task.id}/due_date`, { date });
   };
+
+   //  update project
+   const updateProject = async (e) => {
+    // get the selected projectId from the event
+    console.log("update project called");
+    const projectId = e.target.value;
+    console.log(projectId);
+    try{
+      const res = await apiServer.put(`/tasks/${task.id}/project/${projectId}`, { project_id: projectId });
+      console.log("Update project response:", res.data);
+    }catch(err){
+      console.error("Error updating project:", err);
+    }
+  };
+
 
    // update the comment / submit the comment
    const handleCommentSubmit = async (event) => {
@@ -120,6 +114,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     }
   };
 
+
   const handleDescriptionUpdate = (e) => {
     setTeamDescription(e.target.value);
   };
@@ -130,7 +125,7 @@ const PopOutTaskDetails = ({ showSideTaskDetails, sideTaskDetails }) => {
     await updateComplete();
   };
 
-  const updateComplete = async () => {
+  const updateComplete = async() => {
     completed = !completed;
     console.log(completed);
     const updatedTask = await apiServer.put(`/tasks/${task.id}/completed`, {
@@ -178,6 +173,7 @@ const renderedProjects = projectState.projects
   </option>
 ));
 
+
 const renderedUsers = (task?.project?.users || [])
 .filter((user) => user.id !== (task?.user?.id ?? null))
 .map((user, i) => (
@@ -185,6 +181,7 @@ const renderedUsers = (task?.project?.users || [])
     {user.name}
   </option>
 ));
+
 
   const renderedComments = taskComments?.map((comment) => {
     const commentDate = moment( moment(comment?.createdAt).format(
@@ -363,7 +360,7 @@ const renderedUsers = (task?.project?.users || [])
                           id="project-select"
                           name="projectId"
                           className={`form-input `}
-                          onChange={getProjectUsers}
+                          onChange={updateProject}
                           defaultValue={task?.project?.name}
                           {...register("projectId",{ required: true })}
                           onBlur={updateProject}
@@ -375,13 +372,9 @@ const renderedUsers = (task?.project?.users || [])
                             background: "transparent",
                             justifyContent: "center",
                           }}
-                          
                         >
-                          <option
-                            value={task?.project?.id ?? ''}
-                            id={task?.project?.id ?? ''}
-                          >
-                            {"<---Choose Project--->"}
+                        <option value={task?.project?.id} id={task?.project?.id}>
+                          {task?.project?.name}
                           </option>
                           {renderedProjects}
                         </select>

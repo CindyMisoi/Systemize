@@ -31,9 +31,12 @@ const PopOutTaskDetailsHome = ({ showSideTaskDetails }) => {
   );
 
 
-  // console.log(task.due_date, "task.due_date DB");
-  // console.log(date, "moment date convert from db");
-  // console.log(dueDate, "dueDate state new Date convert ");
+  console.log("Initial task:", task);
+  console.log("Initial project state:", projectState);
+  console.log("Initial taskComments:", taskComments);
+  console.log("Initial dueDate:", dueDate);
+  console.log("Initial assigneeUser:", assigneeUser);
+  
 
   const { register, handleSubmit, clearErrors } = useForm();
 
