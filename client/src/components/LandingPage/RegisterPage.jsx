@@ -32,6 +32,7 @@ const RegisterPage = () => {
       console.log(res.data.user);
       setLoading(false);
       navigate("/register/onboard");
+      window.location.reload(false);
     } catch (err) {
       setLoading(false);
       setErrorMessage("Something went wrong with registering");

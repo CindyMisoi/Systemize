@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react"
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router";
 import apiServer from "../../config/apiServer";
 import { useForm } from "react-hook-form";
 import "../../css/LoginPage.css";
@@ -9,6 +10,7 @@ const Onboard = () => {
   const { setAuth } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const onboard = async ({ name }) => {
     const email = sessionStorage.getItem("email");
@@ -24,6 +26,7 @@ const Onboard = () => {
         // for refresh
         setAuth(res.data.session_token);
         console.log(res.data.session_token);
+        navigate("/login")
       } catch (err) {
         console.log(err.status);
         setErrorMessage( "Something went wrong");
@@ -35,6 +38,8 @@ const Onboard = () => {
     sessionStorage.setItem("session_token", sessionStorage.getItem("onboard"));
     setAuth(sessionStorage.getItem("onboard"));
     sessionStorage.removeItem("onboard");
+    navigate("/")
+    window.location.reload(false);
   };
 
   return (
