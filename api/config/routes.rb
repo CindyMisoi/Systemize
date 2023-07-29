@@ -68,7 +68,7 @@ Rails.application.routes.draw do
   # get all projects for a team
   get 'teams/:id/projects', to: 'teams#get_team_projects'
   # create team
-  post '/teams/user/:userId', to: 'teams#create_team'
+  post 'teams/user/:userId', to: 'teams#create_team'
   # add other users to a team
   post 'teams/:teamId/user/:userId', to: 'teams#add_user_to_team'
   # edit team description
@@ -87,15 +87,15 @@ Rails.application.routes.draw do
   # get users, update, delete
   resources :users, only: [:index, :update, :destroy]
   # register
-  post '/register', to: 'users#create'
+  post 'register', to: 'users#create'
   # check session
-  get '/user/:id', to: 'users#show'
+  get 'user/:id', to: 'users#show'
   # onboard info after registration
-  put '/register/onboard', to: 'users#register_onboard'
+  put 'register/onboard', to: 'users#register_onboard'
   # login
-  post '/login', to: 'sessions#create'
+  post 'login', to: 'sessions#create'
   # logout
-  delete '/logout', to: 'sessions#destroy'
+  delete 'logout', to: 'sessions#destroy'
 
 
 end
