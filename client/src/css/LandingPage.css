@@ -61,7 +61,19 @@
 .landing-message {
   /* max-width: 800px; */
   width: 60%;
+  animation: fadeInRight 1s ease-in-out;
 }
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
 .landing-message-button--div {
   display: flex;
   margin-top: 25px;
@@ -79,6 +91,16 @@
   border: none;
 
   font-size: 1.17em;
+  animation: fadeInRight 1s ease-in-out;
+}
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .landing-picture {
@@ -87,6 +109,36 @@
   /* width: 80%; */
   max-width: 900px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
+  
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-o-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-ms-keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 .landing-main-bottom {
   display: flex;
