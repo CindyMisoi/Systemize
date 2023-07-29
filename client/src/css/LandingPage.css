@@ -149,7 +149,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* width: 600px; */
   width: 50%;
   margin: 120px auto 50px auto;
   animation: fadeInBottom 1s ease forwards;

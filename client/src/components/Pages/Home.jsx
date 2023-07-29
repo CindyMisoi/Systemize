@@ -175,6 +175,14 @@ const HomePage = () => {
                       </h2>
                     </div>
                     <div>
+                  <Link
+                    to="/projects"
+                    style={{ textDecoration: "none", color: "blue" }}
+                  >
+                    <p style={{ fontSize: "14px" }}>See all my projects</p>
+                  </Link>
+                </div>
+                    <div>
                 </div>
                   </div>
                   <div className="home-projects--list">
