@@ -85,17 +85,17 @@ Rails.application.routes.draw do
 
   # users, login and sign up
   # get users, update, delete
-  resources :users, only: [:index, :update, :destroy]
+  resources :users, only: [:index, :destroy]
   # register
-  post 'register', to: 'users#create'
+  post '/register', to: 'users#create'
   # check session
-  get 'user/:id', to: 'users#show'
+  get '/user/:id', to: 'users#show'
   # onboard info after registration
-  put 'register/onboard', to: 'users#register_onboard'
+  put '/register/onboard', to: 'users#register_onboard'
   # login
-  post 'login', to: 'sessions#create'
+  post '/login', to: 'sessions#create'
   # logout
-  delete 'logout', to: 'sessions#destroy'
+  delete '/logout', to: 'sessions#destroy'
 
 
 end
