@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_190603) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_01_232254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,10 +32,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_190603) do
   create_table "tasklists", force: :cascade do |t|
     t.string "name"
     t.integer "project_id"
+    t.integer "user_id"
+    t.integer "column_index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "column_index", default: 0
-    t.integer "user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
