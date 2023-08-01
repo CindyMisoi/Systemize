@@ -245,6 +245,8 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  x86_64-darwin-20
+  x86_64-linux
   x86_64-linux
 
 DEPENDENCIES
