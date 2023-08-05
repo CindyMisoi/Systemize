@@ -113,23 +113,7 @@ const ProjectPage = ({ sidebar }) => {
     return result;
   };
 
-  const reorderTasks = (sourceTasklist, destinationTasklist, source, destination) => {
-    // Ensure sourceTasklist and destinationTasklist are valid arrays
-    if (!Array.isArray(sourceTasklist)) {
-      sourceTasklist = [];
-    }
   
-    if (!Array.isArray(destinationTasklist)) {
-      destinationTasklist = [];
-    }
-  
-    let sourceTask = sourceTasklist.splice(source.index, 1);
-    destinationTasklist.splice(destination.index, 0, sourceTask[0]);
-  };
-  
-  const updateTasklist = async (newIndex, tasklistId, column_index) => {
-    await apiServer.put(`/tasklists/${tasklistId}/column_index/`, { newIndex });
-  };
 
   const updateTasks = async (source, destination, draggableId) => {
     const sourceColumnId = source.droppableId;
@@ -197,7 +181,7 @@ const ProjectPage = ({ sidebar }) => {
   if (loading) {
     return <Loader />;
   }
-  
+
   const renderedTasklists = tasklists.map((tasklist, index) => {
     return (
       <ColumnTasklist
