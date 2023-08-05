@@ -95,14 +95,20 @@ class TasksController < ApplicationController
         render json: {error: "Failed to update completed"}, status: :unprocessable_entity
     end
     # update taskindex
-    def update_taskIndex
-        task = Task.find(params[:id])
-        task.update(task_index: params[:task_index])
-        render json: task
-    rescue
-        StandardError
-        render json: {error: "Failed to update task index"}, status: :unprocessable_entity
+   # update taskindex
+def update_taskIndex
+    task = Task.find(params[:id])
+    # parse task index as integer
+    task_index = params[:task_index].to_i
+    if task.update(task_index: task_index)
+      render json: task, status: :ok
+    else
+      render json: { error: "Failed to update task index" }, status: :unprocessable_entity
     end
+  rescue StandardError
+    render json: { error: "Failed to update task index" }, status: :unprocessable_entity
+  end
+  
 
     # destroy task
     def destroy

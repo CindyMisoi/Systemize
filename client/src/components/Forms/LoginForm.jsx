@@ -6,7 +6,7 @@ import apiServer from "../../config/apiServer";
 
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const {setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
+  const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const LoginForm = () => {
       sessionStorage.setItem("email", res.data.email);
       sessionStorage.setItem("userId", res.data.id);
       sessionStorage.setItem("session_token", res.data.session_token);
-      sessionStorage.setItem('user', JSON.stringify(res.data));
+      sessionStorage.setItem("user", JSON.stringify(res.data));
       setErrorMessage("");
       setAuth(res.data.session_token);
       setUserId(res.data.id);
@@ -52,10 +52,14 @@ const LoginForm = () => {
 
   const handleEmailChange = (e) => {
     setemail(e.target.value);
+    // Clear the error message when the user starts typing
+    setErrorMessage("");
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+    // Clear the error message when the user starts typing
+    setErrorMessage("");
   };
 
   const demoLogin = async (e) => {
@@ -76,7 +80,7 @@ const LoginForm = () => {
       setUserId(res.data.id);
       setEmail(res.data.email);
       setUser(res.data);
-      navigate("/")
+      navigate("/");
       window.location.reload(false);
     } catch (err) {
       setLoading(false);
