@@ -3,9 +3,8 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 5
-  host: localhost
-  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  
 
 
 development:
@@ -17,8 +16,9 @@ test:
   database: systemize_test
 
 production:
-  <<: *default
+  adapter: postgresql
   database: systemize_production
-
-# socket: /var/run/postgresql/.s.PGSQL.5432
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV['DATABASE_URL'] %>
 
