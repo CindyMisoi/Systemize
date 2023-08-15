@@ -2,7 +2,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
     allow do
-      origins 'http://localhost:5173'  # You can specify the allowed origins here. Use '*' for any origin.
+      origins 'https://systemize.vercel.app'  # You can specify the allowed origins here. Use '*' for any origin.
       
       resource '*',
         headers: :any,
