@@ -53,7 +53,7 @@ const RegisterPage = () => {
                 fontSize: "24px",
               }}
             >
-              Welcome to Methodize!
+              Welcome to Systemize!
             </h1>
             <h1
               style={{
@@ -63,7 +63,7 @@ const RegisterPage = () => {
                 fontSize: "20px",
               }}
             >
-              First things first, let's set up your account...
+              First things first, let's create your account...
             </h1>
           </div>
           <div>
