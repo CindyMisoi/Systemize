@@ -179,7 +179,7 @@
   color: blue;
 }
 
-/* @media only screen and (max-width: 1240px) {
+@media only screen and (max-width: 1240px) {
   .home-projects-container--small {
     overflow: auto;
   }
@@ -199,60 +199,4 @@
     margin-left: revert;
     overflow: scroll;
   }
-} */
-/* ... (your existing CSS code above) ... */
-
-/* Mobile Styles */
-@media only screen and (max-width: 480px) {
-  .home-welcome-header {
-    margin-top: 5px;
-  }
-  
-  .home-welcome-message {
-    font-size: 20px;
-  }
-  
-  .home-tasks-container,
-  .home-tasks-container--small,
-  .home-tasks-container--smaller,
-  .home-projects-container,
-  .home-projects-container--small,
-  .home-projects-container--smaller {
-    width: 100%;
-    margin: 16px auto;
-    height: auto;
-  }
-  
-  .home-projects--list,
-  .home-tasks--list {
-    margin: 0 12px;
-  }
-  
-  .home-container {
-    margin: 0;
-    overflow-y: visible;
-  }
-  
-  .new-home-item-container {
-    width: 100%;
-    height: 60px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .new-home-item-name {
-    font-size: 16px;
-    padding-left: 15px;
-  }
-  
-  .new-home-icon-container {
-    border-radius: 15px;
-    opacity: 1;
-  }
-  
-  .new-home-item-icon {
-    color: blue;
-    font-size: 20px;
-  }
 }
-
