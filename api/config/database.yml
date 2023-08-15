@@ -16,9 +16,9 @@ test:
   database: systemize_test
 
 production:
-  adapter: postgresql
+  <<: *default
   database: systemize_production
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: systemize
+  password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
   url: <%= ENV['DATABASE_URL'] %>
 
