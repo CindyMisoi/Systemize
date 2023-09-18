@@ -50,10 +50,10 @@ const ProjectTile = ({ project, teamId, id }) => {
   }
 
    // Check if the project exists before rendering
-   if (!projectState.userProjects.some((p) => p.id === project.id)) {
+   if (!projectState.userProjects.find((p) => p.id === project.id)) {
     return null; // or return an empty div
   }
-  
+
   const team_id = teamId || team.id;
   return (
     <>
