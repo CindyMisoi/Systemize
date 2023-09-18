@@ -37,7 +37,7 @@ const ProjectTile = ({ project, teamId, id }) => {
     const res = await apiServer.get(`/projects/user/${userId}`);
     await projectDispatch({ type: "get_user_projects", payload: res.data });
     console.log("project deleted");
-    navigate("/");
+    // navigate("/");
   };
 
 
