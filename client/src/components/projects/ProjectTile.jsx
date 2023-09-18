@@ -34,10 +34,12 @@ const ProjectTile = ({ project, teamId, id }) => {
     const userId = sessionStorage.getItem("userId");
     handleMenuClose();
     await apiServer.delete(`/projects/${projectId}`);
-    const res = await apiServer.get(`/projects/user/${userId}`);
-    await projectDispatch({ type: "get_user_projects", payload: res.data });
+
+    // Remove the deleted projects
+    const updatedProjects = projectState.userProjects.filter((p) => p.id !== projectId);
+    await projectDispatch({ type: "get_user_projects", payload: updatedProjects });
     console.log("project deleted");
-    // navigate("/");
+    navigate("/");
   };
 
 
