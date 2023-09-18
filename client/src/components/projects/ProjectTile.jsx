@@ -18,7 +18,7 @@ const ProjectTile = ({ project, teamId, id }) => {
   
   const navigate = useNavigate()
   const getTeam = async () => {
-    const res = await apiServer.get(`/projects/${project.id}/team`);
+    const res = await apiServer.get(`/projects/${project?.id}/team`);
     setTeam(res.data);
     setLoading(false);
   };
@@ -48,12 +48,6 @@ const ProjectTile = ({ project, teamId, id }) => {
   if (loading) {
     return <Loader />;
   }
-
-   // Check if the project exists before rendering
-   if (!projectState.userProjects.find((p) => p.id === project.id)) {
-    return null; // or return an empty div
-  }
-
   const team_id = teamId || team.id;
   return (
     <>
