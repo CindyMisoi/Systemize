@@ -4,20 +4,15 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  
 
 
-development:
-  <<: *default
-  database: systemize_development
+# development:
+#   <<: *default
+#   database: systemize_development
  
-test:
-  <<: *default
-  database: systemize_test
-
+# test:
+#   <<: *default
+#   database: systemize_test
 production:
   <<: *default
-  database: systemize_iwop
-  username: systemize
-  password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
   url: <%= ENV['DATABASE_URL'] %>
