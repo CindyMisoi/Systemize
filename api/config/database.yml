@@ -17,7 +17,7 @@ test:
 
 production:
   <<: *default
-  database: systemize_production_vxcr
+  database: systemize_production
   username: systemize
   password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
   url: <%= ENV['DATABASE_URL'] %>
