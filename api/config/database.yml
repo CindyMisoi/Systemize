@@ -1,43 +1,23 @@
-# default: &default
-#   adapter: postgresql
-#   encoding: unicode
-#   # For details on connection pooling, see Rails configuration guide
-#   # https://guides.rubyonrails.org/configuring.html#database-pooling
-#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  
-
-
-# development:
-#   <<: *default
-#   database: systemize_development
- 
-# test:
-#   <<: *default
-#   database: systemize_test
-
-# production:
-#   <<: *default
-#   database: systemize_production
-#   username: systemize
-#   password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
-#   url: <%= ENV['DATABASE_URL'] %>
 default: &default
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
-#
-# Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
-# for a full overview on how database connection configuration can be specified.
-#
-production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
-  database: my_app_render_production
-  username: my_app_render
-  password: <%= ENV['MY_APP_RENDER_DATABASE_PASSWORD'] %>
+  
 
+
+development:
+  <<: *default
+  database: systemize_development
+ 
+test:
+  <<: *default
+  database: systemize_test
+
+production:
+  <<: *default
+  database: systemize_production_vxcr
+  username: systemize
+  password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
