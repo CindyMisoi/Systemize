@@ -1,23 +1,22 @@
+# config/database.yml
+
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  
-
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
 
 development:
   <<: *default
   database: systemize_development
- 
+
 test:
   <<: *default
   database: systemize_test
 
 production:
   <<: *default
-  database: systemize
-  username: systemize
-  password: <%= ENV['SYSTEMIZE_PRODUCTION_PASSWORD'] %>
-  url: <%= ENV['DATABASE_URL'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
