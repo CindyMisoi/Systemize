@@ -34,6 +34,7 @@ const LoginForm = () => {
     try {
       // Send the login request to the server to validate credentials and generate session session_token
       const res = await apiServer.post("/login", { email: email, password });
+      console.log(res.data);
       sessionStorage.setItem("email", res.data.email);
       sessionStorage.setItem("userId", res.data.id);
       sessionStorage.setItem("session_token", res.data.session_token);
@@ -73,6 +74,7 @@ const LoginForm = () => {
 
     try {
       const res = await apiServer.post("/login", { email, password });
+      console.log(res.data);
       sessionStorage.setItem("email", res.data.email);
       sessionStorage.setItem("userId", res.data.id);
       sessionStorage.setItem("session_token", res.data.session_token);
