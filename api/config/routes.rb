@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   # Authenticates user before being able to use API
 
+  root 'welcome#index'
+
   # comments
   # get all comments, delete comment
   resources :comments, only: [:index, :show, :destroy]
