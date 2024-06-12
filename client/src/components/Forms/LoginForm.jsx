@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
 import "../../css/LoginPage.css";
 import { useNavigate } from "react-router";
@@ -6,6 +7,7 @@ import apiServer from "../../config/apiServer";
 // import { apiServer } from "../../api";
 
 const LoginForm = () => {
+  const { handleSubmit, register, formState: { errors } } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
   const { setAuth, setEmail, setUserId, setUser } = useContext(AuthContext);
   const [email, setemail] = useState("");
@@ -93,7 +95,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="login-page--form" onSubmit={onSubmit}>
+    <form className="login-page--form" onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <label htmlFor="email">Email Address</label>
         <input
@@ -101,12 +103,13 @@ const LoginForm = () => {
           type="email"
           value={email}
           onChange={handleEmailChange}
+          {...register("email", { required: true })}
         />
-        {!email && (
-          <p style={{ color: "red", margin: "1px" }}>
-            Please enter an email address
-          </p>
-        )}
+       {errors.email && (
+                <p style={{ color: "red", margin: "1px" }}>
+                  Please enter an email address
+                </p>
+              )}
       </div>
       <div>
         <label htmlFor="password">Password</label>
@@ -115,10 +118,13 @@ const LoginForm = () => {
           type="password"
           value={password}
           onChange={handlePasswordChange}
+          {...register("password", { required: true })}
         />
-        {!password && (
-          <p style={{ color: "red", margin: "1px" }}>Please enter a password</p>
-        )}
+        {errors.password && (
+                <p style={{ color: "red", margin: "1px" }}>
+                  Please enter a password
+                </p>
+              )}
       </div>
       <button type="submit">{loading ? "Logging in.." : "Login"}</button>
       {errorMessage ? (
